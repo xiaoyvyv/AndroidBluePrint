@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_system_background"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ui_size_250"
+        android:textColor="@color/ui_text_c3"
+        android:textSize="@dimen/ui_font_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/ui_view_status_loading" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/pb_loading"
+        android:layout_width="@dimen/ui_size_45"
+        android:layout_height="@dimen/ui_size_45"
+        android:layout_marginTop="@dimen/ui_size_180"
+        android:indeterminate="true"
+        app:hideAnimationBehavior="inward"
+        app:indicatorColor="@color/ui_theme_c1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:showAnimationBehavior="outward"
+        app:showDelay="0"
+        app:trackColor="@color/ui_theme_c2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

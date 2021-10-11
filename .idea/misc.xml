@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/app/src/main/res/layout/activity_main.xml" value="0.2972222222222222" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/app/src/main/res/layout/fragment_main.xml" value="0.3223958333333333" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/blueprint/src/main/res/layout/activity_root.xml" value="0.3223958333333333" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/blueprint/src/main/res/layout/bp_activity_root.xml" value="0.3223958333333333" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/blueprint/src/main/res/layout/bp_fragment_root.xml" value="0.31574074074074077" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/blueprint/src/main/res/layout/fragment_root.xml" value="0.30572916666666666" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/blueprint/src/main/res/layout/ui_view_loading.xml" value="0.3223958333333333" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/drawable/ui_icon_close.xml" value="0.33605720122574056" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/drawable/ui_shape_btn.xml" value="0.33605720122574056" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_content.xml" value="0.3223958333333333" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_loading.xml" value="0.3223958333333333" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_state_empty.xml" value="0.3223958333333333" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_state_error.xml" value="0.3223958333333333" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_state_loading.xml" value="0.3223958333333333" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_state_retry.xml" value="0.3223958333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

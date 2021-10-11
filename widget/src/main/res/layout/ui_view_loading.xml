@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/ui_size_200"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/pw_progress"
+        android:layout_width="@dimen/ui_size_40"
+        android:layout_height="@dimen/ui_size_40"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/ui_layout_margin"
+        android:indeterminateTint="@color/ui_text_c5"
+        android:progressTint="@color/ui_text_c5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="@dimen/ui_layout_margin"
+        android:layout_marginTop="@dimen/ui_layout_margin"
+        android:layout_marginEnd="@dimen/ui_layout_margin"
+        android:layout_marginBottom="@dimen/ui_layout_margin"
+        android:ellipsize="end"
+        android:lineSpacingMultiplier="1.3"
+        android:maxLines="3"
+        android:text="@string/ui_view_status_loading"
+        android:textColor="@color/ui_text_c5"
+        android:textSize="@dimen/ui_font_14"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pw_progress" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_close"
+        android:layout_width="@dimen/ui_size_40"
+        android:layout_height="@dimen/ui_size_40"
+        android:padding="@dimen/ui_size_12"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ui_icon_close"
+        app:tint="@color/ui_system_c5" />
+</androidx.constraintlayout.widget.ConstraintLayout>

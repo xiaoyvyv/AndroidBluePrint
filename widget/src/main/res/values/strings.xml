@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ui_common_error_network">请检查网络连接</string>
+    <string name="ui_common_timeout">网络走丢了，请稍后再试</string>
+    <string name="ui_common_connect">连接</string>
+    <string name="ui_common_dialog">温馨提示</string>
+    <string name="ui_common_edit">编辑</string>
+    <string name="ui_common_delete">删除</string>
+    <string name="ui_common_done">确定</string>
+    <string name="ui_common_complete">完成</string>
+    <string name="ui_common_cancel">取消</string>
+    <string name="ui_common_clean">取消</string>
+    <string name="ui_common_exit">退出</string>
+    <string name="ui_common_un_know">未知</string>
+    <string name="ui_common_all">全部</string>
+    <string name="ui_common_finish">已完成</string>
+    <string name="ui_common_un_finish">未完成</string>
+    <string name="ui_common_processing">进行中</string>
+    <string name="ui_common_refresh">刷新</string>
+
+    <!--符号-->
+    <string name="ui_common_dash">-</string>
+    <string name="ui_common_colon_cn">：</string>
+    <string name="ui_common_colon_en">:</string>
+
+    <!--标题栏-->
+    <string name="ui_view_toolbar_title">请设置标题栏文字</string>
+
+    <!--状态布局-->
+    <string name="ui_view_status_empty">这里空空如也~</string>
+    <string name="ui_view_status_loading">正在疯狂加载中</string>
+    <string name="ui_view_status_retry">加载失败了~</string>
+    <string name="ui_view_status_refresh">点击刷新</string>
+
+    <!--周次-->
+    <string name="ui_common_week_1">一</string>
+    <string name="ui_common_week_2">二</string>
+    <string name="ui_common_week_3">三</string>
+    <string name="ui_common_week_4">四</string>
+    <string name="ui_common_week_5">五</string>
+    <string name="ui_common_week_6">六</string>
+    <string name="ui_common_week_7">日</string>
+
+    <!--数值-->
+    <string name="ui_common_zero">0</string>
+    <string name="ui_common_one">1</string>
+    <string name="ui_common_two">2</string>
+    <string name="ui_common_third">3</string>
+    <string name="ui_common_four">4</string>
+    <string name="ui_common_five">5</string>
+    <string name="ui_common_six">6</string>
+    <string name="ui_common_seven">7</string>
+    <string name="ui_common_eight">8</string>
+    <string name="ui_common_nine">9</string>
+</resources>
