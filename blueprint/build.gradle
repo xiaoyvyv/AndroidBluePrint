@@ -2,8 +2,9 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'maven-publish'
 }
+
+apply from :'../jitpack.gradle'
 
 android {
     compileSdk 30
@@ -38,16 +39,6 @@ android {
 
     // 限定资源前缀
     resourcePrefix "bp_"
-}
-
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-            }
-        }
-    }
 }
 
 
