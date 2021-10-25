@@ -50,6 +50,7 @@ afterEvaluate {
     }
 }
 
+
 dependencies {
     api project(':widget')
 

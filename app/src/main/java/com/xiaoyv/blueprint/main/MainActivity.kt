@@ -1,16 +1,12 @@
 package com.xiaoyv.blueprint.main
 
 import android.view.LayoutInflater
-import com.blankj.utilcode.util.LogUtils
-import com.xiaoyv.blueprint.MainFragment
-import com.xiaoyv.blueprint.base.binding.BaseBindingActivity
+import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
-import com.xiaoyv.blueprint.databinding.ActivityMainBinding
-import com.xiaoyv.blueprint.utils.LazyUtils.loadRootFragment
-import com.xiaoyv.widget.utils.KtUtils.dp
 
 class MainActivity :
-    BaseMvpBindingActivity<ActivityMainBinding, MainContract.View, MainPresenter>(),MainContract.View {
+    BaseMvpBindingActivity<ActivityMainBinding, MainContract.View, MainPresenter>(),
+    MainContract.View {
 
     override fun createPresenter() = MainPresenter()
 

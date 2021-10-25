@@ -1,9 +1,8 @@
 package com.xiaoyv.blueprint
 
 import android.view.View
-import com.github.nukc.stateview.StateView
+import com.xiaoyv.blueprint.app.databinding.FragmentMainBinding
 import com.xiaoyv.blueprint.base.BaseFragment
-import com.xiaoyv.blueprint.databinding.FragmentMainBinding
 
 /**
  * MainFragment
