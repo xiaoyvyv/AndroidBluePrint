@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.xiaoyv.blueprint"
+        applicationId "com.xiaoyv.blueprint.app"
         minSdk 21
         targetSdk 30
         versionCode 1
