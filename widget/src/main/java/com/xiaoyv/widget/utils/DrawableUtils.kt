@@ -5,7 +5,7 @@ import android.graphics.*
 import android.graphics.drawable.*
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
-import com.xiaoyv.widget.utils.KtUtils.dp
+import com.xiaoyv.widget.utils.KtUtils.adp
 
 /**
  * DrawableUtils
@@ -135,7 +135,7 @@ object DrawableUtils {
     fun createSolidDrawable(@ColorInt color: Int, radius: Float): GradientDrawable {
         val gradientDrawable = GradientDrawable()
         gradientDrawable.setColor(color)
-        gradientDrawable.cornerRadius = radius.dp.toFloat()
+        gradientDrawable.cornerRadius = radius.adp.toFloat()
         return gradientDrawable
     }
 
@@ -150,7 +150,7 @@ object DrawableUtils {
     fun createStrokeDrawable(@ColorInt color: Int, width: Int, radius: Float): GradientDrawable {
         val gradientDrawable = GradientDrawable()
         gradientDrawable.setStroke(width, color)
-        gradientDrawable.cornerRadius = radius.dp.toFloat()
+        gradientDrawable.cornerRadius = radius.adp.toFloat()
         return gradientDrawable
     }
 
@@ -172,7 +172,7 @@ object DrawableUtils {
         val gradientDrawable = GradientDrawable()
         gradientDrawable.setStroke(width, strokeColor)
         gradientDrawable.setColor(filledColor)
-        gradientDrawable.cornerRadius = radius.dp.toFloat()
+        gradientDrawable.cornerRadius = radius.adp.toFloat()
         return gradientDrawable
     }
 

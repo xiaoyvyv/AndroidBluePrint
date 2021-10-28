@@ -29,11 +29,16 @@ object BluePrint {
     const val MAX_WIDTH_DP = 375f
 
     @JvmStatic
-    fun init(application: Application) {
+    @JvmOverloads
+    fun init(application: Application, adaptScreen: Boolean = false) {
         Utils.init(application)
         if (ProcessUtils.isMainProcess()) {
             initRxError()
-            initAutoSize(application)
+
+            // 是否适配屏幕
+            if (adaptScreen) {
+                initAutoSize(application)
+            }
         }
     }
 

@@ -26,33 +26,37 @@ object KtUtils {
     }
 
     /**
-     * dp转px
+     * dp 转 px
+     *
+     * AutoSize 适配版本
      */
     @JvmStatic
-    val Int.dp: Int
+    val Int.adp: Int
         get() = AutoSizeUtils.dp2px(Utils.getApp(), this.toFloat())
 
     @JvmStatic
-    val Float.dp: Int
+    val Float.adp: Int
         get() = AutoSizeUtils.dp2px(Utils.getApp(), this)
 
     @JvmStatic
-    val Double.dp: Int
+    val Double.adp: Int
         get() = AutoSizeUtils.dp2px(Utils.getApp(), this.toFloat())
 
     /**
-     * sp转px
+     * sp 转 px
+     *
+     * AutoSize 适配版本
      */
     @JvmStatic
-    val Int.sp: Int
+    val Int.asp: Int
         get() = AutoSizeUtils.sp2px(Utils.getApp(), this.toFloat())
 
     @JvmStatic
-    val Float.sp: Int
+    val Float.asp: Int
         get() = AutoSizeUtils.sp2px(Utils.getApp(), this)
 
     @JvmStatic
-    val Double.sp: Int
+    val Double.asp: Int
         get() = AutoSizeUtils.sp2px(Utils.getApp(), this.toFloat())
 
     /**
