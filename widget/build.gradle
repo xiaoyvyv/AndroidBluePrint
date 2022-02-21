@@ -43,15 +43,13 @@ android {
 
 dependencies {
     // Utils
-    api 'com.blankj:utilcodex:1.30.6'
+    api 'com.blankj:utilcodex:1.31.0'
     // AdapterHelper
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
     // AutoSize
     api 'me.jessyan:autosize:1.2.1'
     // StateView
     api 'com.github.nukc:StateView:v3.0.0'
-
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31"
 
     api 'androidx.core:core-ktx:1.6.0'
     api 'androidx.appcompat:appcompat:1.3.1'
