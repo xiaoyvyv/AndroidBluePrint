@@ -23,10 +23,10 @@ abstract class BaseMvpFragment<V : IBaseView, T : ImplBasePresenter<V>> : BaseFr
         checkV()
 
         presenter = createPresenter()
-        presenter.attachView(this@BaseMvpFragment as V, mActivity)
+        presenter.attachView(this@BaseMvpFragment as V, requireActivity)
 
         if (bindHostActivityLifecycle()) {
-            presenter.setLifecycleOwner(mActivity)
+            presenter.setLifecycleOwner(requireActivity)
         } else {
             presenter.setLifecycleOwner(this@BaseMvpFragment)
         }

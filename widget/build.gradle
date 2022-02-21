@@ -3,11 +3,11 @@ plugins {
     id 'kotlin-android'
 }
 
-apply from :'../jitpack.gradle'
+apply from: '../jitpack.gradle'
 
 android {
     compileSdk 30
-    
+
     buildFeatures {
         viewBinding true
     }
@@ -50,6 +50,8 @@ dependencies {
     api 'me.jessyan:autosize:1.2.1'
     // StateView
     api 'com.github.nukc:StateView:v3.0.0'
+    // Bar
+    api 'com.gyf.immersionbar:immersionbar:3.0.0'
 
     api 'androidx.core:core-ktx:1.6.0'
     api 'androidx.appcompat:appcompat:1.3.1'

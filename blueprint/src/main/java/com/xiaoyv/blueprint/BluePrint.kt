@@ -11,6 +11,8 @@ import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
 import com.xiaoyv.blueprint.base.IBaseView
+import com.xiaoyv.blueprint.exception.RxExceptionHandler
+import com.xiaoyv.blueprint.exception.RxGlobalExceptionHandler
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
@@ -46,6 +48,10 @@ object BluePrint {
      * RxJava 未捕获的异常
      */
     private fun initRxError() {
+        // 设置全局异常处理器
+        RxExceptionHandler.setExceptionHandler(RxGlobalExceptionHandler())
+
+        // RxJava 未捕获的异常
         RxJavaPlugins.setErrorHandler {
             LogUtils.e(it)
         }

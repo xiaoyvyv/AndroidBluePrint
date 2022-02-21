@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bp_common_net_disconnection">未检测到网络连接，请检查网络设置</string>
+    <string name="bp_common_net_timeout">信号走丢了，请稍后刷新</string>
+    <string name="bp_common_client_error" translatable="false">Client Error: %s</string>
+</resources>

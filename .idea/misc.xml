@@ -18,6 +18,12 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_state_error.xml" value="0.3223958333333333" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_state_loading.xml" value="0.3223958333333333" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_state_retry.xml" value="0.3223958333333333" />
+        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/blueprint/src/main/res/layout/bp_fragment_root.xml" value="0.23958333333333334" />
+        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_content.xml" value="0.23958333333333334" />
+        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_loading.xml" value="0.23958333333333334" />
+        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_state_empty.xml" value="0.23958333333333334" />
+        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_state_loading.xml" value="0.23958333333333334" />
+        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_state_retry.xml" value="0.23958333333333334" />
       </map>
     </option>
   </component>

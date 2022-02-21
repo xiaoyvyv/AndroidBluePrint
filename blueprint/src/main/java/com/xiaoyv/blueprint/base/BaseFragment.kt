@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.xiaoyv.blueprint.base
 
 import android.os.Bundle
@@ -27,14 +29,20 @@ import io.reactivex.rxjava3.core.ObservableTransformer
 abstract class BaseFragment : Fragment(), IBaseView {
     private lateinit var rootBinding: BpFragmentRootBinding
     private lateinit var loading: UiLoadingDialog
-    protected lateinit var mActivity: FragmentActivity
+    protected lateinit var requireActivity: FragmentActivity
 
-    var isLoaded = false
+    val requireStateView: StateView
+        get() = vGetStateView()
+
+    /**
+     * 懒加载是否完成
+     */
+    var isLazyLoaded = false
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mActivity = requireActivity()
+        requireActivity = requireActivity()
 
         arguments?.also {
             initArgumentsData(it)
@@ -80,16 +88,15 @@ abstract class BaseFragment : Fragment(), IBaseView {
      */
     override fun onResume() {
         super.onResume()
-        if (!isLoaded && !isHidden) {
+        if (!isLazyLoaded && !isHidden) {
             LogUtils.i("${javaClass.simpleName}_LazyLoad")
             initData()
             initEvent()
             initListener()
             initFinish()
-            isLoaded = true
+            isLazyLoaded = true
         }
     }
-
 
     override fun p2vShowToast(msg: String?) {
 
@@ -117,31 +124,31 @@ abstract class BaseFragment : Fragment(), IBaseView {
 
 
     override fun p2vShowNormalView() {
-        vGetStateView().showContent()
+        requireStateView.showContent()
     }
 
     override fun p2vShowEmptyView() {
-        vGetStateView().showEmpty()
+        requireStateView.showEmpty()
     }
 
     override fun p2vShowTipView(msg: String?) {
-        vGetStateView().showEmpty()
+        requireStateView.showEmpty()
     }
 
     override fun p2vShowLoadingView() {
-        vGetStateView().showLoading()
+        requireStateView.showLoading()
     }
 
     override fun p2vShowRetryView() {
-        vGetStateView().showRetry()
+        requireStateView.showRetry()
     }
 
     override fun p2vShowRetryView(msg: String?) {
-        vGetStateView().showRetry()
+        requireStateView.showRetry()
     }
 
     override fun p2vShowRetryView(msg: String?, btText: String?) {
-        vGetStateView().showRetry()
+        requireStateView.showRetry()
     }
 
     override fun vGetStateView() = rootBinding.csvStatus.also {
@@ -164,14 +171,16 @@ abstract class BaseFragment : Fragment(), IBaseView {
     }
 
     /**
-     * 状态布局顶部缩进
+     * 返回键
      */
-    protected open fun stateViewTopMargin(): Int = 0
+    fun onFragmentBackPressed(): Boolean {
+        return false
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         // 重置，需重新加载数据
-        isLoaded = false
+        isLazyLoaded = false
     }
 
     @CallSuper
@@ -179,6 +188,11 @@ abstract class BaseFragment : Fragment(), IBaseView {
         loading.dismiss()
         super.onDestroy()
     }
+
+    /**
+     * 状态布局顶部缩进
+     */
+    protected open fun stateViewTopMargin(): Int = 0
 
     /**
      * 统一线程处理
@@ -193,5 +207,6 @@ abstract class BaseFragment : Fragment(), IBaseView {
     protected fun <T : Any> bindLifecycle(): AutoDisposeConverter<T> {
         return BluePrint.bindLifecycle(this)
     }
+
 
 }

@@ -52,7 +52,6 @@ class UiLoadingDialog : DialogFragment() {
                 width = ConvertUtils.dp2px(LOADING_WIDTH_DP)
             }
         }
-
     }
 
     fun showWithMsg(manager: FragmentManager, msg: String?) {

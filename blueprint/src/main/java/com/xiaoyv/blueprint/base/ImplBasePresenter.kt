@@ -1,17 +1,13 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.xiaoyv.blueprint.base
 
 import android.content.Context
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import autodispose2.AutoDisposeConverter
-import com.blankj.utilcode.util.LogUtils
 import com.xiaoyv.blueprint.BluePrint
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.FlowableTransformer
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
-import io.reactivex.rxjava3.schedulers.Schedulers
 import java.lang.ref.WeakReference
 
 /**
@@ -29,8 +25,20 @@ open class ImplBasePresenter<V : IBaseView> : IBasePresenter {
      */
     private var lifecycleOwner: LifecycleOwner? = null
 
-    fun getView(): V = mBaseView?.get() ?: throw  RuntimeException("未绑定 V 层")
+    /**
+     * 获取 View 层
+     */
+    protected val requireView: V
+        get() = getView()
 
+    /**
+     * 获取 Context
+     */
+    protected val requireContext: Context
+        get() = getContext()
+
+
+    fun getView(): V = mBaseView?.get() ?: throw  RuntimeException("未绑定 V 层")
 
     fun getContext(): Context = mContext?.get() ?: throw  RuntimeException("未绑定 V 层")
 
@@ -50,7 +58,10 @@ open class ImplBasePresenter<V : IBaseView> : IBasePresenter {
      */
     fun detachView() {
         mBaseView?.clear()
+        mBaseView = null
+
         mContext?.clear()
+        mContext = null
     }
 
     override fun setLifecycleOwner(lifecycleOwner: LifecycleOwner) {

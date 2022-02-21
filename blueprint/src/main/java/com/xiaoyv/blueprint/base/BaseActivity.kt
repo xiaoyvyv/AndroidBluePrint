@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
+
 package com.xiaoyv.blueprint.base
 
 import android.content.Intent
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import autodispose2.AutoDisposeConverter
 import com.blankj.utilcode.util.*
 import com.github.nukc.stateview.StateView
+import com.gyf.immersionbar.ImmersionBar
 import com.xiaoyv.blueprint.BluePrint
 import com.xiaoyv.blueprint.R
 import com.xiaoyv.widget.databinding.UiViewStateEmptyBinding
@@ -31,16 +34,24 @@ import me.jessyan.autosize.internal.CancelAdapt
 abstract class BaseActivity : AppCompatActivity(), IBaseView {
     private lateinit var rootView: FrameLayout
     private lateinit var loading: UiLoadingDialog
-    private var csvStatusView: StateView? = null
 
-    private var animationEnd = false
+    /**
+     * 状态布局
+     */
+    private var csvStatusView: StateView? = null
+    val requireStateView: StateView
+        get() = vGetStateView()
+
+    /**
+     * 是否重复执行动画
+     */
+    private var repeatAnimation = false
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ScreenUtils.setPortrait(this)
-        BarUtils.transparentStatusBar(this)
-        BarUtils.setStatusBarLightMode(this, true)
+        // 栏相关
+        initBarConfig()
 
         // 窗口配置
         window?.also {
@@ -105,21 +116,30 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     @CallSuper
     override fun onResume() {
         super.onResume()
-        if (!animationEnd) {
-            animationEnd = initAnimation()
+        if (!repeatAnimation) {
+            repeatAnimation = initAnimation()
         }
     }
 
     protected open fun fix5497(): Boolean = false
 
-    @Suppress("DEPRECATION")
+    protected open fun initBarConfig() {
+        ImmersionBar.with(this)
+            .transparentStatusBar()
+            .autoDarkModeEnable(true)
+            .init()
+    }
+
     protected open fun initWindowConfig(window: Window) {
+        // 竖屏
+        ScreenUtils.setPortrait(this)
+
+        // 窗口参数
         window.setSoftInputMode(
             WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
                     or WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
         )
     }
-
 
     private fun initBaseView() {
         rootView = findViewById(android.R.id.content)
@@ -149,6 +169,8 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
 
     /**
      * 页面动画效果
+     *
+     * 返回 true，下次还会继续执行该方法播放动画
      */
     protected open fun initAnimation() = false
 
@@ -176,23 +198,23 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     }
 
     override fun p2vShowNormalView() {
-        vGetStateView().showContent()
-    }
-
-    override fun p2vShowEmptyView() {
-        vGetStateView().showEmpty()
-    }
-
-    override fun p2vShowTipView(msg: String?) {
-        vGetStateView().showEmpty().also {
-            val stateBinding = UiViewStateEmptyBinding.bind(it)
-            stateBinding.tvStatus.text = msg
-                ?: StringUtils.getString(R.string.ui_view_status_empty)
-        }
+        requireStateView.showContent()
     }
 
     override fun p2vShowLoadingView() {
-        vGetStateView().showLoading()
+        requireStateView.showLoading()
+    }
+
+    override fun p2vShowEmptyView() {
+        requireStateView.showEmpty()
+    }
+
+    override fun p2vShowTipView(msg: String?) {
+        requireStateView.showEmpty().also {
+            val stateBinding = UiViewStateEmptyBinding.bind(it)
+            stateBinding.tvStatus.text =
+                msg ?: StringUtils.getString(R.string.ui_view_status_empty)
+        }
     }
 
     override fun p2vShowRetryView() {
@@ -204,12 +226,12 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     }
 
     override fun p2vShowRetryView(msg: String?, btText: String?) {
-        vGetStateView().showRetry().also {
+        requireStateView.showRetry().also {
             val stateBinding = UiViewStateRetryBinding.bind(it)
-            stateBinding.tvStatus.text = msg
-                ?: StringUtils.getString(R.string.ui_view_status_retry)
-            stateBinding.btRefresh.text = btText
-                ?: StringUtils.getString(R.string.ui_view_status_refresh)
+            stateBinding.tvStatus.text =
+                msg ?: StringUtils.getString(R.string.ui_view_status_retry)
+            stateBinding.btRefresh.text =
+                btText ?: StringUtils.getString(R.string.ui_view_status_refresh)
         }
     }
 
@@ -244,7 +266,6 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
      */
     protected open fun stateViewTopMargin(): Int = 0
 
-
     /**
      * 统一线程处理
      */
@@ -257,6 +278,17 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
      */
     protected fun <T : Any> bindLifecycle(): AutoDisposeConverter<T> {
         return BluePrint.bindLifecycle(this)
+    }
+
+    @CallSuper
+    override fun onBackPressed() {
+        FragmentUtils.getFragments(supportFragmentManager).forEach {
+            // 判断事件是否被消费掉了
+            if (it is BaseFragment && it.onFragmentBackPressed()) {
+                return
+            }
+        }
+        super.onBackPressed()
     }
 
     @CallSuper
