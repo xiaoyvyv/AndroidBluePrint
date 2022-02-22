@@ -18,12 +18,16 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.*
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.Utils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.span.CustomTypefaceSpan
+import me.everything.android.ui.overscroll.IOverScrollDecor
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import me.jessyan.autosize.utils.AutoSizeUtils
 
 
@@ -153,5 +157,25 @@ fun BottomSheetDialogFragment.onStartTransparentDialog(
     bottomSheet?.setBackgroundColor(Color.TRANSPARENT)
 }
 
+/**
+ * 越界动画
+ */
+fun RecyclerView.overScrollV(): IOverScrollDecor =
+    OverScrollDecoratorHelper.setUpOverScroll(this, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
 
+fun RecyclerView.overScrollH(): IOverScrollDecor = OverScrollDecoratorHelper.setUpOverScroll(
+    this,
+    OverScrollDecoratorHelper.ORIENTATION_HORIZONTAL
+)
 
+fun NestedScrollView.overScrollV(): IOverScrollDecor =
+    OverScrollDecoratorHelper.setUpStaticOverScroll(
+        this,
+        OverScrollDecoratorHelper.ORIENTATION_VERTICAL
+    )
+
+fun NestedScrollView.overScrollH(): IOverScrollDecor =
+    OverScrollDecoratorHelper.setUpStaticOverScroll(
+        this,
+        OverScrollDecoratorHelper.ORIENTATION_HORIZONTAL
+    )
