@@ -1,7 +1,10 @@
 package com.xiaoyv.widget.utils
 
 import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -11,10 +14,15 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.*
 import androidx.core.content.res.ResourcesCompat
 import com.blankj.utilcode.util.Utils
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.xiaoyv.widget.R
 import com.xiaoyv.widget.span.CustomTypefaceSpan
 import me.jessyan.autosize.utils.AutoSizeUtils
 
@@ -115,5 +123,35 @@ fun ImageView.imageTintColorRes(@ColorRes colorResId: Int) {
 fun ImageView.setImageTintColorInt(@ColorInt color: Int) {
     imageTintList = ColorStateList.valueOf(color)
 }
+
+/**
+ * 设置透明背景 BottomSheetDialogFragment
+ *
+ * @param skipCollapsed  是否跳过折叠
+ * @param dimAmount      对话框外部阴影比重(0f ~ 1f)
+ * @param dialogBehavior 其他交互控制
+ */
+fun BottomSheetDialogFragment.onStartTransparentDialog(
+    skipCollapsed: Boolean = true,
+    @FloatRange(from = 0.0, to = 1.0) dimAmount: Float = 0.25f,
+    dialogBehavior: BottomSheetBehavior<FrameLayout>.() -> Unit = {}
+) {
+    val dialog = dialog as? BottomSheetDialog ?: return
+    val window = dialog.window ?: return
+    val bottomSheet = window.findViewById<View>(R.id.design_bottom_sheet)
+
+    window.setDimAmount(dimAmount)
+    window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+    dialogBehavior(dialog.behavior)
+    dialog.behavior.skipCollapsed = skipCollapsed
+
+    // 设置透明背景，光设置 setBackgroundColor 还不够，高版本的库默认加入了 backgroundTintList 的属性
+    // 所以还要修改背景色的着色为透明才行
+    bottomSheet?.backgroundTintMode = PorterDuff.Mode.CLEAR
+    bottomSheet?.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+    bottomSheet?.setBackgroundColor(Color.TRANSPARENT)
+}
+
 
 
