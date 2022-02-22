@@ -1,6 +1,7 @@
 package com.xiaoyv.widget.utils
 
 import android.app.Activity
+import android.content.Context
 import android.content.ContextWrapper
 import android.view.View
 import androidx.fragment.app.DialogFragment
@@ -17,6 +18,13 @@ inline fun Activity.registerSoftInputChangedListener(
         onSoftInputChanged.invoke(it, it != 0)
     }
     KeyboardUtils.registerSoftInputChangedListener(this, listener)
+}
+
+fun Context.isDestroyed(): Boolean {
+    if (this is Activity) {
+        return isDestroyed || isFinishing
+    }
+    return false
 }
 
 /**

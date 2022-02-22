@@ -64,7 +64,9 @@ object BluePrint {
      */
     private fun initAutoSize(application: Application) {
         AutoSize.checkAndInit(application)
-        AutoSizeConfig.getInstance().designWidthInDp = MAX_WIDTH_DP.toInt()
+        AutoSizeConfig.getInstance()
+            .setExcludeFontScale(true)
+            .designWidthInDp = MAX_WIDTH_DP.toInt()
     }
 
 
