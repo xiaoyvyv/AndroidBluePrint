@@ -5,6 +5,7 @@ plugins {
 }
 
 apply from :'../jitpack.gradle'
+apply from: '../maven.gradle'
 
 android {
     compileSdk 31
@@ -43,7 +44,8 @@ android {
 
 
 dependencies {
-    api project(':widget')
+//    api project(':widget')
+    api 'io.github.xiaoyvyv:widget:1.0.0'
 
     // Utils
     api 'com.blankj:utilcodex:1.31.0'

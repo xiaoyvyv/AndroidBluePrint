@@ -5,6 +5,7 @@ plugins {
 }
 
 apply from: '../jitpack.gradle'
+apply from: '../maven.gradle'
 
 android {
     compileSdk 31

@@ -7,11 +7,11 @@ buildscript {
         maven {
             url 'https://maven.aliyun.com/repository/google'
         }
+        mavenCentral()
         maven {
             url 'https://jitpack.io'
         }
         google()
-        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.1.1'
