@@ -36,8 +36,9 @@ abstract class ImplListPresenter<T, V : IBaseView> : ImplBasePresenter<V>() {
             dealDataEmpty()
         } else {
             p2vFinishRefresh()
-            getView().p2vShowNormalView()
             p2vShowList(v2pIsRefresh(), dataList!!)
+
+            requireView.stateController.showNormalView()
         }
     }
 
@@ -78,14 +79,14 @@ abstract class ImplListPresenter<T, V : IBaseView> : ImplBasePresenter<V>() {
      * 数据为空
      */
     open fun p2vRefreshEmpty() {
-        getView().p2vShowEmptyView()
+        requireView.stateController.showEmptyView()
     }
 
     /**
      * 刷新失败
      */
     open fun p2vRefreshError(message: String) {
-        getView().p2vShowRetryView(message)
+        requireView.stateController.showRetryView(message)
     }
 
     /**

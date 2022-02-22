@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="H336B1C1C1M">
+        <item name="android:gravity">center_horizontal</item>
+        <!-- <item name="android:fontFamily">@font/sf_pro_text</item> -->
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/ui_font_18</item>
+        <item name="android:lineSpacingExtra">@dimen/ui_font_5</item>
+        <item name="android:textColor">@color/ui_text_c1</item>
+    </style>
+
+    <style name="F228B2C2M">
+        <item name="android:gravity">center_horizontal</item>
+        <!-- <item name="android:fontFamily">@font/sf_pro_text</item> -->
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ui_font_14</item>
+        <item name="android:lineSpacingExtra">@dimen/ui_font_5</item>
+        <item name="android:textColor">@color/ui_text_c2</item>
+    </style>
+
+    <style name="H336B1C1C3M">
+        <item name="android:gravity">center_horizontal</item>
+        <!-- <item name="android:fontFamily">@font/sf_pro_text</item> -->
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/ui_font_18</item>
+        <item name="android:lineSpacingExtra">@dimen/ui_font_5</item>
+        <item name="android:textColor">@color/ui_text_c3</item>
+    </style>
+
+    <style name="H336B1C1C5M">
+        <item name="android:gravity">center_horizontal</item>
+        <!-- <item name="android:fontFamily">@font/sf_pro_text</item> -->
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/ui_font_18</item>
+        <item name="android:lineSpacingExtra">@dimen/ui_font_5</item>
+        <item name="android:textColor">@color/ui_theme_c0</item>
+    </style>
+</resources>

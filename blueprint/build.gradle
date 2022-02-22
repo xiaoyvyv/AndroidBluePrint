@@ -7,7 +7,7 @@ plugins {
 apply from :'../jitpack.gradle'
 
 android {
-    compileSdk 30
+    compileSdk 31
 
     buildFeatures {
         viewBinding true
@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         minSdk 21
-        targetSdk 30
+        targetSdk 31
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

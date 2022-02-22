@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="@dimen/ui_size_0"
+    app:cardMaxElevation="@dimen/ui_size_0">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_title"
+            style="@style/H336B1C1C1M"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ui_size_20"
+            android:paddingHorizontal="@dimen/ui_size_20"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="BrokersView tries to retrieve Facebook.com information to log in" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_content"
+            style="@style/F228B2C2M"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ui_size_8"
+            android:paddingHorizontal="@dimen/ui_size_20"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            app:layout_goneMarginTop="@dimen/ui_size_20"
+            tools:text="This will allow the share of information to app and websites" />
+
+        <View
+            android:id="@+id/v_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ui_size_0.5"
+            android:layout_marginTop="@dimen/ui_size_20"
+            android:background="@color/ui_system_divider"
+            app:layout_constraintTop_toBottomOf="@+id/tv_content" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_cancel"
+            style="@style/H336B1C1C3M"
+            android:layout_width="@dimen/ui_size_0"
+            android:layout_height="@dimen/ui_size_60"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            app:layout_constraintEnd_toStartOf="@+id/tv_confirm"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider"
+            tools:text="Cancel" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_confirm"
+            style="@style/H336B1C1C5M"
+            android:layout_width="@dimen/ui_size_0"
+            android:layout_height="@dimen/ui_size_60"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_cancel"
+            app:layout_constraintTop_toBottomOf="@+id/v_divider"
+            tools:text="Continue" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

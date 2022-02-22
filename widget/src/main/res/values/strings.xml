@@ -2,6 +2,7 @@
 <resources>
     <string name="ui_common_error_network">请检查网络连接</string>
     <string name="ui_common_timeout">网络走丢了，请稍后再试</string>
+    <string name="ui_common_empty" />
     <string name="ui_common_connect">连接</string>
     <string name="ui_common_dialog">温馨提示</string>
     <string name="ui_common_edit">编辑</string>

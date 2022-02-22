@@ -96,6 +96,35 @@ object BluePrint {
     }
 
     /**
+     * 统一线程处理 订阅在 IO 线程，观察在主线程
+     */
+    fun <T : Any> schedulerTransformer(): ObservableTransformer<T, T> {
+        return ObservableTransformer {
+            it.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        }
+    }
+
+    /**
+     * 统一线程处理 订阅、观察都在主线程
+     */
+    fun <T : Any> schedulerMainTransformer(): ObservableTransformer<T, T> {
+        return ObservableTransformer {
+            it.subscribeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread())
+        }
+    }
+
+    /**
+     * 统一线程处理 订阅、观察都在 IO 线程
+     */
+    fun <T : Any> schedulerIOTransformer(): ObservableTransformer<T, T> {
+        return ObservableTransformer { observable: Observable<T> ->
+            observable.subscribeOn(
+                Schedulers.io()
+            ).observeOn(Schedulers.io())
+        }
+    }
+
+    /**
      * 验证 MVP 是否实现了 V 层接口，否则抛出异常
      *
      * 只在 DEBUG 环境验证，在开发阶段便于提示开发者编码问题。

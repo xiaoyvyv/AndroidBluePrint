@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="UiToolbar">
+        <attr name="ui_fit_status_bar" format="boolean" />
+        <attr name="ui_title_horizontal_padding" format="dimension|reference" />
+        <attr name="ui_title" format="string|reference" />
+        <attr name="ui_bottom_divider" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="UiButton">
+        <attr name="ui_normal_color" format="color|reference" />
+        <attr name="ui_select_color" format="color|reference" />
+        <attr name="ui_bt_text" format="string|reference" />
+        <attr name="ui_bt_text_color" format="color|reference" />
+        <attr name="ui_bt_text_size" format="dimension|reference" />
+        <attr name="ui_bt_text_padding_vertical" format="dimension|reference" />
+        <attr name="ui_border_color" format="color|reference" />
+        <attr name="ui_border_width" format="dimension|reference" />
+        <attr name="ui_radius" format="dimension|reference" />
+        <attr name="ui_logo" format="reference" />
+        <attr name="ui_logo_near_text" format="boolean" />
+        <attr name="ui_logo_size" format="dimension|reference" />
+        <attr name="ui_fast_limit" format="integer" />
+        <attr name="ui_loading" format="reference" />
+        <attr name="ui_loading_color" format="color|reference" />
+        <attr name="ui_loading_size" format="dimension|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="UiStarView">
+        <attr name="ui_star_number" format="integer" />
+        <attr name="ui_star_size" format="dimension|reference" />
+        <attr name="ui_star_icon" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="UiLeftIconTextView">
+        <attr name="ui_icon_res" format="reference" />
+        <attr name="ui_icon_size" format="dimension|reference" />
+        <attr name="ui_icon_padding" format="dimension|reference" />
+        <attr name="ui_text" format="string|reference" />
+        <attr name="ui_text_size" format="dimension|reference" />
+        <attr name="ui_text_color" format="color|reference" />
+    </declare-styleable>
+
+</resources>

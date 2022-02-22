@@ -3,6 +3,9 @@ package com.xiaoyv.blueprint.main
 import android.view.LayoutInflater
 import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
+import com.xiaoyv.blueprint.localize.LanguageType
+import com.xiaoyv.blueprint.localize.LocalizeManager
+import com.xiaoyv.blueprint.utils.LazyUtils.loadRootFragment
 
 class MainActivity :
     BaseMvpBindingActivity<ActivityMainBinding, MainContract.View, MainPresenter>(),
@@ -19,11 +22,13 @@ class MainActivity :
     }
 
     override fun initData() {
+        val mainFragment = MainFragment()
+        loadRootFragment(binding.flContainer.id, mainFragment)
     }
 
     override fun initListener() {
-        binding.tvTip.setOnClickListener {
-
+        binding.tvTest.setOnClickListener {
+            LocalizeManager.switchLanguage(LanguageType.LANGUAGE_EN)
         }
     }
 

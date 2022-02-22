@@ -3,7 +3,6 @@ package com.xiaoyv.blueprint.base
 import android.os.Bundle
 import android.view.View
 import com.xiaoyv.blueprint.BluePrint
-import java.lang.RuntimeException
 
 /**
  * Mvp Fragment 基类
@@ -23,10 +22,10 @@ abstract class BaseMvpFragment<V : IBaseView, T : ImplBasePresenter<V>> : BaseFr
         checkV()
 
         presenter = createPresenter()
-        presenter.attachView(this@BaseMvpFragment as V, requireActivity)
+        presenter.attachView(this@BaseMvpFragment as V, hostActivity)
 
         if (bindHostActivityLifecycle()) {
-            presenter.setLifecycleOwner(requireActivity)
+            presenter.setLifecycleOwner(hostActivity)
         } else {
             presenter.setLifecycleOwner(this@BaseMvpFragment)
         }
@@ -51,7 +50,7 @@ abstract class BaseMvpFragment<V : IBaseView, T : ImplBasePresenter<V>> : BaseFr
 
     abstract override fun initData()
 
-    override fun vRetryClick() {
+    override fun p2vClickStatusView() {
         initFinish()
     }
 

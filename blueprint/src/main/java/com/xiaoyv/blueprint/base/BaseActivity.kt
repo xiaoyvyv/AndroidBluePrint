@@ -2,6 +2,7 @@
 
 package com.xiaoyv.blueprint.base
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
@@ -12,14 +13,17 @@ import android.widget.FrameLayout
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import autodispose2.AutoDisposeConverter
-import com.blankj.utilcode.util.*
+import com.blankj.utilcode.util.FragmentUtils
+import com.blankj.utilcode.util.KeyboardUtils
+import com.blankj.utilcode.util.ScreenUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.github.nukc.stateview.StateView
 import com.gyf.immersionbar.ImmersionBar
 import com.xiaoyv.blueprint.BluePrint
-import com.xiaoyv.blueprint.R
-import com.xiaoyv.widget.databinding.UiViewStateEmptyBinding
-import com.xiaoyv.widget.databinding.UiViewStateRetryBinding
-import com.xiaoyv.widget.dialog.loading.UiLoadingDialog
+import com.xiaoyv.blueprint.localize.LocalizeManager.attachBaseContextWithLanguage
+import com.xiaoyv.blueprint.rxbus.RxBus
+import com.xiaoyv.widget.dialog.UiLoadingDialog
+import com.xiaoyv.widget.stateview.StateViewImpl
 import io.reactivex.rxjava3.core.ObservableTransformer
 import me.jessyan.autosize.AutoSizeCompat
 import me.jessyan.autosize.internal.CancelAdapt
@@ -32,15 +36,18 @@ import me.jessyan.autosize.internal.CancelAdapt
  * @since 2020/11/28
  */
 abstract class BaseActivity : AppCompatActivity(), IBaseView {
-    private lateinit var rootView: FrameLayout
-    private lateinit var loading: UiLoadingDialog
+    private lateinit var rootContent: FrameLayout
+
+    private var loadingDialog: UiLoadingDialog? = null
+
+    private var stateView: StateView? = null
+    private var stateViewImpl: StateViewImpl? = null
 
     /**
-     * 状态布局
+     * 状态布局控制器，控制布局各种状态布局显示
      */
-    private var csvStatusView: StateView? = null
-    val requireStateView: StateView
-        get() = vGetStateView()
+    val statusController: StateViewImpl
+        get() = p2vGetStateController()
 
     /**
      * 是否重复执行动画
@@ -88,22 +95,6 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
         initListener()
     }
 
-    @CallSuper
-    override fun getResources(): Resources? {
-        if (this is CancelAdapt) {
-            return super.getResources()
-        }
-        // 解决 AutoSize 横屏时对话框显示状态，切后台再切回前台导致的适配失效问题
-        val resources = super.getResources()
-        runOnUiThread {
-            AutoSizeCompat.autoConvertDensity(
-                resources,
-                BluePrint.MAX_WIDTH_DP,
-                !ScreenUtils.isLandscape()
-            )
-        }
-        return super.getResources()
-    }
 
     @CallSuper
     override fun onNewIntent(intent: Intent?) {
@@ -142,8 +133,20 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     }
 
     private fun initBaseView() {
-        rootView = findViewById(android.R.id.content)
-        loading = UiLoadingDialog()
+        rootContent = findViewById(android.R.id.content)
+
+        loadingDialog = UiLoadingDialog()
+        loadingDialog?.isCancelable = false
+
+        // 状态布局
+        stateViewImpl = object : StateViewImpl(this@BaseActivity) {
+            override fun onGetOrCreateStateView(): StateView {
+                stateView = stateView ?: createStateView(this@BaseActivity, rootContent) {
+                    p2vClickStatusView()
+                }
+                return stateView!!
+            }
+        }
     }
 
     /**
@@ -174,97 +177,41 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
      */
     protected open fun initAnimation() = false
 
-    override fun p2vShowToast(msg: String?) {
-
-    }
 
     override fun p2vShowSnack(msg: String?, snackBarType: Int) {
 
+    }
+
+    override fun p2vShowToast(msg: String?) {
+        ToastUtils.showShort(msg.orEmpty())
     }
 
     override fun p2vShowLoading(msg: String?) {
         if (isFinishing || isDestroyed) {
             return
         }
-        loading.dismiss()
-        loading.showWithMsg(supportFragmentManager, msg)
+
+        loadingDialog?.message = msg
+        loadingDialog?.show(this, msg)
     }
 
     override fun p2vHideLoading() {
         if (isFinishing || isDestroyed) {
             return
         }
-        loading.dismiss()
+        loadingDialog?.dismiss()
     }
 
-    override fun p2vShowNormalView() {
-        requireStateView.showContent()
-    }
-
-    override fun p2vShowLoadingView() {
-        requireStateView.showLoading()
-    }
-
-    override fun p2vShowEmptyView() {
-        requireStateView.showEmpty()
-    }
-
-    override fun p2vShowTipView(msg: String?) {
-        requireStateView.showEmpty().also {
-            val stateBinding = UiViewStateEmptyBinding.bind(it)
-            stateBinding.tvStatus.text =
-                msg ?: StringUtils.getString(R.string.ui_view_status_empty)
-        }
-    }
-
-    override fun p2vShowRetryView() {
-        p2vShowRetryView(null, null)
-    }
-
-    override fun p2vShowRetryView(msg: String?) {
-        p2vShowRetryView(msg, null)
-    }
-
-    override fun p2vShowRetryView(msg: String?, btText: String?) {
-        requireStateView.showRetry().also {
-            val stateBinding = UiViewStateRetryBinding.bind(it)
-            stateBinding.tvStatus.text =
-                msg ?: StringUtils.getString(R.string.ui_view_status_retry)
-            stateBinding.btRefresh.text =
-                btText ?: StringUtils.getString(R.string.ui_view_status_refresh)
-        }
-    }
-
-    override fun vGetStateView() = csvStatusView ?: StateView(this).also {
-        it.emptyResource = R.layout.ui_view_state_empty
-        it.loadingResource = R.layout.ui_view_state_loading
-        it.retryResource = R.layout.ui_view_state_retry
-        it.onRetryClickListener = object : StateView.OnRetryClickListener {
-            override fun onRetryClick() {
-                vRetryClick()
-            }
-        }
-
-        csvStatusView = it
-        rootView.addView(
-            it,
-            FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            ).apply {
-                topMargin = stateViewTopMargin()
-            }
-        )
-    }
-
-    override fun vRetryClick() {
-        LogUtils.i("vRetryClick")
+    override fun p2vGetStateController(): StateViewImpl {
+        return stateViewImpl ?: throw NullPointerException("stateViewImpl is null !!!")
     }
 
     /**
-     * 状态布局顶部缩进
+     * 重试或刷新点击
      */
-    protected open fun stateViewTopMargin(): Int = 0
+    override fun p2vClickStatusView() {
+
+    }
 
     /**
      * 统一线程处理
@@ -281,6 +228,28 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     }
 
     @CallSuper
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(newBase.attachBaseContextWithLanguage())
+    }
+
+    @CallSuper
+    override fun getResources(): Resources? {
+        if (this is CancelAdapt) {
+            return super.getResources()
+        }
+        // 解决 AutoSize 横屏时对话框显示状态，切后台再切回前台导致的适配失效问题
+        val resources = super.getResources()
+        runOnUiThread {
+            AutoSizeCompat.autoConvertDensity(
+                resources,
+                BluePrint.MAX_WIDTH_DP,
+                !ScreenUtils.isLandscape()
+            )
+        }
+        return super.getResources()
+    }
+
+    @CallSuper
     override fun onBackPressed() {
         FragmentUtils.getFragments(supportFragmentManager).forEach {
             // 判断事件是否被消费掉了
@@ -293,7 +262,11 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
 
     @CallSuper
     override fun onDestroy() {
-        loading.dismiss()
+        loadingDialog?.dismiss()
+        loadingDialog = null
+
+        RxBus.getDefault().unregister(this)
         super.onDestroy()
     }
+
 }

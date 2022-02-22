@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 主题色 -->
-    <color name="ui_theme_c0">#213352</color>
-    <color name="ui_theme_c1">#26D1E0</color>
-    <color name="ui_theme_c2">#92E8EF</color>
-    <color name="ui_theme_c3">#00BFCF</color>
-    <color name="ui_theme_c4">#E9FAFB</color>
+    <color name="ui_theme_c0">#60c86d</color>
+    <color name="ui_theme_c1">#a0dea7</color>
+    <color name="ui_theme_c2">#dff4e2</color>
+    <color name="ui_theme_c3">#eff9f0</color>
+    <color name="ui_theme_c4">#56b361</color>
 
     <!-- 系统色 -->
     <color name="ui_system_c0">@color/ui_black</color>
     <color name="ui_system_c1">#333333</color>
     <color name="ui_system_c2">#666666</color>
     <color name="ui_system_c3">#999999</color>
-    <color name="ui_system_c4">#CCCCCC</color>
+    <color name="ui_system_c4">#cccccc</color>
     <color name="ui_system_c5">@color/ui_white</color>
 
     <!-- 系统界面 -->
     <color name="ui_system_background">@color/ui_system_c5</color>
-    <color name="ui_system_divider">#EEEEEE</color>
+    <color name="ui_system_divider">#E5E5E5</color>
     <color name="ui_system_divider_light">#F5F5F5</color>
     <color name="ui_system_divider_deep">#DDDDDD</color>
     <color name="ui_system_button">#F3F3F5</color>
@@ -34,9 +34,9 @@
     <!-- 状态颜色 -->
     <color name="ui_status_success">#59F148</color>
     <color name="ui_status_warning">#F6BC67</color>
-    <color name="ui_status_error">#D83131</color>
-    <color name="ui_status_highlight">#26D1E0</color>
-    <color name="ui_status_link">#31A5Ef</color>
+    <color name="ui_status_error">#f55c5c</color>
+    <color name="ui_status_link">#1453F0</color>
+    <color name="ui_status_normal">#e5e5e5</color>
 
     <!--按钮-->
     <color name="ui_btn_delete_normal">#FA5251</color>
@@ -46,11 +46,14 @@
     <!--黑色-->
     <color name="ui_black">#FF000000</color>
     <color name="ui_black_20">#20000000</color>
+    <color name="ui_black_30">#30000000</color>
     <color name="ui_black_40">#40000000</color>
     <color name="ui_black_60">#60000000</color>
     <color name="ui_black_80">#80000000</color>
+    <color name="ui_black_90">#90000000</color>
     <color name="ui_black_a0">#A0000000</color>
     <color name="ui_black_c0">#C0000000</color>
+    <color name="ui_black_d9">#d9000000</color>
     <color name="ui_black_e0">#E0000000</color>
 
     <!--白色-->
@@ -62,6 +65,8 @@
     <color name="ui_white_a0">#A0FFFFFF</color>
     <color name="ui_white_c0">#C0FFFFFF</color>
     <color name="ui_white_e0">#E0FFFFFF</color>
+    <color name="ui_white_f8">#FFF8F8F8</color>
+    <color name="ui_white_fa">#FFFAFAFA</color>
 
     <!--红色-->
     <color name="ui_red">#FFFF0000</color>
@@ -75,53 +80,24 @@
     <color name="ui_blue">#FF03A9F4</color>
 
     <!--透明色-->
-    <color name="ui_translate">#00000000</color>
-
-    <!-- 成绩颜色 -->
-    <color name="ui_grade_100">#00ACC1</color>
-    <color name="ui_grade_90">#E12D2D</color>
-    <color name="ui_grade_80">#D31B86</color>
-    <color name="ui_grade_70">#4528D8</color>
-    <color name="ui_grade_60">#22CC00</color>
-    <color name="ui_grade_60_">#112233</color>
-    <color name="ui_grade_50">#5B2BB3</color>
-    <color name="ui_grade_40">#445566</color>
-    <color name="ui_grade_30">#556677</color>
-
-    <color name="ui_calendar_free">#00ACC1</color>
-    <color name="ui_calendar_free_long">#00ACC1</color>
-    <color name="ui_calendar_lesson">@color/ui_text_c3</color>
-    <color name="ui_calendar_repair">#64DD17</color>
-    <color name="ui_calendar_holiday">#FB8C00</color>
-    <color name="ui_calendar_weekday">#0091EA</color>
-
-    <!--体测主题色-->
-    <color name="ui_sport">#00C853</color>
-    <color name="ui_sport_light">#58E492</color>
-
-    <!--我的界面-->
-    <color name="ui_mine">#213352</color>
-    <color name="ui_mine_light">#425678</color>
-
-    <!--邮箱主题色-->
-    <color name="ui_email">#333333</color>
-    <color name="ui_email_light">#444444</color>
-
-    <!--一卡通主题色-->
-    <color name="ui_ykt">#4466CC</color>
-    <color name="ui_ykt_light">#5577DD</color>
-
-    <!--版块颜色-->
-    <color name="ui_category_text">#FF7E21</color>
-    <color name="ui_category_bg">#FFEEDC</color>
-
-    <!--标签颜色-->
-    <color name="ui_tag_text">#FB4F9C</color>
-    <color name="ui_tag_bg">#F8DDE9</color>
-
-    <color name="ui_chatting_item_me">#52D5E1</color>
-    <color name="ui_chatting_item_he">#F1F1F1</color>
+    <color name="ui_transparent">#00000000</color>
 
     <color name="ui_color_d">#DDDDDD</color>
     <color name="ui_color_b">#BBBBBB</color>
+
+    <color name="ui_color_3b5b97">#3b5b97</color>
+    <color name="ui_color_3e82f8">#3e82f8</color>
+    <color name="ui_color_4b679d">#4B679D</color>
+    <color name="ui_color_5e95f4">#5E95F4</color>
+    <color name="ui_color_161616">#161616</color>
+    <color name="ui_color_c02b2b">#c02b2b</color>
+    <color name="ui_color_cb3959">#cb3959</color>
+    <color name="ui_color_ac7b2d">#ac7b2d</color>
+    <color name="ui_color_fdf1d9">#fdf1d9</color>
+    <color name="ui_color_00d476">#00d476</color>
+    <color name="ui_color_f55c5c">#f55c5c</color>
+
+    <color name="ui_color_071e222b">#071e222b</color>
+    <color name="ui_color_1e2222">#1e2222</color>
+    <color name="ui_color_f3f3f5">#f3f3f5</color>
 </resources>

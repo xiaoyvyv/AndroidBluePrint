@@ -6,18 +6,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.annotation.CallSuper
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import autodispose2.AutoDisposeConverter
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.github.nukc.stateview.StateView
 import com.xiaoyv.blueprint.BluePrint
-import com.xiaoyv.blueprint.R
+import com.xiaoyv.blueprint.base.rxjava.event.RxEvent
 import com.xiaoyv.blueprint.databinding.BpFragmentRootBinding
-import com.xiaoyv.widget.dialog.loading.UiLoadingDialog
+import com.xiaoyv.blueprint.rxbus.RxBus
+import com.xiaoyv.widget.dialog.UiLoadingDialog
+import com.xiaoyv.widget.stateview.StateViewImpl
 import io.reactivex.rxjava3.core.ObservableTransformer
 
 /**
@@ -28,11 +29,14 @@ import io.reactivex.rxjava3.core.ObservableTransformer
  */
 abstract class BaseFragment : Fragment(), IBaseView {
     private lateinit var rootBinding: BpFragmentRootBinding
-    private lateinit var loading: UiLoadingDialog
-    protected lateinit var requireActivity: FragmentActivity
+    protected lateinit var hostActivity: FragmentActivity
 
-    val requireStateView: StateView
-        get() = vGetStateView()
+    private var loading: UiLoadingDialog? = null
+
+    private var stateView: StateView? = null
+    private var stateViewImpl: StateViewImpl? = null
+
+    var rootView: View? = null
 
     /**
      * 懒加载是否完成
@@ -42,7 +46,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity = requireActivity()
+        hostActivity = requireActivity()
 
         arguments?.also {
             initArgumentsData(it)
@@ -53,22 +57,33 @@ abstract class BaseFragment : Fragment(), IBaseView {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        rootBinding = BpFragmentRootBinding.inflate(layoutInflater, container, false)
-
+    ): View? {
         // 设置视图
-        createContentView()?.also {
-            rootBinding.flRoot.addView(it)
+        if (rootView == null) {
+            rootBinding = BpFragmentRootBinding.inflate(layoutInflater, container, false)
+            rootBinding.flRoot.addView(createContentView())
+            rootView = rootBinding.root
         }
 
         // 初始化相关回调
         initBaseView()
         initView()
-        return rootBinding.root
+        return rootView
     }
 
     private fun initBaseView() {
         loading = UiLoadingDialog()
+        loading?.isCancelable = false
+
+        // 状态布局
+        stateViewImpl = object : StateViewImpl(hostActivity) {
+            override fun onGetOrCreateStateView(): StateView {
+                stateView = stateView ?: createStateView(hostActivity, rootBinding.content) {
+                    p2vClickStatusView()
+                }
+                return stateView!!
+            }
+        }
     }
 
 
@@ -98,7 +113,21 @@ abstract class BaseFragment : Fragment(), IBaseView {
         }
     }
 
-    override fun p2vShowToast(msg: String?) {
+    /**
+     * 添加 RxEvent TAG 接收
+     */
+    fun addReceiveEventTag(rxEventTag: String) {
+        RxBus.getDefault().subscribe(this, rxEventTag, object : RxBus.Callback<RxEvent>() {
+            override fun onEvent(t: RxEvent?) {
+                onReceiveRxEvent(t ?: return, rxEventTag)
+            }
+        })
+    }
+
+    /**
+     * 收到事件，需要提前调用 addReceiveEventTag 添加事件
+     */
+    protected open fun onReceiveRxEvent(rxEvent: RxEvent, rxEventTag: String) {
 
     }
 
@@ -106,68 +135,41 @@ abstract class BaseFragment : Fragment(), IBaseView {
 
     }
 
+    override fun p2vShowToast(msg: String?) {
+        ToastUtils.showShort(msg.orEmpty())
+    }
 
     override fun p2vShowLoading(msg: String?) {
-        if (!isAdded || isHidden) {
-            return
-        }
-        loading.dismiss()
-        loading.showWithMsg(childFragmentManager, msg)
+        loading?.show(this, msg)
     }
 
     override fun p2vHideLoading() {
-        if (!isAdded || isHidden) {
-            return
-        }
-        loading.dismiss()
+        loading?.dismiss()
     }
 
-
-    override fun p2vShowNormalView() {
-        requireStateView.showContent()
+    override fun p2vGetStateController(): StateViewImpl {
+        return stateViewImpl ?: throw NullPointerException("stateViewImpl is null !!!")
     }
 
-    override fun p2vShowEmptyView() {
-        requireStateView.showEmpty()
+    /**
+     * 重试或刷新点击
+     */
+    override fun p2vClickStatusView() {
+
     }
 
-    override fun p2vShowTipView(msg: String?) {
-        requireStateView.showEmpty()
+    /**
+     * 统一线程处理
+     */
+    protected fun <T : Any> bindTransformer(): ObservableTransformer<T, T> {
+        return BluePrint.bindTransformer()
     }
 
-    override fun p2vShowLoadingView() {
-        requireStateView.showLoading()
-    }
-
-    override fun p2vShowRetryView() {
-        requireStateView.showRetry()
-    }
-
-    override fun p2vShowRetryView(msg: String?) {
-        requireStateView.showRetry()
-    }
-
-    override fun p2vShowRetryView(msg: String?, btText: String?) {
-        requireStateView.showRetry()
-    }
-
-    override fun vGetStateView() = rootBinding.csvStatus.also {
-        it.emptyResource = R.layout.ui_view_state_empty
-        it.loadingResource = R.layout.ui_view_state_loading
-        it.retryResource = R.layout.ui_view_state_retry
-        it.onRetryClickListener = object : StateView.OnRetryClickListener {
-            override fun onRetryClick() {
-                vRetryClick()
-            }
-        }
-
-        it.updateLayoutParams<FrameLayout.LayoutParams> {
-            topMargin = stateViewTopMargin()
-        }
-    }
-
-    override fun vRetryClick() {
-        LogUtils.i("vRetryClick")
+    /**
+     * 绑定生命周期
+     */
+    protected fun <T : Any> bindLifecycle(): AutoDisposeConverter<T> {
+        return BluePrint.bindLifecycle(this)
     }
 
     /**
@@ -185,27 +187,11 @@ abstract class BaseFragment : Fragment(), IBaseView {
 
     @CallSuper
     override fun onDestroy() {
-        loading.dismiss()
+        loading?.dismiss()
+        loading = null
+
+        RxBus.getDefault().unregister(this)
         super.onDestroy()
-    }
-
-    /**
-     * 状态布局顶部缩进
-     */
-    protected open fun stateViewTopMargin(): Int = 0
-
-    /**
-     * 统一线程处理
-     */
-    protected fun <T : Any> bindTransformer(): ObservableTransformer<T, T> {
-        return BluePrint.bindTransformer()
-    }
-
-    /**
-     * 绑定生命周期
-     */
-    protected fun <T : Any> bindLifecycle(): AutoDisposeConverter<T> {
-        return BluePrint.bindLifecycle(this)
     }
 
 

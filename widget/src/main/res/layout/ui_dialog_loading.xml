@@ -37,14 +37,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pw_progress" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_close"
-        android:layout_width="@dimen/ui_size_40"
-        android:layout_height="@dimen/ui_size_40"
-        android:padding="@dimen/ui_size_12"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ui_icon_close"
-        app:tint="@color/ui_system_c5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

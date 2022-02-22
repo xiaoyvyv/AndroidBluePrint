@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    compileSdk 30
+    compileSdk 31
 
     buildFeatures {
         viewBinding true
@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId "com.xiaoyv.blueprint.app"
         minSdk 21
-        targetSdk 30
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 

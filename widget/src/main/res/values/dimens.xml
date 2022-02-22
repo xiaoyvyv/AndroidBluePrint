@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--FONT 尺寸-->
+    <dimen name="ui_font_5">5sp</dimen>
     <dimen name="ui_font_8">8sp</dimen>
     <dimen name="ui_font_9">9sp</dimen>
     <dimen name="ui_font_10">10sp</dimen>
@@ -19,6 +20,7 @@
     <dimen name="ui_font_26">26sp</dimen>
     <dimen name="ui_font_28">28sp</dimen>
     <dimen name="ui_font_30">30sp</dimen>
+    <dimen name="ui_font_34">34sp</dimen>
 
     <!--UI 尺寸-->
     <dimen name="ui_size_0">0dp</dimen>
@@ -31,6 +33,7 @@
     <dimen name="ui_size_5">5dp</dimen>
     <dimen name="ui_size_6">6dp</dimen>
     <dimen name="ui_size_8">8dp</dimen>
+    <dimen name="ui_size_9">9dp</dimen>
     <dimen name="ui_size_10">10dp</dimen>
     <dimen name="ui_size_11">11dp</dimen>
     <dimen name="ui_size_12">12dp</dimen>
@@ -42,39 +45,54 @@
     <dimen name="ui_size_20">20dp</dimen>
     <dimen name="ui_size_21">21dp</dimen>
     <dimen name="ui_size_22">22dp</dimen>
+    <dimen name="ui_size_23">23dp</dimen>
     <dimen name="ui_size_24">24dp</dimen>
     <dimen name="ui_size_25">25dp</dimen>
     <dimen name="ui_size_26">26dp</dimen>
     <dimen name="ui_size_28">28dp</dimen>
     <dimen name="ui_size_30">30dp</dimen>
     <dimen name="ui_size_32">32dp</dimen>
+    <dimen name="ui_size_33">33dp</dimen>
     <dimen name="ui_size_35">35dp</dimen>
+    <dimen name="ui_size_38">38dp</dimen>
     <dimen name="ui_size_36">36dp</dimen>
     <dimen name="ui_size_40">40dp</dimen>
+    <dimen name="ui_size_42">42dp</dimen>
     <dimen name="ui_size_44">44dp</dimen>
     <dimen name="ui_size_45">45dp</dimen>
+    <dimen name="ui_size_46">46dp</dimen>
+    <dimen name="ui_size_48">48dp</dimen>
+    <dimen name="ui_size_49">49dp</dimen>
     <dimen name="ui_size_50">50dp</dimen>
+    <dimen name="ui_size_52">52dp</dimen>
     <dimen name="ui_size_54">54dp</dimen>
     <dimen name="ui_size_55">55dp</dimen>
     <dimen name="ui_size_56">56dp</dimen>
     <dimen name="ui_size_60">60dp</dimen>
+    <dimen name="ui_size_62">62dp</dimen>
     <dimen name="ui_size_65">65dp</dimen>
     <dimen name="ui_size_70">70dp</dimen>
     <dimen name="ui_size_75">75dp</dimen>
+    <dimen name="ui_size_78">78dp</dimen>
     <dimen name="ui_size_80">80dp</dimen>
+    <dimen name="ui_size_82">82dp</dimen>
     <dimen name="ui_size_85">85dp</dimen>
     <dimen name="ui_size_90">90dp</dimen>
     <dimen name="ui_size_95">95dp</dimen>
     <dimen name="ui_size_100">100dp</dimen>
     <dimen name="ui_size_105">105dp</dimen>
+    <dimen name="ui_size_108">108dp</dimen>
     <dimen name="ui_size_110">110dp</dimen>
     <dimen name="ui_size_120">120dp</dimen>
     <dimen name="ui_size_130">130dp</dimen>
     <dimen name="ui_size_135">135dp</dimen>
     <dimen name="ui_size_140">140dp</dimen>
+    <dimen name="ui_size_144">144dp</dimen>
     <dimen name="ui_size_150">150dp</dimen>
     <dimen name="ui_size_155">155dp</dimen>
     <dimen name="ui_size_160">160dp</dimen>
+    <dimen name="ui_size_165">165dp</dimen>
+    <dimen name="ui_size_168">168dp</dimen>
     <dimen name="ui_size_170">170dp</dimen>
     <dimen name="ui_size_175">175dp</dimen>
     <dimen name="ui_size_180">180dp</dimen>
@@ -86,23 +104,19 @@
     <dimen name="ui_size_230">230dp</dimen>
     <dimen name="ui_size_240">240dp</dimen>
     <dimen name="ui_size_250">250dp</dimen>
+    <dimen name="ui_size_255">255dp</dimen>
     <dimen name="ui_size_260">260dp</dimen>
     <dimen name="ui_size_270">270dp</dimen>
     <dimen name="ui_size_280">280dp</dimen>
     <dimen name="ui_size_290">290dp</dimen>
     <dimen name="ui_size_300">300dp</dimen>
+    <dimen name="ui_size_305">305dp</dimen>
     <dimen name="ui_size_310">310dp</dimen>
     <dimen name="ui_size_320">320dp</dimen>
     <dimen name="ui_size_330">330dp</dimen>
     <dimen name="ui_size_340">340dp</dimen>
     <dimen name="ui_size_350">350dp</dimen>
     <dimen name="ui_size_360">360dp</dimen>
-
-    <!--UiLabel 默认尺寸-->
-    <dimen name="ui_label_default_title_size">@dimen/ui_font_10</dimen>
-    <dimen name="ui_label_default_content_size">@dimen/ui_font_12</dimen>
-    <dimen name="ui_label_default_top_padding">@dimen/ui_size_15</dimen>
-    <dimen name="ui_label_default_bottom_padding">@dimen/ui_size_10</dimen>
 
     <!-- 对话框 -->
     <dimen name="ui_dialog_width">@dimen/ui_size_300</dimen>
@@ -113,9 +127,5 @@
     <dimen name="ui_layout_margin_banner">@dimen/ui_size_16</dimen>
     <dimen name="ui_layout_elevation">@dimen/ui_size_1</dimen>
     <dimen name="ui_layout_radius">@dimen/ui_size_6</dimen>
-
-    <!--课表-->
-    <dimen name="ui_table_week">10sp</dimen>
-    <dimen name="ui_table_section">125dp</dimen>
 
 </resources>

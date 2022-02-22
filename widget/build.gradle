@@ -1,12 +1,13 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 apply from: '../jitpack.gradle'
 
 android {
-    compileSdk 30
+    compileSdk 31
 
     buildFeatures {
         viewBinding true
@@ -14,7 +15,7 @@ android {
 
     defaultConfig {
         minSdk 21
-        targetSdk 30
+        targetSdk 31
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -42,6 +43,8 @@ android {
 
 
 dependencies {
+    api "androidx.recyclerview:recyclerview:1.2.1"
+
     // Utils
     api 'com.blankj:utilcodex:1.31.0'
     // AdapterHelper
@@ -52,10 +55,27 @@ dependencies {
     api 'com.github.nukc:StateView:v3.0.0'
     // Bar
     api 'com.gyf.immersionbar:immersionbar:3.0.0'
+    // 各种选项卡
+    api "com.github.hackware1993:MagicIndicator:1.7.0"
 
-    api 'androidx.core:core-ktx:1.6.0'
-    api 'androidx.appcompat:appcompat:1.3.1'
-    api 'com.google.android.material:material:1.4.0'
+    // Refresh
+    api "io.github.scwang90:refresh-layout-kernel:2.0.5"
+    api "io.github.scwang90:refresh-header-classics:2.0.5"
+    api "io.github.scwang90:refresh-footer-classics:2.0.5"
+
+    // Glide 图片加载框架
+    api "com.github.bumptech.glide:glide:4.13.0"
+    api "com.github.bumptech.glide:okhttp3-integration:4.13.0"
+    kapt "com.github.bumptech.glide:compiler:4.13.0"
+    annotationProcessor "com.github.bumptech.glide:compiler:4.13.0"
+
+    // OkHttp
+    // noinspection GradleDependency,GradleDynamicVersion
+    implementation "com.squareup.okhttp3:logging-interceptor:3.14.9"
+
+    api 'androidx.core:core-ktx:1.7.0'
+    api 'androidx.appcompat:appcompat:1.4.1'
+    api 'com.google.android.material:material:1.5.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

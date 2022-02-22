@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/ui_size_44"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_toolbar_title"
+        android:layout_width="@dimen/ui_size_0"
+        android:layout_height="@dimen/ui_size_44"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:textColor="@color/ui_text_c1"
+        android:textSize="@dimen/ui_font_18"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="标题栏" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_left"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/ui_size_44"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_right"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/ui_size_44"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/v_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ui_size_0.5"
+        android:background="@color/ui_black_30"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</merge>

@@ -5,7 +5,7 @@ import android.graphics.*
 import android.graphics.drawable.*
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
-import com.xiaoyv.widget.utils.KtUtils.adp
+import com.blankj.utilcode.util.ConvertUtils
 
 /**
  * DrawableUtils
@@ -135,7 +135,7 @@ object DrawableUtils {
     fun createSolidDrawable(@ColorInt color: Int, radius: Float): GradientDrawable {
         val gradientDrawable = GradientDrawable()
         gradientDrawable.setColor(color)
-        gradientDrawable.cornerRadius = radius.adp.toFloat()
+        gradientDrawable.cornerRadius = radius.dpi.toFloat()
         return gradientDrawable
     }
 
@@ -150,7 +150,7 @@ object DrawableUtils {
     fun createStrokeDrawable(@ColorInt color: Int, width: Int, radius: Float): GradientDrawable {
         val gradientDrawable = GradientDrawable()
         gradientDrawable.setStroke(width, color)
-        gradientDrawable.cornerRadius = radius.adp.toFloat()
+        gradientDrawable.cornerRadius = radius.dpi.toFloat()
         return gradientDrawable
     }
 
@@ -172,7 +172,7 @@ object DrawableUtils {
         val gradientDrawable = GradientDrawable()
         gradientDrawable.setStroke(width, strokeColor)
         gradientDrawable.setColor(filledColor)
-        gradientDrawable.cornerRadius = radius.adp.toFloat()
+        gradientDrawable.cornerRadius = radius.dpi.toFloat()
         return gradientDrawable
     }
 
@@ -204,4 +204,31 @@ object DrawableUtils {
         )
         return layerDrawable
     }
+
+
+    @JvmStatic
+    fun createSelectorDrawable(
+        normal: Drawable,
+        pressed: Drawable? = null,
+        disable: Drawable? = null,
+    ): StateListDrawable {
+        return StateListDrawable().also { bg ->
+            if (pressed != null) {
+                bg.addState(intArrayOf(android.R.attr.state_pressed), pressed)
+            }
+            if (disable != null) {
+                bg.addState(intArrayOf(-android.R.attr.state_enabled), disable)
+            }
+            bg.addState(intArrayOf(), normal)
+        }
+    }
+}
+
+/**
+ * Drawable 大小重置
+ */
+fun Drawable.resetSize(dpSize: Float): Drawable {
+    val size = ConvertUtils.dp2px(dpSize)
+    setBounds(size, size, size, size)
+    return this
 }

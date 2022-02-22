@@ -1,7 +1,7 @@
 package com.xiaoyv.blueprint.base
 
 import androidx.annotation.IntDef
-import com.github.nukc.stateview.StateView
+import com.xiaoyv.widget.stateview.StateViewImpl
 
 
 /**
@@ -11,6 +11,8 @@ import com.github.nukc.stateview.StateView
  * @since 2020/11/28
  */
 interface IBaseView {
+    val stateController: StateViewImpl
+        get() = p2vGetStateController()
 
     /**
      * 提示信息
@@ -24,16 +26,12 @@ interface IBaseView {
     fun p2vShowLoading(msg: String? = null)
     fun p2vHideLoading()
 
-    fun p2vShowNormalView()
-    fun p2vShowEmptyView()
-    fun p2vShowTipView(msg: String?)
-    fun p2vShowLoadingView()
-    fun p2vShowRetryView()
-    fun p2vShowRetryView(msg: String?)
-    fun p2vShowRetryView(msg: String?, btText: String?)
-    fun vGetStateView(): StateView
+    /**
+     * 状态布局按钮点击
+     */
+    fun p2vClickStatusView()
 
-    fun vRetryClick()
+    fun p2vGetStateController(): StateViewImpl
 
     @IntDef(
         SNACK_BAT_TYPE_NORMAL,

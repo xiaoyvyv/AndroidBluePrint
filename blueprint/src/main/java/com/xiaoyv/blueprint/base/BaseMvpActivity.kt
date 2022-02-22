@@ -83,7 +83,7 @@ abstract class BaseMvpActivity<V : IBaseView, PRESENTER : ImplBasePresenter<V>> 
         lifecycle.addObserver(presenter)
     }
 
-    override fun vRetryClick() {
+    override fun p2vClickStatusView() {
         onPresenterCreated()
     }
 
