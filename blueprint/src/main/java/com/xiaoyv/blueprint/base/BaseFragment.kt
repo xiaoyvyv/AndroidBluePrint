@@ -188,7 +188,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
     /**
      * 返回键
      */
-    protected open fun onFragmentBackPressed(): Boolean {
+    open fun onFragmentBackPressed(): Boolean {
         return false
     }
 
