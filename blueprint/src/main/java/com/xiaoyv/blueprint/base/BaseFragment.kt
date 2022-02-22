@@ -103,6 +103,12 @@ abstract class BaseFragment : Fragment(), IBaseView {
      */
     override fun onResume() {
         super.onResume()
+
+        // 初始化后，处于显示时，的其他非首次回调
+        if (isLazyLoaded && !isHidden) {
+            onResumeExceptFirst()
+        }
+
         if (!isLazyLoaded && !isHidden) {
             LogUtils.i("${javaClass.simpleName}_LazyLoad")
             initData()
@@ -128,6 +134,13 @@ abstract class BaseFragment : Fragment(), IBaseView {
      * 收到事件，需要提前调用 addReceiveEventTag 添加事件
      */
     protected open fun onReceiveRxEvent(rxEvent: RxEvent, rxEventTag: String) {
+
+    }
+
+    /**
+     * 初始化后，处于显示时，的其他非首次回调
+     */
+    protected open fun onResumeExceptFirst() {
 
     }
 

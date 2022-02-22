@@ -54,6 +54,11 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
      */
     private var repeatAnimation = false
 
+    /**
+     * 是否第一次获取焦点
+     */
+    private var firstFocus = true
+
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -176,6 +181,20 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
      * 返回 true，下次还会继续执行该方法播放动画
      */
     protected open fun initAnimation() = false
+
+    @CallSuper
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        if (hasFocus && firstFocus) {
+            firstFocus = false
+            onWindowFirstFocus()
+        }
+    }
+
+    /**
+     * Window 第一次获取焦点
+     */
+    open fun onWindowFirstFocus() {
+    }
 
 
     override fun p2vShowSnack(msg: String?, snackBarType: Int) {
