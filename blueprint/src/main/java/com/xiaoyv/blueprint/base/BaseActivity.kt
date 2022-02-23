@@ -24,7 +24,6 @@ import com.xiaoyv.blueprint.localize.LocalizeManager.attachBaseContextWithLangua
 import com.xiaoyv.blueprint.rxbus.RxBus
 import com.xiaoyv.widget.dialog.UiLoadingDialog
 import com.xiaoyv.widget.stateview.StateViewImpl
-import com.xiaoyv.widget.utils.doDelayLoadingAndRun
 import io.reactivex.rxjava3.core.ObservableTransformer
 import me.jessyan.autosize.AutoSizeCompat
 import me.jessyan.autosize.internal.CancelAdapt
@@ -37,19 +36,13 @@ import java.lang.ref.WeakReference
  * @author why
  * @since 2020/11/28
  */
-abstract class BaseActivity : AppCompatActivity(), IBaseView, (StateView, View) -> Unit {
+abstract class BaseActivity : AppCompatActivity(), IBaseView {
     private lateinit var rootContent: FrameLayout
 
     private var loadingDialog: UiLoadingDialog? = null
 
     private var reference: WeakReference<StateView>? = null
     private var stateViewImpl: StateViewImpl? = null
-
-    /**
-     * 状态布局控制器，控制布局各种状态布局显示
-     */
-    val statusController: StateViewImpl
-        get() = p2vGetStateController()
 
     /**
      * 是否重复执行动画
@@ -158,18 +151,15 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView, (StateView, View) 
                     return stateView
                 }
 
-                stateView = createStateView(requireActivity, rootContent, requireActivity)
+                stateView = createStateView(
+                    requireActivity,
+                    rootContent,
+                    this@BaseActivity::p2vClickStatusView
+                )
                 reference = WeakReference(stateView)
                 return stateView
             }
         }
-    }
-
-    /**
-     * 状态点击
-     */
-    override fun invoke(p1: StateView, p2: View) {
-        p2vClickStatusView(p1, p2)
     }
 
     /**

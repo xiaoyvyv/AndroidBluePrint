@@ -28,7 +28,7 @@ import java.lang.ref.WeakReference
  * @author why
  * @since 2020/11/28
  */
-abstract class BaseFragment : Fragment(), IBaseView, (StateView, View) -> Unit {
+abstract class BaseFragment : Fragment(), IBaseView {
     private lateinit var rootBinding: BpFragmentRootBinding
     protected lateinit var hostActivity: FragmentActivity
 
@@ -83,16 +83,16 @@ abstract class BaseFragment : Fragment(), IBaseView, (StateView, View) -> Unit {
                 if (stateView != null) {
                     return stateView
                 }
-
-                stateView = createStateView(hostActivity,  rootBinding.content, this@BaseFragment)
+                stateView =
+                    createStateView(
+                        hostActivity,
+                        rootBinding.content,
+                        this@BaseFragment::p2vClickStatusView
+                    )
                 reference = WeakReference(stateView)
                 return stateView
             }
         }
-    }
-
-    override fun invoke(p1: StateView, p2: View) {
-        p2vClickStatusView(p1, p2)
     }
 
     protected abstract fun createContentView(): View?

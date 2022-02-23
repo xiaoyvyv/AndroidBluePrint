@@ -124,12 +124,11 @@ class UiButton @JvmOverloads constructor(
     /**
      * 圆角
      */
-    var radius: Float = 0f
+    var radius: Float = getDpx(6f).toFloat()
         set(value) {
             field = value
             refreshButton()
         }
-
 
     /**
      * Logo

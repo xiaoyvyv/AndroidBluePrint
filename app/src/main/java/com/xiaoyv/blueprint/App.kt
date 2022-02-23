@@ -1,9 +1,5 @@
 package com.xiaoyv.blueprint
 
-import android.content.Context
-import com.blankj.utilcode.util.Utils
-import com.xiaoyv.blueprint.localize.LocalizeManager
-
 /**
  * App
  *

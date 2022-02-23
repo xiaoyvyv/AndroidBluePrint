@@ -39,7 +39,7 @@ import java.lang.ref.WeakReference
  */
 class BinderDataListView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-) : FrameLayout(context, attrs, defStyleAttr), (StateView, View) -> Unit {
+) : FrameLayout(context, attrs, defStyleAttr) {
     var binding =
         UiViewListBinderBinding.inflate(LayoutInflater.from(context), this, false)
         private set
@@ -175,7 +175,7 @@ class BinderDataListView @JvmOverloads constructor(
                     }
 
                     stateView =
-                        createStateView(activity, this@BinderDataListView, this@BinderDataListView)
+                        createStateView(activity, this@BinderDataListView, onRetryListener)
                     reference = WeakReference(stateView)
                     return stateView
                 }
@@ -183,10 +183,6 @@ class BinderDataListView @JvmOverloads constructor(
         }
 
         // showLoadingView()
-    }
-
-    override fun invoke(p1: StateView, p2: View) {
-        onRetryListener.invoke(p1, p2)
     }
 
     /**

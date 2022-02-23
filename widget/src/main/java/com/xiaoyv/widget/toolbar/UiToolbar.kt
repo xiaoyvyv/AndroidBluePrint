@@ -4,6 +4,7 @@ package com.xiaoyv.widget.toolbar
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +17,11 @@ import androidx.core.view.isVisible
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ColorUtils
-import com.blankj.utilcode.util.ScreenUtils
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiViewToolbarBinding
 import com.xiaoyv.widget.utils.dpi
 import com.xiaoyv.widget.utils.getActivity
+import com.xiaoyv.widget.utils.getAttrDrawable
 
 /**
  * UiToolbar
@@ -71,6 +72,17 @@ class UiToolbar @JvmOverloads constructor(
         }
 
     /**
+     * 文案颜色
+     */
+    @ColorInt
+    var titleColor: Int = if (isInEditMode) Color.BLACK else ColorUtils.getColor(R.color.ui_text_c1)
+        set(value) {
+            field = value
+            binding.tvToolbarTitle.setTextColor(value)
+        }
+
+
+    /**
      * 点击默认结束当前页面
      */
     private val defaultClick4Finish: OnBarClickListener = object : OnBarClickListener {
@@ -104,29 +116,29 @@ class UiToolbar @JvmOverloads constructor(
 
 
     /**
-     * 文案颜色
-     */
-    @ColorInt
-    var titleColor: Int = if (isInEditMode) Color.BLACK else ColorUtils.getColor(R.color.ui_text_c1)
-        set(value) {
-            field = value
-            binding.tvToolbarTitle.setTextColor(value)
-        }
-
-
-    /**
      * 左边按钮、点击事件
      */
     @JvmOverloads
     fun setLeftIcon(
         @DrawableRes vararg iconRes: Int,
+        selectableItemBackground: Boolean = true,
+        backgroundDrawable: Drawable? = null,
+        sizePx: Int = 44.dpi,
+        paddingPx: Int = 12.dpi,
         onBarClickListener: OnBarClickListener? = defaultClick4Finish
     ) {
         binding.llLeftContainer.removeAllViews()
         iconRes.forEachIndexed { index, icon ->
             binding.llLeftContainer.addView(AppCompatImageView(context).apply {
-                layoutParams = LinearLayoutCompat.LayoutParams(44.dpi, 44.dpi)
-                setPadding(12.dpi, 11.dpi, 10.dpi, 11.dpi)
+                if (selectableItemBackground) {
+                    background = getAttrDrawable(androidx.appcompat.R.attr.selectableItemBackground)
+                    isFocusable = true
+                    isClickable = true
+                } else {
+                    background = backgroundDrawable
+                }
+                layoutParams = LinearLayoutCompat.LayoutParams(sizePx, sizePx)
+                setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
                 setImageResource(icon)
                 setOnClickListener { onBarClickListener?.onClick(it, index) }
             })
@@ -139,13 +151,24 @@ class UiToolbar @JvmOverloads constructor(
     @JvmOverloads
     fun setRightIcon(
         @DrawableRes vararg iconRes: Int,
+        selectableItemBackground: Boolean = true,
+        backgroundDrawable: Drawable? = null,
+        sizePx: Int = 44.dpi,
+        paddingPx: Int = 12.dpi,
         onBarClickListener: OnBarClickListener? = null
     ) {
         binding.llRightContainer.removeAllViews()
         iconRes.forEachIndexed { index, icon ->
             binding.llRightContainer.addView(AppCompatImageView(context).apply {
-                layoutParams = LinearLayoutCompat.LayoutParams(44.dpi, 44.dpi)
-                setPadding(10.dpi, 11.dpi, 12.dpi, 11.dpi)
+                if (selectableItemBackground) {
+                    background = getAttrDrawable(androidx.appcompat.R.attr.selectableItemBackground)
+                    isFocusable = true
+                    isClickable = true
+                } else {
+                    background = backgroundDrawable
+                }
+                layoutParams = LinearLayoutCompat.LayoutParams(sizePx, sizePx)
+                setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
                 setImageResource(icon)
                 setOnClickListener { onBarClickListener?.onClick(it, index) }
             })

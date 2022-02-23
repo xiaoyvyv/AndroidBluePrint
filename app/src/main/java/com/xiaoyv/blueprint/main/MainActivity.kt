@@ -1,11 +1,11 @@
 package com.xiaoyv.blueprint.main
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import com.xiaoyv.blueprint.app.R
+import com.blankj.utilcode.util.BarUtils
 import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
 import com.xiaoyv.blueprint.utils.LazyUtils.loadRootFragment
-import com.xiaoyv.widget.databinding.UiViewListNoMoreBinding
 import com.xiaoyv.widget.dialog.UiNormalDialog
 
 class MainActivity :
@@ -18,8 +18,13 @@ class MainActivity :
         return ActivityMainBinding.inflate(layoutInflater)
     }
 
+    @SuppressLint("NewApi")
     override fun initView() {
+        stateController.topSpaceToViewBottom = binding.toolbar
+        stateController.showEmptyView()
 
+        binding.toolbar.setLeftIcon()
+        binding.toolbar.bottomDivider = true
     }
 
     override fun initData() {
@@ -31,11 +36,11 @@ class MainActivity :
         binding.tvTest.setOnClickListener {
             val create = UiNormalDialog.Builder()
                 .apply {
-                    customView = R.layout.ui_view_list_no_more
-                    customViewInitListener = {
-                        val bind = UiViewListNoMoreBinding.bind(it)
-                        bind.tvAbnormal.text="ssssssssss"
-                    }
+//                    customView = R.layout.ui_view_list_no_more
+//                    customViewInitListener = {
+//                        val bind = UiViewListNoMoreBinding.bind(it)
+//                        bind.tvAbnormal.text="ssssssssss"
+//                    }
                 }.create()
             create.show(this)
         }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/ui_size_44"
+    android:minHeight="@dimen/ui_toolbar_height"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -41,6 +41,6 @@
         android:id="@+id/v_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ui_size_0.5"
-        android:background="@color/ui_black_30"
+        android:background="@color/ui_system_divider"
         app:layout_constraintBottom_toBottomOf="parent" />
 </merge>

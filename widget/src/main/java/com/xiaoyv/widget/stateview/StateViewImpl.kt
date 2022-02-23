@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.LogUtils
@@ -38,9 +39,33 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
      */
     var imageVerticalBias = 0.3f
 
+    /**
+     * 顶部间距
+     */
+    var topSpaceHeight = 0
+
+    /**
+     * 设置空白高度到某个 View 的底部
+     */
+    var topSpaceToViewBottom: View? = null
+
+    /**
+     * 获取顶部间隔
+     */
+    private val requireTopSpace: Int
+        get() {
+            val view = topSpaceToViewBottom ?: return topSpaceHeight
+            val positionArray = IntArray(2).also {
+                view.getLocationInWindow(it)
+            }
+            topSpaceHeight = positionArray[1] + view.height
+            return topSpaceHeight
+        }
+
     override fun showNormalView() {
         if (checkDestroy()) return
         requireStateView.showContent()
+        requireStateView.adjustLocation()
     }
 
     /**
@@ -49,6 +74,8 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
     override fun showLoadingView(): View? {
         if (checkDestroy()) return null
         return requireStateView.showLoading()
+            .adjustLocation()
+            .adjustIvStatusBias()
     }
 
     /**
@@ -56,8 +83,11 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
      */
     override fun showEmptyView(): View? {
         if (checkDestroy()) return null
-        return requireStateView.showEmpty().adjustIvStatusBias()
+        return requireStateView.showEmpty()
+            .adjustIvStatusBias()
+            .adjustLocation()
     }
+
 
     /**
      * 提示布局（可自定义文字、状态图片）
@@ -71,9 +101,10 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
                 ?: StringUtils.getString(R.string.ui_view_status_empty)
 
             stateBinding.ivStatus.setImageResource(
-                imgResId ?: R.drawable.ui_pic_status_empty
+                imgResId ?: R.drawable.ui_pic_status_empty_normal
             )
         }.adjustIvStatusBias()
+            .adjustLocation()
     }
 
     /**
@@ -93,6 +124,7 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
                 imgResId ?: R.drawable.ui_pic_status_empty_normal
             )
         }.adjustIvStatusBias()
+            .adjustLocation()
     }
 
     private fun checkDestroy(): Boolean {
@@ -105,7 +137,7 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
      * 调整图片布局，默认垂直偏移 30%
      */
     private fun View.adjustIvStatusBias(): View {
-        LogUtils.e("设置偏移, value:$imageVerticalBias")
+        LogUtils.i("设置偏移, value:$imageVerticalBias")
         if (this !is ViewGroup) {
             return this
         }
@@ -113,6 +145,22 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
         if (imageView.layoutParams is ConstraintLayout.LayoutParams) {
             imageView.updateLayoutParams<ConstraintLayout.LayoutParams> {
                 verticalBias = imageVerticalBias
+            }
+        }
+        return this
+    }
+
+    /**
+     * 调整 位置相关
+     */
+    private fun View.adjustLocation(): View {
+        LogUtils.i("设置 Margin, value:$requireTopSpace")
+        if (this !is ViewGroup) {
+            return this
+        }
+        doOnPreDraw {
+            updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = requireTopSpace
             }
         }
         return this
