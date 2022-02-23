@@ -252,7 +252,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     }
 
     @CallSuper
-    override fun getResources(): Resources? {
+    override fun getResources(): Resources {
         if (this is CancelAdapt) {
             return super.getResources()
         }

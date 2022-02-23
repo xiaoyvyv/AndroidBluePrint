@@ -142,7 +142,7 @@ fun BottomSheetDialogFragment.onStartTransparentDialog(
 ) {
     val dialog = dialog as? BottomSheetDialog ?: return
     val window = dialog.window ?: return
-    val bottomSheet = window.findViewById<View>(R.id.design_bottom_sheet)
+    val bottomSheet = window.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
 
     window.setDimAmount(dimAmount)
     window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
