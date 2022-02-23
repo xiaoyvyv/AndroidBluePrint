@@ -122,9 +122,9 @@ class UiToolbar @JvmOverloads constructor(
         @DrawableRes vararg iconRes: Int,
         onBarClickListener: OnBarClickListener? = defaultClick4Finish
     ) {
-        binding.llLeft.removeAllViews()
+        binding.llLeftContainer.removeAllViews()
         iconRes.forEachIndexed { index, icon ->
-            binding.llLeft.addView(AppCompatImageView(context).apply {
+            binding.llLeftContainer.addView(AppCompatImageView(context).apply {
                 layoutParams = LinearLayoutCompat.LayoutParams(44.dpi, 44.dpi)
                 setPadding(12.dpi, 11.dpi, 10.dpi, 11.dpi)
                 setImageResource(icon)
@@ -141,9 +141,9 @@ class UiToolbar @JvmOverloads constructor(
         @DrawableRes vararg iconRes: Int,
         onBarClickListener: OnBarClickListener? = null
     ) {
-        binding.llRight.removeAllViews()
+        binding.llRightContainer.removeAllViews()
         iconRes.forEachIndexed { index, icon ->
-            binding.llRight.addView(AppCompatImageView(context).apply {
+            binding.llRightContainer.addView(AppCompatImageView(context).apply {
                 layoutParams = LinearLayoutCompat.LayoutParams(44.dpi, 44.dpi)
                 setPadding(10.dpi, 11.dpi, 12.dpi, 11.dpi)
                 setImageResource(icon)
