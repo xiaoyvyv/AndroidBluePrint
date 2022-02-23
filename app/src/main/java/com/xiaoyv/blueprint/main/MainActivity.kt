@@ -7,6 +7,7 @@ import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
 import com.xiaoyv.blueprint.utils.LazyUtils.loadRootFragment
 import com.xiaoyv.widget.dialog.UiNormalDialog
+import com.xiaoyv.widget.utils.doOnBarClick
 
 class MainActivity :
     BaseMvpBindingActivity<ActivityMainBinding, MainContract.View, MainPresenter>(),

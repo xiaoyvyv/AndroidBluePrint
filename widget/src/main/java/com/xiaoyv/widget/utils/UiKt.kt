@@ -25,8 +25,8 @@ import com.github.nukc.stateview.StateView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.xiaoyv.widget.R
 import com.xiaoyv.widget.span.CustomTypefaceSpan
+import com.xiaoyv.widget.toolbar.UiToolbar
 import me.everything.android.ui.overscroll.IOverScrollDecor
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import me.jessyan.autosize.utils.AutoSizeUtils
@@ -143,7 +143,8 @@ fun BottomSheetDialogFragment.onStartTransparentDialog(
 ) {
     val dialog = dialog as? BottomSheetDialog ?: return
     val window = dialog.window ?: return
-    val bottomSheet = window.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+    val bottomSheet =
+        window.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
 
     window.setDimAmount(dimAmount)
     window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -194,4 +195,17 @@ fun StateView.doDelayLoadingAndRun(
         }
         action.invoke()
     }, delayMill)
+}
+
+/**
+ * UiToolbar 菜单按钮点击事件
+ */
+inline fun doOnBarClick(
+    crossinline onBarClick: (view: View, which: Int) -> Unit = { _, _ -> }
+): UiToolbar.OnBarClickListener {
+    return object : UiToolbar.OnBarClickListener {
+        override fun onClick(view: View, which: Int) {
+            onBarClick.invoke(view, which)
+        }
+    }
 }
