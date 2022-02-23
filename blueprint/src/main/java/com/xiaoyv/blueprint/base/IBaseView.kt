@@ -1,6 +1,8 @@
 package com.xiaoyv.blueprint.base
 
+import android.view.View
 import androidx.annotation.IntDef
+import com.github.nukc.stateview.StateView
 import com.xiaoyv.widget.stateview.StateViewImpl
 
 
@@ -29,7 +31,7 @@ interface IBaseView {
     /**
      * 状态布局按钮点击
      */
-    fun p2vClickStatusView()
+    fun p2vClickStatusView(stateView: StateView, view: View)
 
     fun p2vGetStateController(): StateViewImpl
 

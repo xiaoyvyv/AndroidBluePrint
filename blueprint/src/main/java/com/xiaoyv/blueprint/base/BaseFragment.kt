@@ -20,6 +20,7 @@ import com.xiaoyv.blueprint.rxbus.RxBus
 import com.xiaoyv.widget.dialog.UiLoadingDialog
 import com.xiaoyv.widget.stateview.StateViewImpl
 import io.reactivex.rxjava3.core.ObservableTransformer
+import java.lang.ref.WeakReference
 
 /**
  * BaseFragment
@@ -27,13 +28,13 @@ import io.reactivex.rxjava3.core.ObservableTransformer
  * @author why
  * @since 2020/11/28
  */
-abstract class BaseFragment : Fragment(), IBaseView {
+abstract class BaseFragment : Fragment(), IBaseView, (StateView, View) -> Unit {
     private lateinit var rootBinding: BpFragmentRootBinding
     protected lateinit var hostActivity: FragmentActivity
 
     private var loading: UiLoadingDialog? = null
 
-    private var stateView: StateView? = null
+    private var reference: WeakReference<StateView>? = null
     private var stateViewImpl: StateViewImpl? = null
 
     var rootView: View? = null
@@ -77,15 +78,22 @@ abstract class BaseFragment : Fragment(), IBaseView {
 
         // 状态布局
         stateViewImpl = object : StateViewImpl(hostActivity) {
-            override fun onGetOrCreateStateView(): StateView {
-                stateView = stateView ?: createStateView(hostActivity, rootBinding.content) {
-                    p2vClickStatusView()
+            override fun onCreateStateView(): StateView {
+                var stateView = reference?.get()
+                if (stateView != null) {
+                    return stateView
                 }
-                return stateView!!
+
+                stateView = createStateView(hostActivity,  rootBinding.content, this@BaseFragment)
+                reference = WeakReference(stateView)
+                return stateView
             }
         }
     }
 
+    override fun invoke(p1: StateView, p2: View) {
+        p2vClickStatusView(p1, p2)
+    }
 
     protected abstract fun createContentView(): View?
     protected open fun initArgumentsData(arguments: Bundle) {}
@@ -167,7 +175,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
     /**
      * 重试或刷新点击
      */
-    override fun p2vClickStatusView() {
+    override fun p2vClickStatusView(stateView: StateView, view: View) {
 
     }
 

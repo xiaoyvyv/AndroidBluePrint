@@ -2,6 +2,7 @@ package com.xiaoyv.blueprint.base
 
 import android.os.Bundle
 import android.view.View
+import com.github.nukc.stateview.StateView
 import com.xiaoyv.blueprint.BluePrint
 
 /**
@@ -50,7 +51,7 @@ abstract class BaseMvpFragment<V : IBaseView, T : ImplBasePresenter<V>> : BaseFr
 
     abstract override fun initData()
 
-    override fun p2vClickStatusView() {
+    override fun p2vClickStatusView(stateView: StateView, view: View) {
         initFinish()
     }
 

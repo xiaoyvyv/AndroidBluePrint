@@ -21,6 +21,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.Utils
+import com.github.nukc.stateview.StateView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -179,3 +180,18 @@ fun NestedScrollView.overScrollH(): IOverScrollDecor =
         this,
         OverScrollDecoratorHelper.ORIENTATION_HORIZONTAL
     )
+
+@JvmOverloads
+fun StateView.doDelayLoadingAndRun(
+    delayMill: Long = 200L,
+    action: () -> Unit = {}
+) {
+    this.showLoading()
+    this.postDelayed({
+        val activity = getActivity() ?: return@postDelayed
+        if (activity.isDestroyed || activity.isFinishing) {
+            return@postDelayed
+        }
+        action.invoke()
+    }, delayMill)
+}

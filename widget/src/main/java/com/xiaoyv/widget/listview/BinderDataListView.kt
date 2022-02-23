@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
@@ -29,6 +30,7 @@ import com.xiaoyv.widget.databinding.UiViewListBinderBinding
 import com.xiaoyv.widget.databinding.UiViewListNoMoreBinding
 import com.xiaoyv.widget.stateview.StateViewImpl
 import com.xiaoyv.widget.utils.getActivity
+import java.lang.ref.WeakReference
 
 /**
  * 仅仅包含 刷新、加载更多、和错误布局的列表控件
@@ -37,12 +39,12 @@ import com.xiaoyv.widget.utils.getActivity
  */
 class BinderDataListView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-) : FrameLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr), (StateView, View) -> Unit {
     var binding =
         UiViewListBinderBinding.inflate(LayoutInflater.from(context), this, false)
         private set
 
-    private var stateView: StateView? = null
+    private var reference: WeakReference<StateView>? = null
     private var stateViewImpl: StateViewImpl? = null
 
     var adapter = BaseBinderAdapter()
@@ -95,7 +97,7 @@ class BinderDataListView @JvmOverloads constructor(
             binding.refreshLayout.setRefreshFooter(value)
         }
 
-    var onRetryListener: () -> Unit = {}
+    var onRetryListener: (StateView, View) -> Unit = { _, _ -> }
 
     val isEmpty: Boolean
         get() {
@@ -166,18 +168,26 @@ class BinderDataListView @JvmOverloads constructor(
         if (activity is FragmentActivity) {
             // 状态布局
             stateViewImpl = object : StateViewImpl(activity) {
-                override fun onGetOrCreateStateView(): StateView {
-                    stateView = stateView ?: createStateView(context, this@BinderDataListView) {
-                        onRetryListener.invoke()
+                override fun onCreateStateView(): StateView {
+                    var stateView = reference?.get()
+                    if (stateView != null) {
+                        return stateView
                     }
-                    return stateView!!
+
+                    stateView =
+                        createStateView(activity, this@BinderDataListView, this@BinderDataListView)
+                    reference = WeakReference(stateView)
+                    return stateView
                 }
             }
         }
 
-//        showLoadingView()
+        // showLoadingView()
     }
 
+    override fun invoke(p1: StateView, p2: View) {
+        onRetryListener.invoke(p1, p2)
+    }
 
     /**
      * 添加 ItemBinder
@@ -363,4 +373,5 @@ class BinderDataListView @JvmOverloads constructor(
             return BaseViewHolder(noMoreBinding.root)
         }
     }
+
 }

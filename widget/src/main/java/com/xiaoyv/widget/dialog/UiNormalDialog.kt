@@ -9,6 +9,7 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.core.view.isGone
 import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
@@ -17,7 +18,8 @@ import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.StringUtils
 import com.xiaoyv.widget.R
-import com.xiaoyv.widget.databinding.UiDialogNormalBinding
+import com.xiaoyv.widget.databinding.UiDialogNormalBinding.bind
+import com.xiaoyv.widget.databinding.UiDialogNormalBinding.inflate
 import com.xiaoyv.widget.utils.canShow
 import com.xiaoyv.widget.utils.dpi
 
@@ -40,11 +42,12 @@ class UiNormalDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = UiDialogNormalBinding.inflate(layoutInflater, container, false).root
+    ) = inflate(layoutInflater, container, false).root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val binding = UiDialogNormalBinding.bind(view)
+        val binding = bind(view)
         val param = builder ?: return
+        val customView = param.customView
 
         isCancelable = param.backCancelable
 
@@ -57,7 +60,20 @@ class UiNormalDialog : DialogFragment() {
         binding.tvContent.isGone = param.message.isNullOrBlank()
         binding.tvCancel.isGone = param.cancelText.isNullOrBlank()
         binding.tvConfirm.isGone = param.confirmText.isNullOrBlank()
+        binding.flView.isGone = customView == 0
         binding.vDivider.isGone = binding.tvCancel.isGone && binding.tvConfirm.isGone
+
+        // 自定义视图
+
+        if (customView != 0) {
+            binding.flView.removeAllViews()
+            val inflateView =
+                LayoutInflater.from(requireActivity()).inflate(customView, binding.flView, false)
+            if (inflateView != null) {
+                param.customViewInitListener.invoke(inflateView)
+                binding.flView.addView(inflateView)
+            }
+        }
 
         // 标题
         binding.tvTitle.text = param.title
@@ -145,7 +161,7 @@ class UiNormalDialog : DialogFragment() {
      */
     data class Builder(
         var width: Int = 280.dpi,
-        var radius: Int = 0,
+        var radius: Int = 6.dpi,
         var background: Int = ColorUtils.getColor(R.color.ui_system_background),
         var dimAmount: Float = 0.38f,
         var cancelCancelable: Boolean = true,
@@ -174,9 +190,14 @@ class UiNormalDialog : DialogFragment() {
         var confirmTextColor: Int = ColorUtils.getColor(R.color.ui_theme_c0),
         var confirmTextBold: Boolean = true,
 
+        @LayoutRes
+        var customView: Int = 0,
+
+        var customViewInitListener: (View) -> Unit = { },
         var confirmClickListener: (View) -> Unit = { },
         var cancelClickListener: (View) -> Unit = { },
-    ) : Parcelable {
+
+        ) : Parcelable {
 
 
         constructor(parcel: Parcel) : this(
@@ -204,7 +225,8 @@ class UiNormalDialog : DialogFragment() {
             parcel.readString(),
             parcel.readFloat(),
             parcel.readInt(),
-            parcel.readByte() != 0.toByte()
+            parcel.readByte() != 0.toByte(),
+            parcel.readInt(),
         )
 
         /**
@@ -248,6 +270,7 @@ class UiNormalDialog : DialogFragment() {
             parcel.writeFloat(confirmTextSize)
             parcel.writeInt(confirmTextColor)
             parcel.writeByte(if (confirmTextBold) 1 else 0)
+            parcel.writeInt(customView)
         }
 
         override fun describeContents(): Int {

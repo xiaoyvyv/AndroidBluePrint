@@ -30,8 +30,8 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
     /**
      * 获取状态布局
      */
-    private val state: StateView
-        get() = onGetOrCreateStateView()
+    private val requireStateView: StateView
+        get() = onCreateStateView()
 
     /**
      * 若有图片 id=R.id.iv_status ，设置在屏幕中的偏移系数，控制位置比例，默认 0.3
@@ -40,7 +40,15 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
 
     override fun showNormalView() {
         if (checkDestroy()) return
-        state.showContent()
+        requireStateView.showContent()
+    }
+
+    /**
+     * 加载中
+     */
+    override fun showLoadingView(): View? {
+        if (checkDestroy()) return null
+        return requireStateView.showLoading()
     }
 
     /**
@@ -48,15 +56,7 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
      */
     override fun showEmptyView(): View? {
         if (checkDestroy()) return null
-        return state.showEmpty().adjustIvStatusBias()
-    }
-
-
-    /**
-     * 提示布局（可自定义文字）
-     */
-    override fun showTipView(msg: String?): View? {
-        return showTipView(msg, null)
+        return requireStateView.showEmpty().adjustIvStatusBias()
     }
 
     /**
@@ -64,7 +64,7 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
      */
     override fun showTipView(msg: String?, @DrawableRes imgResId: Int?): View? {
         if (checkDestroy()) return null
-        return state.showEmpty().also {
+        return requireStateView.showEmpty().also {
             val stateBinding = UiViewStatusTipBinding.bind(it)
 
             stateBinding.tvHint.text = msg
@@ -77,43 +77,11 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
     }
 
     /**
-     * 加载中
-     */
-    override fun showLoadingView(): View? {
-        if (checkDestroy()) return null
-        return state.showLoading()
-    }
-
-    /**
-     * 带按钮的布局
-     */
-    override fun showRetryView(): View? {
-        if (checkDestroy()) return null
-        return showRetryView(null)
-    }
-
-    /**
-     * 带按钮的布局（可自定义文字）
-     */
-    override fun showRetryView(msg: String?): View? {
-        if (checkDestroy()) return null
-        return showRetryView(msg, null)
-    }
-
-    /**
-     * 带按钮的布局（可自定义文字、按钮文字）
-     */
-    override fun showRetryView(msg: String?, btText: String?): View? {
-        if (checkDestroy()) return null
-        return showRetryView(msg, btText, null)
-    }
-
-    /**
      * 带按钮的布局（可自定义文字、按钮文字、状态图片）
      */
     override fun showRetryView(msg: String?, btText: String?, @DrawableRes imgResId: Int?): View? {
         if (checkDestroy()) return null
-        return state.showRetry().also {
+        return requireStateView.showRetry().also {
             val stateBinding = UiViewStatusErrorBinding.bind(it)
             stateBinding.tvHint.text = msg
                 ?: getDefaultNetErrorMsg()
@@ -131,8 +99,7 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
         return activity.isFinishing || activity.isDestroyed
     }
 
-    abstract override fun onGetOrCreateStateView(): StateView
-
+    abstract override fun onCreateStateView(): StateView
 
     /**
      * 调整图片布局，默认垂直偏移 30%
@@ -165,7 +132,7 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
         fun createStateView(
             context: Context,
             parent: FrameLayout,
-            retryAction: () -> Unit = {},
+            retryAction: (StateView, View) -> Unit = { _, _ -> },
         ) = StateView(context).also {
             it.emptyResource = R.layout.ui_view_status_tip
             it.loadingResource = R.layout.ui_view_status_loading
@@ -176,8 +143,7 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
                         val retryBtn = view.findViewById<View>(R.id.tv_operate) ?: return
                         // 点击重试
                         retryBtn.setOnClickListener { v ->
-                            it.showLoading()
-                            v.postDelayed({ retryAction.invoke() }, 200)
+                            retryAction.invoke(it, v)
                         }
                     }
                 }

@@ -24,9 +24,11 @@ import com.xiaoyv.blueprint.localize.LocalizeManager.attachBaseContextWithLangua
 import com.xiaoyv.blueprint.rxbus.RxBus
 import com.xiaoyv.widget.dialog.UiLoadingDialog
 import com.xiaoyv.widget.stateview.StateViewImpl
+import com.xiaoyv.widget.utils.doDelayLoadingAndRun
 import io.reactivex.rxjava3.core.ObservableTransformer
 import me.jessyan.autosize.AutoSizeCompat
 import me.jessyan.autosize.internal.CancelAdapt
+import java.lang.ref.WeakReference
 
 
 /**
@@ -35,12 +37,12 @@ import me.jessyan.autosize.internal.CancelAdapt
  * @author why
  * @since 2020/11/28
  */
-abstract class BaseActivity : AppCompatActivity(), IBaseView {
+abstract class BaseActivity : AppCompatActivity(), IBaseView, (StateView, View) -> Unit {
     private lateinit var rootContent: FrameLayout
 
     private var loadingDialog: UiLoadingDialog? = null
 
-    private var stateView: StateView? = null
+    private var reference: WeakReference<StateView>? = null
     private var stateViewImpl: StateViewImpl? = null
 
     /**
@@ -58,6 +60,10 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
      * 是否第一次获取焦点
      */
     private var firstFocus = true
+
+
+    val requireActivity: BaseActivity
+        get() = this@BaseActivity
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -143,15 +149,27 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
         loadingDialog = UiLoadingDialog()
         loadingDialog?.isCancelable = false
 
+
         // 状态布局
-        stateViewImpl = object : StateViewImpl(this@BaseActivity) {
-            override fun onGetOrCreateStateView(): StateView {
-                stateView = stateView ?: createStateView(this@BaseActivity, rootContent) {
-                    p2vClickStatusView()
+        stateViewImpl = object : StateViewImpl(requireActivity) {
+            override fun onCreateStateView(): StateView {
+                var stateView = reference?.get()
+                if (stateView != null) {
+                    return stateView
                 }
-                return stateView!!
+
+                stateView = createStateView(requireActivity, rootContent, requireActivity)
+                reference = WeakReference(stateView)
+                return stateView
             }
         }
+    }
+
+    /**
+     * 状态点击
+     */
+    override fun invoke(p1: StateView, p2: View) {
+        p2vClickStatusView(p1, p2)
     }
 
     /**
@@ -228,7 +246,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     /**
      * 重试或刷新点击
      */
-    override fun p2vClickStatusView() {
+    override fun p2vClickStatusView(stateView: StateView, view: View) {
 
     }
 
@@ -287,5 +305,6 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
         RxBus.getDefault().unregister(this)
         super.onDestroy()
     }
+
 
 }

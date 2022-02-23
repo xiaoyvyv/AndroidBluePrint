@@ -6,7 +6,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
-import com.blankj.utilcode.util.LogUtils
+import com.github.nukc.stateview.StateView
 import com.xiaoyv.blueprint.BluePrint
 import java.lang.RuntimeException
 
@@ -83,7 +83,7 @@ abstract class BaseMvpActivity<V : IBaseView, PRESENTER : ImplBasePresenter<V>> 
         lifecycle.addObserver(presenter)
     }
 
-    override fun p2vClickStatusView() {
+    override fun p2vClickStatusView(stateView: StateView, view: View) {
         onPresenterCreated()
     }
 

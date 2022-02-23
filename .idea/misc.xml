@@ -8,7 +8,22 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/blueprint/src/main/res/layout/bp_activity_root.xml" value="0.3359375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/blueprint/src/main/res/layout/bp_fragment_root.xml" value="0.3359375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_icon_close.xml" value="0.2215" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_alpha_down_up.xml" value="0.258" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_alpha_up_down.xml" value="0.2325" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_bar.xml" value="0.2435" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_rectangle_bar_point.xml" value="0.2435" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_rectangle_corner_2.xml" value="0.258" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_rectangle_corner_4.xml" value="0.258" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_rectangle_corner_6.xml" value="0.258" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_rectangle_corner_8.xml" value="0.258" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_rectangle_solid.xml" value="0.2435" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_rectangle_stroik.xml" value="0.258" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_rectangle_stroke.xml" value="0.2435" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_rectangle_stroke_corner_2.xml" value="0.2435" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_rectangle_stroke_corner_4.xml" value="0.2435" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_rectangle_stroke_corner_6.xml" value="0.2435" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_rectangle_stroke_corner_8.xml" value="0.2435" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_squre.xml" value="0.258" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_dialog_loading.xml" value="0.3359375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_dialog_normal.xml" value="0.3359375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_dialog_select.xml" value="0.3359375" />
@@ -16,7 +31,7 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_button.xml" value="0.3359375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_content.xml" value="0.3359375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_list_no_more.xml" value="0.3359375" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_status_error.xml" value="0.2304403591278324" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_status_error.xml" value="0.3359375" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_status_loading.xml" value="0.28072916666666664" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_status_tip.xml" value="0.28072916666666664" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_toolbar.xml" value="0.3359375" />

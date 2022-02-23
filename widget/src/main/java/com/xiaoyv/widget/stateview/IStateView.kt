@@ -12,17 +12,21 @@ import com.github.nukc.stateview.StateView
  */
 interface IStateView {
     fun showNormalView()
-    fun showEmptyView(): View?
-
-    fun showTipView(msg: String?): View?
-    fun showTipView(msg: String?, @DrawableRes imgResId: Int?): View?
 
     fun showLoadingView(): View?
 
-    fun showRetryView(): View?
-    fun showRetryView(msg: String?): View?
-    fun showRetryView(msg: String?, btText: String?): View?
-    fun showRetryView(msg: String?, btText: String?, @DrawableRes imgResId: Int?): View?
+    fun showEmptyView(): View?
 
-    fun onGetOrCreateStateView(): StateView
+    fun showTipView(
+        msg: String? = null,
+        @DrawableRes imgResId: Int? = null
+    ): View?
+
+    fun showRetryView(
+        msg: String? = null,
+        btText: String? = null,
+        @DrawableRes imgResId: Int? = null
+    ): View?
+
+    fun onCreateStateView(): StateView
 }
