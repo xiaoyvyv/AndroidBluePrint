@@ -20,6 +20,7 @@ import androidx.annotation.*
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
+import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.Utils
 import com.github.nukc.stateview.StateView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -120,6 +121,8 @@ fun View.getDrawable(@DrawableRes drawableResId: Int): Drawable? =
     ResourcesCompat.getDrawable(resources, drawableResId, null)
 
 fun View.getString(@StringRes stringResId: Int): String = resources.getString(stringResId)
+
+fun View.getStatusBarHeight() = if (isInEditMode) 60 else BarUtils.getStatusBarHeight()
 
 fun ImageView.imageTintColorRes(@ColorRes colorResId: Int) {
     imageTintList = ColorStateList.valueOf(getColor(colorResId))

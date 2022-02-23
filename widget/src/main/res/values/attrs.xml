@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="uiToolbarHeight" format="dimension"/>
 
     <declare-styleable name="UiToolbar">
         <attr name="ui_fit_status_bar" format="boolean" />

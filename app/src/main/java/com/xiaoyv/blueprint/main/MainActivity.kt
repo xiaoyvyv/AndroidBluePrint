@@ -21,10 +21,11 @@ class MainActivity :
 
     @SuppressLint("NewApi")
     override fun initView() {
-        stateController.topSpaceToViewBottom = binding.toolbar
         stateController.showEmptyView()
+        stateController.fitTitleAndStatusBar = true
 
-        binding.toolbar.setLeftIcon()
+
+//        binding.toolbar.setLeftIcon()
         binding.toolbar.bottomDivider = true
     }
 

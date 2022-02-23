@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentActivity
+import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.StringUtils
@@ -19,6 +20,7 @@ import com.github.nukc.stateview.StateView
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiViewStatusErrorBinding
 import com.xiaoyv.widget.databinding.UiViewStatusTipBinding
+import com.xiaoyv.widget.toolbar.UiToolbar
 
 /**
  * StateViewImpl 全局状态布局
@@ -45,21 +47,12 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
     var topSpaceHeight = 0
 
     /**
-     * 设置空白高度到某个 View 的底部
+     * 顶部间距 设置为状态栏加标题栏总高度
      */
-    var topSpaceToViewBottom: View? = null
-
-    /**
-     * 获取顶部间隔
-     */
-    private val requireTopSpace: Int
-        get() {
-            val view = topSpaceToViewBottom ?: return topSpaceHeight
-            val positionArray = IntArray(2).also {
-                view.getLocationInWindow(it)
-            }
-            topSpaceHeight = positionArray[1] + view.height
-            return topSpaceHeight
+    var fitTitleAndStatusBar = false
+        set(value) {
+            field = value
+            topSpaceHeight = heightOfStatusBarAndToolbar
         }
 
     override fun showNormalView() {
@@ -154,13 +147,13 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
      * 调整 位置相关
      */
     private fun View.adjustLocation(): View {
-        LogUtils.i("设置 Margin, value:$requireTopSpace")
+        LogUtils.i("设置 Margin, value:$topSpaceHeight")
         if (this !is ViewGroup) {
             return this
         }
         doOnPreDraw {
             updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                topMargin = requireTopSpace
+                topMargin = topSpaceHeight
             }
         }
         return this
@@ -168,6 +161,12 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
 
 
     companion object {
+
+        /**
+         * 状态栏和标题栏总高度
+         */
+        val heightOfStatusBarAndToolbar: Int
+            get() = BarUtils.getStatusBarHeight() + UiToolbar.toolbarHeight
 
         /**
          * 创建状态布局

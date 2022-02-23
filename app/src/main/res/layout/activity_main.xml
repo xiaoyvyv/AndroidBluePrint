@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <com.xiaoyv.widget.toolbar.UiToolbar
+        android:background="@color/ui_theme_c1"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -14,14 +14,13 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.BarUtils
 import com.blankj.utilcode.util.ColorUtils
+import com.blankj.utilcode.util.Utils
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiViewToolbarBinding
-import com.xiaoyv.widget.utils.dpi
-import com.xiaoyv.widget.utils.getActivity
-import com.xiaoyv.widget.utils.getAttrDrawable
+import com.xiaoyv.widget.utils.*
 
 /**
  * UiToolbar
@@ -40,7 +39,7 @@ class UiToolbar @JvmOverloads constructor(
     var fitStatusBar: Boolean = true
         set(value) {
             field = value
-            val topPadding = if (value) BarUtils.getStatusBarHeight() else 0
+            val topPadding = if (value) getStatusBarHeight() else 0
             setPadding(0, topPadding, 0, 0)
         }
 
@@ -81,7 +80,6 @@ class UiToolbar @JvmOverloads constructor(
             binding.tvToolbarTitle.setTextColor(value)
         }
 
-
     /**
      * 点击默认结束当前页面
      */
@@ -111,6 +109,11 @@ class UiToolbar @JvmOverloads constructor(
         // 默认左侧返回按钮实现
         if (!isInEditMode) {
             setLeftIcon(R.drawable.ui_icon_nav_back, onBarClickListener = defaultClick4Finish)
+
+            // 更新标题栏高度
+            binding.tvToolbarTitle.updateLayoutParams {
+                height = toolbarHeight
+            }
         }
     }
 
@@ -123,15 +126,16 @@ class UiToolbar @JvmOverloads constructor(
         @DrawableRes vararg iconRes: Int,
         selectableItemBackground: Boolean = true,
         backgroundDrawable: Drawable? = null,
-        sizePx: Int = 44.dpi,
-        paddingPx: Int = 12.dpi,
+        sizePx: Int = toolbarHeight,
+        paddingPx: Int = (toolbarHeight * 0.27f).toInt(),
         onBarClickListener: OnBarClickListener? = defaultClick4Finish
     ) {
         binding.llLeftContainer.removeAllViews()
         iconRes.forEachIndexed { index, icon ->
             binding.llLeftContainer.addView(AppCompatImageView(context).apply {
                 if (selectableItemBackground) {
-                    background = getAttrDrawable(androidx.appcompat.R.attr.selectableItemBackground)
+                    background =
+                        context.getAttrDrawable(androidx.appcompat.R.attr.selectableItemBackground)
                     isFocusable = true
                     isClickable = true
                 } else {
@@ -153,7 +157,7 @@ class UiToolbar @JvmOverloads constructor(
         @DrawableRes vararg iconRes: Int,
         selectableItemBackground: Boolean = true,
         backgroundDrawable: Drawable? = null,
-        sizePx: Int = 44.dpi,
+        sizePx: Int = toolbarHeight,
         paddingPx: Int = 12.dpi,
         onBarClickListener: OnBarClickListener? = null
     ) {
@@ -161,7 +165,8 @@ class UiToolbar @JvmOverloads constructor(
         iconRes.forEachIndexed { index, icon ->
             binding.llRightContainer.addView(AppCompatImageView(context).apply {
                 if (selectableItemBackground) {
-                    background = getAttrDrawable(androidx.appcompat.R.attr.selectableItemBackground)
+                    background =
+                        context.getAttrDrawable(androidx.appcompat.R.attr.selectableItemBackground)
                     isFocusable = true
                     isClickable = true
                 } else {
@@ -185,5 +190,21 @@ class UiToolbar @JvmOverloads constructor(
          * @param which 位置
          */
         fun onClick(view: View, which: Int)
+    }
+
+    companion object {
+
+        /**
+         * 内容高度
+         */
+        val toolbarHeight: Int
+            get() {
+                var toolbarHeight = Utils.getApp().getAttrDimensionPixelSize(R.attr.uiToolbarHeight)
+                if (toolbarHeight == 0) {
+                    toolbarHeight =
+                        Utils.getApp().resources.getDimensionPixelSize(R.dimen.ui_toolbar_height)
+                }
+                return toolbarHeight
+            }
     }
 }
