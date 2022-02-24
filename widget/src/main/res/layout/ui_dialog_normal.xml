@@ -36,12 +36,12 @@
             android:id="@+id/fl_view"
             android:layout_width="@dimen/ui_size_0"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/ui_size_20"
             android:layout_marginTop="@dimen/ui_size_16"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_content" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_content"
+            app:layout_goneMarginTop="@dimen/ui_size_0" />
 
         <View
             android:id="@+id/v_divider"

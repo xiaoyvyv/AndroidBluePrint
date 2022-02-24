@@ -42,6 +42,10 @@ android {
     resourcePrefix "bp_"
 }
 
+configurations.all {
+    // 移除 support
+    exclude group: "com.android.support"
+}
 
 dependencies {
     api project(':widget')

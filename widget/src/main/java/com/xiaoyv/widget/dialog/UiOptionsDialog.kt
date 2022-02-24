@@ -2,11 +2,13 @@ package com.xiaoyv.widget.dialog
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
-import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ColorUtils
@@ -16,8 +18,8 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.callback.setOnFastLimitClickListener
 import com.xiaoyv.widget.databinding.UiDialogNormalBinding
+import com.xiaoyv.widget.databinding.UiDialogOptionsItemBinding
 import com.xiaoyv.widget.utils.dpi
-import com.xiaoyv.widget.utils.getAttrDrawable
 
 /**
  * UiOptionsDialog
@@ -42,6 +44,10 @@ class UiOptionsDialog : UiNormalDialog() {
         optionsAdapter.addItemBinder(optionBinder)
 
         val recyclerView = RecyclerView(requireActivity()).apply {
+            layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+            )
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             overScrollMode = View.OVER_SCROLL_NEVER
             adapter = optionsAdapter
@@ -49,12 +55,11 @@ class UiOptionsDialog : UiNormalDialog() {
         }
 
         binding.flView.removeAllViews()
-        binding.flView.addView(
-            recyclerView, FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            )
-        )
+        binding.flView.addView(recyclerView)
+        binding.flView.isVisible = true
+
+        // 设置数据
+        optionsAdapter.setList(optionsBuilder.itemDataList)
     }
 
     /**
@@ -63,13 +68,16 @@ class UiOptionsDialog : UiNormalDialog() {
     inner class OptionBinder : BaseItemBinder<String, BaseViewHolder>() {
 
         override fun convert(holder: BaseViewHolder, data: String) {
-            val itemView = holder.itemView as AppCompatTextView
-            itemView.text = data
+            val binding = UiDialogOptionsItemBinding.bind(holder.itemView)
             val position = holder.bindingAdapterPosition
 
+            binding.tvOption.text = data
+            binding.vDivider.isVisible = optionsBuilder.itemDivider
+            binding.tvOption.textSize = optionsBuilder.itemTextSize
+
             // 点击回调
-            itemView.setOnFastLimitClickListener {
-                val invoke = optionsBuilder.optionsClickListener.invoke(
+            binding.tvOption.setOnFastLimitClickListener {
+                val invoke = optionsBuilder.onOptionsClickListener.invoke(
                     optionsBuilder.itemDataList[position], position
                 )
                 if (invoke) {
@@ -78,39 +86,37 @@ class UiOptionsDialog : UiNormalDialog() {
             }
 
             // 最后一条
-            if (position == adapter.itemCount - 1 && optionsBuilder.lastItemColor != 0) {
-                itemView.setTextColor(optionsBuilder.lastItemColor)
+            if (position == adapter.itemCount - 1 && optionsBuilder.itemLastColor != 0) {
+                binding.tvOption.setTextColor(optionsBuilder.itemLastColor)
             } else {
-                itemView.setTextColor(optionsBuilder.itemTextColor)
+                binding.tvOption.setTextColor(optionsBuilder.itemTextColor)
             }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = BaseViewHolder(
-            AppCompatTextView(context).apply {
-                layoutParams = RecyclerView.LayoutParams(
-                    RecyclerView.LayoutParams.MATCH_PARENT,
-                    optionsBuilder.itemHeight
-                )
-                textSize = optionsBuilder.itemTextSize
-                isClickable = true
-                isFocusable = true
-                background = context.getAttrDrawable(android.R.attr.selectableItemBackground)
-                setTextColor(optionsBuilder.itemTextColor)
-            }
+            UiDialogOptionsItemBinding.inflate(LayoutInflater.from(context), parent, false)
+                .apply {
+                    tvOption.layoutParams = RecyclerView.LayoutParams(
+                        RecyclerView.LayoutParams.MATCH_PARENT,
+                        optionsBuilder.itemHeight
+                    )
+                }.root
         )
     }
 
     class Builder(
-        var itemHeight: Int = 44.dpi,
+        var itemHeight: Int = 52.dpi,
         var itemDataList: List<String> = arrayListOf(),
 
-        var itemTextSize: Float = 14f,
+        var itemTextSize: Float = 16f,
         var itemTextColor: Int = ColorUtils.getColor(R.color.ui_text_c1),
 
+        var itemDivider: Boolean = true,
+
         @ColorInt
-        var lastItemColor: Int = 0,
-        var optionsClickListener: (String, Int) -> Boolean = { _, _ -> true }
-    ) : UiNormalDialog.Builder(), Parcelable{
+        var itemLastColor: Int = 0,
+        var onOptionsClickListener: (String, Int) -> Boolean = { _, _ -> true }
+    ) : UiNormalDialog.Builder(confirmText = null, cancelText = null), Parcelable {
 
         /**
          * 构建

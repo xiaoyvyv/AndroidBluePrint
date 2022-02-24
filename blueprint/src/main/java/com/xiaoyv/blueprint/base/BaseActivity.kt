@@ -24,8 +24,8 @@ import com.xiaoyv.blueprint.localize.LocalizeManager.attachBaseContextWithLangua
 import com.xiaoyv.blueprint.rxbus.RxBus
 import com.xiaoyv.widget.dialog.UiLoadingDialog
 import com.xiaoyv.widget.stateview.StateViewImpl
+import com.xiaoyv.widget.utils.autoConvertDensity
 import io.reactivex.rxjava3.core.ObservableTransformer
-import me.jessyan.autosize.AutoSizeCompat
 import me.jessyan.autosize.internal.CancelAdapt
 import java.lang.ref.WeakReference
 
@@ -261,19 +261,12 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
 
     @CallSuper
     override fun getResources(): Resources {
+        val resources = super.getResources()
         if (this is CancelAdapt) {
-            return super.getResources()
+            return resources
         }
         // 解决 AutoSize 横屏时对话框显示状态，切后台再切回前台导致的适配失效问题
-        val resources = super.getResources()
-        runOnUiThread {
-            AutoSizeCompat.autoConvertDensity(
-                resources,
-                BluePrint.MAX_WIDTH_DP,
-                !ScreenUtils.isLandscape()
-            )
-        }
-        return super.getResources()
+        return resources.autoConvertDensity(BluePrint.MAX_WIDTH_DP)
     }
 
     @CallSuper

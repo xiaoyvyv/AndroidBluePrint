@@ -1,13 +1,13 @@
 package com.xiaoyv.blueprint.main
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
-import com.blankj.utilcode.util.BarUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
 import com.xiaoyv.blueprint.utils.LazyUtils.loadRootFragment
-import com.xiaoyv.widget.dialog.UiNormalDialog
-import com.xiaoyv.widget.utils.doOnBarClick
+import com.xiaoyv.widget.dialog.UiOptionsDialog
 
 class MainActivity :
     BaseMvpBindingActivity<ActivityMainBinding, MainContract.View, MainPresenter>(),
@@ -35,7 +35,20 @@ class MainActivity :
 
     override fun initListener() {
         binding.tvTest.setOnClickListener {
-            stateController.showEmptyView()
+//            stateController.showEmptyView()
+
+            val optionsDialog = UiOptionsDialog.Builder().apply {
+                itemDataList = arrayListOf("AAA", "BBB", "CCC")
+                itemLastColor = Color.RED
+                onOptionsClickListener = { data, position ->
+                    ToastUtils.showShort("$position $data")
+                    true
+                }
+            }.create()
+
+            optionsDialog.show(this)
+
+
 //            val create = UiNormalDialog.Builder()
 //                .apply {
 ////                    customView = R.layout.ui_view_list_no_more

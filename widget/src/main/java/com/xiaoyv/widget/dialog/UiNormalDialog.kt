@@ -71,7 +71,7 @@ open class UiNormalDialog : DialogFragment() {
             val inflateView =
                 LayoutInflater.from(requireActivity()).inflate(customView, binding.flView, false)
             if (inflateView != null) {
-                param.customViewInitListener.invoke(inflateView)
+                param.onCustomViewInitListener.invoke(inflateView)
                 binding.flView.addView(inflateView)
             }
         }
@@ -113,14 +113,14 @@ open class UiNormalDialog : DialogFragment() {
             if (param.cancelCancelable) {
                 dismiss()
             }
-            param.cancelClickListener.invoke(it)
+            param.onCancelClickListener.invoke(it)
         }
         // 点击 确定键
         binding.tvConfirm.setOnClickListener {
             if (param.confirmCancelable) {
                 dismiss()
             }
-            param.confirmClickListener.invoke(it)
+            param.onConfirmClickListener.invoke(it)
         }
     }
 
@@ -194,9 +194,9 @@ open class UiNormalDialog : DialogFragment() {
         @LayoutRes
         var customView: Int = 0,
 
-        var customViewInitListener: (View) -> Unit = { },
-        var confirmClickListener: (View) -> Unit = { },
-        var cancelClickListener: (View) -> Unit = { },
+        var onCustomViewInitListener: (View) -> Unit = { },
+        var onConfirmClickListener: (View) -> Unit = { },
+        var onCancelClickListener: (View) -> Unit = { },
 
         ) : Parcelable {
 
