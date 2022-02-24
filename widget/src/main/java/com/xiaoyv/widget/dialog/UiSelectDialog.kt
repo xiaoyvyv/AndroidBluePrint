@@ -230,7 +230,7 @@ class UiSelectDialog : DialogFragment() {
     /**
      * 对话框建造者
      */
-    data class Builder(
+    open class Builder(
         var width: Int = ScreenUtils.getScreenWidth(),
         var radius: Int = 0,
         var background: Int = ColorUtils.getColor(R.color.ui_system_background),

@@ -21,7 +21,6 @@ class MainActivity :
 
     @SuppressLint("NewApi")
     override fun initView() {
-        stateController.showEmptyView()
         stateController.fitTitleAndStatusBar = true
 
 
@@ -36,15 +35,16 @@ class MainActivity :
 
     override fun initListener() {
         binding.tvTest.setOnClickListener {
-            val create = UiNormalDialog.Builder()
-                .apply {
-//                    customView = R.layout.ui_view_list_no_more
-//                    customViewInitListener = {
-//                        val bind = UiViewListNoMoreBinding.bind(it)
-//                        bind.tvAbnormal.text="ssssssssss"
-//                    }
-                }.create()
-            create.show(this)
+            stateController.showEmptyView()
+//            val create = UiNormalDialog.Builder()
+//                .apply {
+////                    customView = R.layout.ui_view_list_no_more
+////                    customViewInitListener = {
+////                        val bind = UiViewListNoMoreBinding.bind(it)
+////                        bind.tvAbnormal.text="ssssssssss"
+////                    }
+//                }.create()
+//            create.show(this)
         }
     }
 

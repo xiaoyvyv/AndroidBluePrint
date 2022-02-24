@@ -19,7 +19,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintVertical_bias="0.25"
             app:srcCompat="@drawable/ui_pic_status_empty_normal" />
 
         <androidx.appcompat.widget.AppCompatTextView

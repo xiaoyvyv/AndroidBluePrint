@@ -10,6 +10,8 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.BarUtils
@@ -39,7 +41,7 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
     /**
      * 若有图片 id=R.id.iv_status ，设置在屏幕中的偏移系数，控制位置比例，默认 0.3
      */
-    var imageVerticalBias = 0.3f
+    var imageVerticalBias = 0.25f
 
     /**
      * 顶部间距
@@ -151,10 +153,8 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
         if (this !is ViewGroup) {
             return this
         }
-        doOnPreDraw {
-            updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                topMargin = topSpaceHeight
-            }
+        updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            topMargin = topSpaceHeight
         }
         return this
     }

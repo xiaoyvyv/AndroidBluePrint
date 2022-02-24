@@ -9,6 +9,7 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.core.view.isGone
 import androidx.core.view.updatePadding
@@ -18,8 +19,7 @@ import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.StringUtils
 import com.xiaoyv.widget.R
-import com.xiaoyv.widget.databinding.UiDialogNormalBinding.bind
-import com.xiaoyv.widget.databinding.UiDialogNormalBinding.inflate
+import com.xiaoyv.widget.databinding.UiDialogNormalBinding
 import com.xiaoyv.widget.utils.canShow
 import com.xiaoyv.widget.utils.dpi
 
@@ -29,9 +29,9 @@ import com.xiaoyv.widget.utils.dpi
  * @author why
  * @since 2021/12/23
  */
-class UiNormalDialog : DialogFragment() {
+open class UiNormalDialog : DialogFragment() {
     private var fragmentTag = javaClass.simpleName
-    private var builder: Builder? = null
+    internal var builder: Builder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +42,11 @@ class UiNormalDialog : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = inflate(layoutInflater, container, false).root
+    ) = UiDialogNormalBinding.inflate(layoutInflater, container, false).root
 
+    @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val binding = bind(view)
+        val binding = UiDialogNormalBinding.bind(view)
         val param = builder ?: return
         val customView = param.customView
 
@@ -159,7 +160,7 @@ class UiNormalDialog : DialogFragment() {
     /**
      * 对话框建造者
      */
-    data class Builder(
+    open class Builder(
         var width: Int = 280.dpi,
         var radius: Int = 6.dpi,
         var background: Int = ColorUtils.getColor(R.color.ui_system_background),
@@ -242,7 +243,7 @@ class UiNormalDialog : DialogFragment() {
         /**
          * 构建
          */
-        fun create() = Companion.create(this)
+        open fun create() = Companion.create(this)
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
             parcel.writeInt(width)
@@ -289,7 +290,7 @@ class UiNormalDialog : DialogFragment() {
     }
 
     companion object {
-        private const val ARG_BUILDER = "ARG_BUILDER"
+        const val ARG_BUILDER = "ARG_BUILDER"
 
         @JvmStatic
         fun create(builder: Builder): UiNormalDialog {
