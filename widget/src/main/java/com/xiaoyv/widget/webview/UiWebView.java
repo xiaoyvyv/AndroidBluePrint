@@ -1,5 +1,7 @@
 package com.xiaoyv.widget.webview;
 
+import static com.xiaoyv.widget.utils.AdaptCompatKt.ADAPT_WIDTH_DP;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -30,7 +32,6 @@ import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.Utils;
 import com.google.android.material.snackbar.Snackbar;
 import com.xiaoyv.widget.toolbar.UiToolbar;
-import com.xiaoyv.widget.utils.UiUtils;
 import com.xiaoyv.widget.webview.listener.OnFileChooseListener;
 import com.xiaoyv.widget.webview.listener.OnProgressChangeListener;
 import com.xiaoyv.widget.webview.listener.OnWebLoadFinishListener;
@@ -384,7 +385,7 @@ public class UiWebView extends WebView {
     @Override
     public void setOverScrollMode(int mode) {
         super.setOverScrollMode(mode);
-        AutoSizeCompat.autoConvertDensity(super.getResources(), UiUtils.MAX_WIDTH_DP, true);
+        AutoSizeCompat.autoConvertDensity(super.getResources(), ADAPT_WIDTH_DP, true);
     }
 
     /**

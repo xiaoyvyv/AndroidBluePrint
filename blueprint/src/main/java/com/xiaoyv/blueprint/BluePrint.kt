@@ -13,7 +13,6 @@ import com.blankj.utilcode.util.Utils
 import com.xiaoyv.blueprint.base.IBaseView
 import com.xiaoyv.blueprint.exception.RxExceptionHandler
 import com.xiaoyv.blueprint.exception.RxGlobalExceptionHandler
-import com.xiaoyv.widget.utils.UiUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
@@ -30,7 +29,7 @@ import me.jessyan.autosize.AutoSizeConfig
  */
 object BluePrint {
     val MAX_WIDTH_DP: Float
-        get() = UiUtils.MAX_WIDTH_DP
+        get() = com.xiaoyv.widget.utils.ADAPT_WIDTH_DP
 
     @JvmStatic
     @JvmOverloads

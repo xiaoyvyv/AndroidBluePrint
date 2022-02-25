@@ -4,6 +4,7 @@ package com.xiaoyv.blueprint.base
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
@@ -205,6 +206,17 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     }
 
 
+    @CallSuper
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        resources.autoConvertDensity()
+        onConfigurationChangedAdapt(newConfig)
+    }
+
+    protected open fun onConfigurationChangedAdapt(newConfig: Configuration) {
+
+    }
+
     override fun p2vShowSnack(msg: String?, snackBarType: Int) {
 
     }
@@ -266,7 +278,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
             return resources
         }
         // 解决 AutoSize 横屏时对话框显示状态，切后台再切回前台导致的适配失效问题
-        return resources.autoConvertDensity(BluePrint.MAX_WIDTH_DP)
+        return resources.autoConvertDensity()
     }
 
     @CallSuper
