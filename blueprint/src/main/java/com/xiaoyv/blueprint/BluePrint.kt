@@ -6,13 +6,11 @@ import androidx.lifecycle.LifecycleOwner
 import autodispose2.AutoDispose
 import autodispose2.AutoDisposeConverter
 import autodispose2.androidx.lifecycle.AndroidLifecycleScopeProvider
-import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ProcessUtils
-import com.blankj.utilcode.util.Utils
+import com.blankj.utilcode.util.*
 import com.xiaoyv.blueprint.base.IBaseView
 import com.xiaoyv.blueprint.exception.RxExceptionHandler
 import com.xiaoyv.blueprint.exception.RxGlobalExceptionHandler
+import com.xiaoyv.blueprint.json.GsonParse
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
@@ -42,6 +40,11 @@ object BluePrint {
             if (adaptScreen) {
                 initAutoSize(application)
             }
+
+            // 将 null 为空的情况下会优先读取默认值，没有再设置字符串类型转为 ""
+            // 将 null List 类型转为 []，为空的情况下会优先读取默认值，没有再设置为 List empty对象
+            // 将 null Map 类型转为 {}，为空的情况下会优先读取默认值，没有再设置为 Map empty对象
+            GsonUtils.setGsonDelegate(GsonParse.GSON)
         }
     }
 
