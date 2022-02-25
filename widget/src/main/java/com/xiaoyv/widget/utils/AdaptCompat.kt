@@ -29,9 +29,9 @@ fun Activity.autoConvertDensity(sizeInDp: Float): Resources {
 fun Resources.autoConvertDensity(sizeInDp: Float): Resources {
     // 解决 AutoSize 横屏时对话框显示状态，切后台再切回前台导致的适配失效问题
     if (Looper.myLooper() == Looper.getMainLooper()) {
-        AutoSizeCompat.autoConvertDensity(this, sizeInDp, ScreenUtils.isPortrait())
+        AutoSizeCompat.autoConvertDensity(this, sizeInDp,true)
     } else ThreadUtils.runOnUiThread {
-        AutoSizeCompat.autoConvertDensity(this, sizeInDp, ScreenUtils.isPortrait())
+        AutoSizeCompat.autoConvertDensity(this, sizeInDp, true)
     }
     return this
 }

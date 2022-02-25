@@ -3,7 +3,7 @@ package com.xiaoyv.blueprint.main
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
-import com.blankj.utilcode.util.ToastUtils
+import com.blankj.utilcode.util.ScreenUtils
 import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
 import com.xiaoyv.blueprint.utils.LazyUtils.loadRootFragment
@@ -41,8 +41,11 @@ class MainActivity :
                 itemDataList = arrayListOf("AAA", "BBB", "CCC")
                 itemLastColor = Color.RED
                 onOptionsClickListener = { dialog, data, position ->
-                    dialog.dismissAllowingStateLoss()
-                    ToastUtils.showShort("$position $data")
+                    if (position == 0) {
+                        ScreenUtils.setLandscape(this@MainActivity)
+                    } else {
+                        ScreenUtils.setPortrait(this@MainActivity)
+                    }
                     true
                 }
             }.create()

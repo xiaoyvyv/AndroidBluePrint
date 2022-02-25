@@ -16,6 +16,7 @@
         tools:targetApi="m">
         <activity
             android:name="com.xiaoyv.blueprint.main.MainActivity"
+            android:configChanges="screenSize|orientation|keyboard|keyboardHidden"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -40,6 +40,7 @@ import me.jessyan.autosize.utils.AutoSizeUtils
  * @since 2021/12/15
  */
 object UiUtils {
+    const val MAX_WIDTH_DP = 375f
 
     @JvmStatic
     fun getAttrColor(@AttrRes attrRes: Int): Int {
