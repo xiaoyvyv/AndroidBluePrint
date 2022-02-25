@@ -206,6 +206,11 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     }
 
 
+    /**
+     * 解决横屏屏幕适配问题
+     *
+     * 该回调方法请使用 [onConfigurationChangedAdapt] 替代，尽量不要重写此方法，重写也需要回调该父类方法
+     */
     @CallSuper
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)

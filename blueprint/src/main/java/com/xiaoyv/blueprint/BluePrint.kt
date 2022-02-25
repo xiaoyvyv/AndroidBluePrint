@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.xiaoyv.blueprint
 
 import android.app.Application
@@ -11,6 +13,8 @@ import com.xiaoyv.blueprint.base.IBaseView
 import com.xiaoyv.blueprint.exception.RxExceptionHandler
 import com.xiaoyv.blueprint.exception.RxGlobalExceptionHandler
 import com.xiaoyv.blueprint.json.GsonParse
+import com.xiaoyv.widget.utils.ADAPT_HEIGHT_DEPEND_WIDTH_DP
+import com.xiaoyv.widget.utils.ADAPT_WIDTH_DP
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
@@ -18,6 +22,8 @@ import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import io.reactivex.rxjava3.schedulers.Schedulers
 import me.jessyan.autosize.AutoSize
 import me.jessyan.autosize.AutoSizeConfig
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * BluePrint
@@ -26,8 +32,11 @@ import me.jessyan.autosize.AutoSizeConfig
  * @since 2021/10/8
  */
 object BluePrint {
-    val MAX_WIDTH_DP: Float
-        get() = com.xiaoyv.widget.utils.ADAPT_WIDTH_DP
+    /**
+     * 启动时 APP 的宽高记录，不会因为屏幕旋转而改变
+     */
+    private var startAppWidth = 0
+    private var startAppHeight = 0
 
     @JvmStatic
     @JvmOverloads
@@ -70,7 +79,17 @@ object BluePrint {
         AutoSize.checkAndInit(application)
         AutoSizeConfig.getInstance()
             .setExcludeFontScale(true)
-            .designWidthInDp = MAX_WIDTH_DP.toInt()
+            .designWidthInDp = ADAPT_WIDTH_DP.toInt()
+
+        startAppWidth = ScreenUtils.getAppScreenWidth()
+        startAppHeight = ScreenUtils.getAppScreenHeight()
+
+        // 偏小一边
+        val min = min(startAppWidth, startAppHeight)
+        // 偏大一边
+        val max = max(startAppWidth, startAppHeight)
+        // 根据宽度固定值适配计算高度的适配值，用于横屏界面保证 UI 大小和竖屏一样
+        ADAPT_HEIGHT_DEPEND_WIDTH_DP = max * ADAPT_WIDTH_DP / min
     }
 
 
