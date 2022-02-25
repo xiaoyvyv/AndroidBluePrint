@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ColorUtils
@@ -77,12 +76,9 @@ class UiOptionsDialog : UiNormalDialog() {
 
             // 点击回调
             binding.tvOption.setOnFastLimitClickListener {
-                val invoke = optionsBuilder.onOptionsClickListener.invoke(
-                    optionsBuilder.itemDataList[position], position
+                optionsBuilder.onOptionsClickListener.invoke(
+                    this@UiOptionsDialog, optionsBuilder.itemDataList[position], position
                 )
-                if (invoke) {
-                    dismissAllowingStateLoss()
-                }
             }
 
             // 最后一条
@@ -115,7 +111,10 @@ class UiOptionsDialog : UiNormalDialog() {
 
         @ColorInt
         var itemLastColor: Int = 0,
-        var onOptionsClickListener: (String, Int) -> Boolean = { _, _ -> true }
+        var onOptionsClickListener: (UiOptionsDialog, String, Int) -> Boolean = { dialog, _, _ ->
+            dialog.dismissAllowingStateLoss()
+            true
+        }
     ) : UiNormalDialog.Builder(confirmText = null, cancelText = null), Parcelable {
 
         /**

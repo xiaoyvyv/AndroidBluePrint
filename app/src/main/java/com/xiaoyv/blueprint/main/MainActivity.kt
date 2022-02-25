@@ -40,7 +40,8 @@ class MainActivity :
             val optionsDialog = UiOptionsDialog.Builder().apply {
                 itemDataList = arrayListOf("AAA", "BBB", "CCC")
                 itemLastColor = Color.RED
-                onOptionsClickListener = { data, position ->
+                onOptionsClickListener = { dialog, data, position ->
+                    dialog.dismissAllowingStateLoss()
                     ToastUtils.showShort("$position $data")
                     true
                 }
