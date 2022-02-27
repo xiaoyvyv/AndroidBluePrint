@@ -28,17 +28,17 @@ abstract class SimpleFastClickListener(private val interval: Long = 200L) : View
 inline fun View.setOnFastLimitClickListener(
     interval: Long = 200L,
     processLongPress: Boolean = true,
-    crossinline onMultiClick: (View) -> Unit = {}
+    crossinline onMultiClick: (View, Boolean) -> Unit = { _, _ -> }
 ): SimpleFastClickListener {
     val clickListener = object : SimpleFastClickListener(interval) {
         override fun onMultiClick(v: View) {
-            onMultiClick.invoke(v)
+            onMultiClick.invoke(v, false)
         }
     }
     setOnClickListener(clickListener)
     if (processLongPress) {
         setOnLongClickListener {
-            onMultiClick.invoke(it)
+            onMultiClick.invoke(it, true)
             true
         }
     }

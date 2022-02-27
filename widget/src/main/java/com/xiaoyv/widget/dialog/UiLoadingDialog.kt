@@ -55,14 +55,14 @@ class UiLoadingDialog : DialogFragment() {
 
 
     fun show(fragmentActivity: FragmentActivity, msg: String? = null) {
-        if (canShow(fragmentActivity.supportFragmentManager, fragmentTag)) {
+        if (canShow) {
             this.message = msg
             showNow(fragmentActivity.supportFragmentManager, fragmentTag)
         }
     }
 
     fun show(fragment: Fragment, msg: String? = null) {
-        if (canShow(fragment.childFragmentManager, fragmentTag)) {
+        if (canShow) {
             this.message = msg
             showNow(fragment.childFragmentManager, fragmentTag)
         }

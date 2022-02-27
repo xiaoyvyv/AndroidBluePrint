@@ -15,6 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:ui_title="rdp_main_title" />
 
+
     <TextView
         android:id="@+id/tv_test"
         android:layout_width="wrap_content"

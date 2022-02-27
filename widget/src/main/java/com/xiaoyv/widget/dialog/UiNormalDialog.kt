@@ -2,6 +2,8 @@
 
 package com.xiaoyv.widget.dialog
 
+import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Parcel
@@ -9,6 +11,7 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.core.view.isGone
@@ -35,6 +38,9 @@ open class UiNormalDialog : DialogFragment() {
 
     internal var builder: Builder? = null
     internal var customView: View? = null
+
+    val requireCustomView: View
+        get() = customView ?: throw RuntimeException("Builder.customView 未配置，该对话框没有自定义视图！")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,7 +131,6 @@ open class UiNormalDialog : DialogFragment() {
             }
             param.onConfirmClickListener.invoke(this, it)
         }
-
     }
 
     override fun onStart() {
@@ -138,43 +143,41 @@ open class UiNormalDialog : DialogFragment() {
             dimAmount = param.dimAmount
             width = param.width
         }
-
         dialog?.setCanceledOnTouchOutside(param.touchOutsideCancelable)
-        dialog?.setOnDismissListener {
-            dismissSoftInput()
-            param.onDismissListener.invoke(this)
-        }
-        dialog?.setOnShowListener {
-            param.onShowListener.invoke(this)
-        }
-
-        param.onStartListener.invoke(this)
+        param.onStartListener.invoke(this, window)
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?) =
+        object : Dialog(requireContext(), theme) {
+            override fun dismiss() {
+                dismissSoftInput()
+                super.dismiss()
+            }
+        }
+
     fun show(fragmentActivity: FragmentActivity) {
-        if (canShow(fragmentActivity.supportFragmentManager, fragmentTag)) {
+        if (canShow) {
             showNow(fragmentActivity.supportFragmentManager, fragmentTag)
         }
     }
 
     fun show(fragment: Fragment) {
-        if (canShow(fragment.childFragmentManager, fragmentTag)) {
+        if (canShow) {
             showNow(fragment.childFragmentManager, fragmentTag)
         }
     }
 
-    override fun dismiss() {
-        dismissSoftInput()
+    override fun dismiss() = dismissAllowingStateLoss()
+
+    override fun dismissAllowingStateLoss() {
         if (isAdded) {
             super.dismissAllowingStateLoss()
         }
     }
 
-    override fun dismissAllowingStateLoss() {
-        dismissSoftInput()
-        if (isAdded) {
-            super.dismissAllowingStateLoss()
-        }
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        builder?.onDismissListener?.invoke(this@UiNormalDialog)
     }
 
     /**
@@ -217,10 +220,9 @@ open class UiNormalDialog : DialogFragment() {
         var onCustomViewInitListener: (UiNormalDialog, View) -> Unit = { _, _ -> },
         var onConfirmClickListener: (UiNormalDialog, View) -> Unit = { _, _ -> },
         var onCancelClickListener: (UiNormalDialog, View) -> Unit = { _, _ -> },
-        var onStartListener: (UiNormalDialog) -> Unit = { },
-        var onShowListener: (UiNormalDialog) -> Unit = { },
+        var onStartListener: (UiNormalDialog, Window) -> Unit = { _, _ -> },
         var onDismissListener: (UiNormalDialog) -> Unit = { },
-        ) : Parcelable {
+    ) : Parcelable {
 
 
         constructor(parcel: Parcel) : this(

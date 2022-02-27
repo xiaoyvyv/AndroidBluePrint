@@ -186,13 +186,13 @@ class UiSelectDialog : DialogFragment() {
     }
 
     fun show(fragmentActivity: FragmentActivity) {
-        if (canShow(fragmentActivity.supportFragmentManager, fragmentTag)) {
+        if (canShow) {
             showNow(fragmentActivity.supportFragmentManager, fragmentTag)
         }
     }
 
     fun show(fragment: Fragment) {
-        if (canShow(fragment.childFragmentManager, fragmentTag)) {
+        if (canShow) {
             showNow(fragment.childFragmentManager, fragmentTag)
         }
     }

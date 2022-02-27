@@ -3,7 +3,6 @@ package com.xiaoyv.widget.binder
 import android.view.View
 import androidx.viewbinding.ViewBinding
 import com.chad.library.adapter.base.binder.QuickViewBindingItemBinder
-import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.xiaoyv.widget.callback.setOnFastLimitClickListener
 
 /**
@@ -31,12 +30,16 @@ abstract class BaseItemBindingBinder<T, VB : ViewBinding> : QuickViewBindingItem
     /**
      * Kotlin 简化版本，添加点击事件
      */
+    @JvmOverloads
     fun <VB : ViewBinding> BinderVBHolder<VB>.addClickListener(
         view: View,
-        data: T
+        data: T,
+        fastClickLimit: Long = 500
     ) {
-        view.setOnFastLimitClickListener {
-            onItemChildClickListener?.onItemChildClick(view, data, bindingAdapterPosition, false)
+        view.setOnFastLimitClickListener(fastClickLimit) { _, longClick ->
+            onItemChildClickListener?.onItemChildClick(
+                view, data, bindingAdapterPosition, longClick
+            )
         }
     }
 

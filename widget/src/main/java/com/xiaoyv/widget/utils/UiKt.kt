@@ -16,6 +16,8 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.*
@@ -218,7 +220,7 @@ inline fun doOnBarClick(
 }
 
 fun DialogFragment.dismissSoftInput() {
-   dialog?.currentFocus?.apply {
+    dialog?.currentFocus?.apply {
         KeyboardUtils.hideSoftInput(this)
     }
 }
