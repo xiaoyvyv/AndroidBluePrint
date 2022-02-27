@@ -214,7 +214,9 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     @CallSuper
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        resources.autoConvertDensity()
+        if (this !is CancelAdapt) {
+            resources.autoConvertDensity()
+        }
         onConfigurationChangedAdapt(newConfig)
     }
 

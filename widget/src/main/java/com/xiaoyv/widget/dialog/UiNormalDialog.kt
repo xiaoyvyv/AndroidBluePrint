@@ -17,6 +17,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ColorUtils
+import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.StringUtils
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiDialogNormalBinding
@@ -31,7 +32,9 @@ import com.xiaoyv.widget.utils.dpi
  */
 open class UiNormalDialog : DialogFragment() {
     private var fragmentTag = javaClass.simpleName
+
     internal var builder: Builder? = null
+    internal var customView: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,15 +68,15 @@ open class UiNormalDialog : DialogFragment() {
         binding.vDivider.isGone = binding.tvCancel.isGone && binding.tvConfirm.isGone
 
         // 自定义视图
-
         if (customView != 0) {
             binding.flView.removeAllViews()
-            val inflateView =
-                LayoutInflater.from(requireActivity()).inflate(customView, binding.flView, false)
-            if (inflateView != null) {
-                param.onCustomViewInitListener.invoke(inflateView)
-                binding.flView.addView(inflateView)
-            }
+
+            this.customView = LayoutInflater.from(requireActivity())
+                .inflate(customView, binding.flView, false)
+                .also {
+                    param.onCustomViewInitListener.invoke(this, it)
+                    binding.flView.addView(it)
+                }
         }
 
         // 标题
@@ -113,14 +116,14 @@ open class UiNormalDialog : DialogFragment() {
             if (param.cancelCancelable) {
                 dismiss()
             }
-            param.onCancelClickListener.invoke(it)
+            param.onCancelClickListener.invoke(this, it)
         }
         // 点击 确定键
         binding.tvConfirm.setOnClickListener {
             if (param.confirmCancelable) {
                 dismiss()
             }
-            param.onConfirmClickListener.invoke(it)
+            param.onConfirmClickListener.invoke(this, it)
         }
     }
 
@@ -152,6 +155,18 @@ open class UiNormalDialog : DialogFragment() {
     }
 
     override fun dismiss() {
+        this.dialog?.currentFocus?.apply {
+            KeyboardUtils.hideSoftInput(this)
+        }
+        if (isAdded) {
+            super.dismissAllowingStateLoss()
+        }
+    }
+
+    override fun dismissAllowingStateLoss() {
+        this.dialog?.currentFocus?.apply {
+            KeyboardUtils.hideSoftInput(this)
+        }
         if (isAdded) {
             super.dismissAllowingStateLoss()
         }
@@ -194,9 +209,9 @@ open class UiNormalDialog : DialogFragment() {
         @LayoutRes
         var customView: Int = 0,
 
-        var onCustomViewInitListener: (View) -> Unit = { },
-        var onConfirmClickListener: (View) -> Unit = { },
-        var onCancelClickListener: (View) -> Unit = { },
+        var onCustomViewInitListener: (UiNormalDialog, View) -> Unit = { _, _ -> },
+        var onConfirmClickListener: (UiNormalDialog, View) -> Unit = { _, _ -> },
+        var onCancelClickListener: (UiNormalDialog, View) -> Unit = { _, _ -> },
 
         ) : Parcelable {
 

@@ -3,14 +3,15 @@ package com.xiaoyv.blueprint.main
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.github.nukc.stateview.StateView
 import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
 import com.xiaoyv.blueprint.utils.LazyUtils.loadRootFragment
 import com.xiaoyv.widget.dialog.UiOptionsDialog
-import com.xiaoyv.widget.utils.ADAPT_WIDTH_DP
-import com.xiaoyv.widget.utils.autoConvertDensity
+import com.xiaoyv.widget.utils.AdaptCompat.ADAPT_WIDTH_DP
 import kotlin.math.max
 import kotlin.math.min
 
@@ -40,7 +41,7 @@ class MainActivity :
 
     override fun initListener() {
         binding.tvTest.setOnClickListener {
-//            stateController.showEmptyView()
+            stateController.showRetryView()
 
             val optionsDialog = UiOptionsDialog.Builder().apply {
                 itemDataList = arrayListOf(
@@ -104,6 +105,10 @@ class MainActivity :
     }
 
     override fun p2vShowInfo() {
+
+    }
+
+    override fun p2vClickStatusView(stateView: StateView, view: View) {
 
     }
 }

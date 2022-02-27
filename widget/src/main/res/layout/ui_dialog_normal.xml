@@ -13,7 +13,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_title"
-            style="@style/H336B1C1C1M"
+            style="@style/UiH336B1C1C1M"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/ui_size_20"
@@ -23,7 +23,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_content"
-            style="@style/F228B2C2M"
+            style="@style/UiF228B2C2M"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/ui_size_8"
@@ -53,7 +53,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_cancel"
-            style="@style/H336B1C1C3M"
+            style="@style/UiH336B1C1C3M"
             android:layout_width="@dimen/ui_size_0"
             android:layout_height="@dimen/ui_size_60"
             android:background="?attr/selectableItemBackground"
@@ -67,7 +67,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_confirm"
-            style="@style/H336B1C1C5M"
+            style="@style/UiH336B1C1C5M"
             android:layout_width="@dimen/ui_size_0"
             android:layout_height="@dimen/ui_size_60"
             android:background="?attr/selectableItemBackground"

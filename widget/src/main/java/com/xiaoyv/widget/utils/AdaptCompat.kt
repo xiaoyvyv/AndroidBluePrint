@@ -1,27 +1,34 @@
 package com.xiaoyv.widget.utils
 
 import android.app.Activity
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Looper
 import android.view.View
-import com.blankj.utilcode.util.ScreenUtils
+import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ThreadUtils
 import me.jessyan.autosize.AutoSizeCompat
 
+object AdaptCompat {
+    /**
+     * 按宽度适配 固定值
+     */
+    const val ADAPT_WIDTH_DP = 375f
 
-/**
- * 按宽度适配 固定值
- */
-const val ADAPT_WIDTH_DP = 375f
+    /**
+     * 按宽度适配 固定值而计算出的对应的高度
+     * 用于横屏适配 UI 大小
+     */
+    var ADAPT_HEIGHT_DEPEND_WIDTH_DP = 0f
 
-/**
- * 按宽度适配 固定值而计算出的对应的高度
- * 用于横屏适配 UI 大小
- */
-var ADAPT_HEIGHT_DEPEND_WIDTH_DP = 0f
+    /**
+     * 是否适配，以下几个方法的开关
+     */
+    var ENABLE_AUTO_RESOURCE_CONVERT = false
+}
 
-private val isPortrait: Boolean
-    get() = ScreenUtils.isPortrait()
+private val Resources.isPortrait: Boolean
+    get() = this.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 
 /**
  * 头条屏幕适配部分场景失效问题兼容
@@ -51,9 +58,15 @@ fun Resources.autoConvertDensity(): Resources {
 }
 
 private fun Resources.adaptScreen() {
+    if (!AdaptCompat.ENABLE_AUTO_RESOURCE_CONVERT) {
+        return
+    }
     if (isPortrait) {
-        AutoSizeCompat.autoConvertDensity(this, ADAPT_WIDTH_DP, true)
+        AutoSizeCompat.autoConvertDensity(this, AdaptCompat.ADAPT_WIDTH_DP, true)
     } else {
-        AutoSizeCompat.autoConvertDensity(this, ADAPT_HEIGHT_DEPEND_WIDTH_DP, true)
+        val adaptHeight =
+            if (AdaptCompat.ADAPT_HEIGHT_DEPEND_WIDTH_DP == 0f) AdaptCompat.ADAPT_WIDTH_DP
+            else AdaptCompat.ADAPT_HEIGHT_DEPEND_WIDTH_DP
+        AutoSizeCompat.autoConvertDensity(this, adaptHeight, true)
     }
 }

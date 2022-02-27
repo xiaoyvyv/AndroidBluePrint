@@ -13,8 +13,7 @@ import com.xiaoyv.blueprint.base.IBaseView
 import com.xiaoyv.blueprint.exception.RxExceptionHandler
 import com.xiaoyv.blueprint.exception.RxGlobalExceptionHandler
 import com.xiaoyv.blueprint.json.GsonParse
-import com.xiaoyv.widget.utils.ADAPT_HEIGHT_DEPEND_WIDTH_DP
-import com.xiaoyv.widget.utils.ADAPT_WIDTH_DP
+import com.xiaoyv.widget.utils.AdaptCompat
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
@@ -79,7 +78,7 @@ object BluePrint {
         AutoSize.checkAndInit(application)
         AutoSizeConfig.getInstance()
             .setExcludeFontScale(true)
-            .designWidthInDp = ADAPT_WIDTH_DP.toInt()
+            .designWidthInDp = AdaptCompat.ADAPT_WIDTH_DP.toInt()
 
         startAppWidth = ScreenUtils.getAppScreenWidth()
         startAppHeight = ScreenUtils.getAppScreenHeight()
@@ -89,7 +88,8 @@ object BluePrint {
         // 偏大一边
         val max = max(startAppWidth, startAppHeight)
         // 根据宽度固定值适配计算高度的适配值，用于横屏界面保证 UI 大小和竖屏一样
-        ADAPT_HEIGHT_DEPEND_WIDTH_DP = max * ADAPT_WIDTH_DP / min
+        AdaptCompat.ADAPT_HEIGHT_DEPEND_WIDTH_DP = max * AdaptCompat.ADAPT_WIDTH_DP / min
+        AdaptCompat.ENABLE_AUTO_RESOURCE_CONVERT = true
     }
 
 

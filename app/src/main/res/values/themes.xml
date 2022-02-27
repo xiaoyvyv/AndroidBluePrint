@@ -12,6 +12,10 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
         <item name="uiToolbarHeight">@dimen/ui_size_44</item>
+<!--        <item name="uiStateViewActionTextStyle">@style/UiStateViewActionText</item>-->
+<!--        <item name="uiStateViewActionTextBackground">@drawable/ui_shape_state_text</item>-->
     </style>
+
 </resources>

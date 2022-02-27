@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.view.View
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.KeyboardUtils
 
 /**
@@ -38,7 +40,14 @@ fun View.getActivity(): Activity? {
         }
         context = context.baseContext
     }
-    return null
+    return ActivityUtils.getTopActivity()
+}
+
+/**
+ * 根据 View 获取 FragmentActivity
+ */
+fun View.getFragmentActivity(): FragmentActivity? {
+    return getActivity() as? FragmentActivity
 }
 
 /**

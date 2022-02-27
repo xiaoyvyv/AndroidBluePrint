@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 主题色 -->
-    <color name="ui_theme_c0">#60c86d</color>
-    <color name="ui_theme_c1">#a0dea7</color>
-    <color name="ui_theme_c2">#dff4e2</color>
-    <color name="ui_theme_c3">#eff9f0</color>
+    <color name="ui_theme_c0">#213352</color>
+    <color name="ui_theme_c1">#26d1e0</color>
+    <color name="ui_theme_c2">#92e8ef</color>
+    <color name="ui_theme_c3">#00bfcf</color>
     <color name="ui_theme_c4">#56b361</color>
 
     <!-- 系统色 -->

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="uiToolbarHeight" format="dimension"/>
+    <attr name="uiToolbarHeight" format="dimension" />
+
+    <attr name="uiStateViewMessageTextStyle" format="reference" />
+    <attr name="uiStateViewActionTextStyle" format="reference" />
+    <attr name="uiStateViewActionTextBackground" format="reference" />
 
     <declare-styleable name="UiToolbar">
         <attr name="ui_fit_status_bar" format="boolean" />

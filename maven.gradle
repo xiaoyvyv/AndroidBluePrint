@@ -5,7 +5,18 @@ apply plugin: 'signing'
 task androidSourcesJar(group: 'publishing', type: Jar) {
     // 指定分类名称 sources
     getArchiveClassifier().set('sources')
-    from android.sourceSets.main.java.sourceFiles
+
+    // 如果有Kotlin那么就需要打入dir : getSrcDirs
+    if (project.hasProperty("kotlin")) {
+        println '====> project kotlin'
+        from android.sourceSets.main.java.getSrcDirs()
+    } else if (project.hasProperty("android")) {
+        println '====> project java'
+        from android.sourceSets.main.java.sourceFiles
+    } else {
+        println '====> project java & kotlin'
+        from sourceSets.main.allSource
+    }
 }
 
 ext["signing.keyId"] = '85230CD4'

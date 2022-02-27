@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.doOnPreDraw
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.BarUtils
@@ -23,6 +21,9 @@ import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiViewStatusErrorBinding
 import com.xiaoyv.widget.databinding.UiViewStatusTipBinding
 import com.xiaoyv.widget.toolbar.UiToolbar
+import com.xiaoyv.widget.utils.getAttrDrawable
+import com.xiaoyv.widget.utils.getAttrResourceId
+import com.xiaoyv.widget.utils.setTextAppearanceCompat
 
 /**
  * StateViewImpl 全局状态布局
@@ -39,9 +40,9 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
         get() = onCreateStateView()
 
     /**
-     * 若有图片 id=R.id.iv_status ，设置在屏幕中的偏移系数，控制位置比例，默认 0.3
+     * 若有图片 id=R.id.iv_status ，设置在屏幕中的偏移系数，控制位置比例，默认 0.2
      */
-    var imageVerticalBias = 0.25f
+    var imageVerticalBias = 0.2f
 
     /**
      * 顶部间距
@@ -69,8 +70,9 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
     override fun showLoadingView(): View? {
         if (checkDestroy()) return null
         return requireStateView.showLoading()
-            .adjustLocation()
             .adjustIvStatusBias()
+            .adjustTextStyle()
+            .adjustLocation()
     }
 
     /**
@@ -80,6 +82,7 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
         if (checkDestroy()) return null
         return requireStateView.showEmpty()
             .adjustIvStatusBias()
+            .adjustTextStyle()
             .adjustLocation()
     }
 
@@ -99,6 +102,7 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
                 imgResId ?: R.drawable.ui_pic_status_empty_normal
             )
         }.adjustIvStatusBias()
+            .adjustTextStyle()
             .adjustLocation()
     }
 
@@ -113,12 +117,13 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
                 ?: getDefaultNetErrorMsg()
 
             stateBinding.tvOperate.text = btText
-                ?: StringUtils.getString(R.string.ui_view_status_retry)
+                ?: StringUtils.getString(R.string.ui_view_status_refresh)
 
             stateBinding.ivStatus.setImageResource(
                 imgResId ?: R.drawable.ui_pic_status_empty_normal
             )
         }.adjustIvStatusBias()
+            .adjustTextStyle()
             .adjustLocation()
     }
 
@@ -140,6 +145,39 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateVie
         if (imageView.layoutParams is ConstraintLayout.LayoutParams) {
             imageView.updateLayoutParams<ConstraintLayout.LayoutParams> {
                 verticalBias = imageVerticalBias
+            }
+        }
+        return this
+    }
+
+    /**
+     * 调整重试按钮样式
+     */
+    private fun View.adjustTextStyle(): View {
+        if (this !is ViewGroup) {
+            return this
+        }
+        findViewById<AppCompatTextView>(R.id.tv_hint)?.apply {
+            val style = context.getAttrResourceId(R.attr.uiStateViewMessageTextStyle)
+            if (style != 0) {
+                setTextAppearanceCompat(style)
+            }
+        }
+        findViewById<AppCompatTextView>(R.id.tv_operate)?.apply {
+            val style = context.getAttrResourceId(
+                R.attr.uiStateViewActionTextStyle,
+                R.style.UiStateViewActionText
+            )
+            if (style != 0) {
+                setTextAppearanceCompat(style)
+            }
+
+            val background = context.getAttrDrawable(
+                R.attr.uiStateViewActionTextBackground,
+                R.drawable.ui_shape_state_text
+            )
+            if (background != null) {
+                setBackground(background)
             }
         }
         return this

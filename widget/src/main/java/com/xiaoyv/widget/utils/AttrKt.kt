@@ -2,22 +2,34 @@ package com.xiaoyv.widget.utils
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.view.View
+import androidx.annotation.AnyRes
 import androidx.annotation.AttrRes
+import androidx.annotation.DrawableRes
+import androidx.core.content.res.ResourcesCompat
 
-fun Context.getAttrDrawable(@AttrRes attrRes: Int): Drawable? {
+fun Context.getAttrDrawable(@AttrRes attrRes: Int, @DrawableRes default: Int = 0): Drawable? {
     val intArrayOf = intArrayOf(attrRes)
     return obtainStyledAttributes(intArrayOf).let {
-        val drawable = it.getDrawable(0)
+        val drawable = it.getDrawable(0) ?: ResourcesCompat.getDrawable(resources, default, theme)
         it.recycle()
         return@let drawable
     }
 }
 
-fun Context.getAttrDimensionPixelSize(@AttrRes attrRes: Int): Int {
+fun Context.getAttrDimensionPixelSize(@AttrRes attrRes: Int, default: Int = 0): Int {
     val intArrayOf = intArrayOf(attrRes)
     return obtainStyledAttributes(intArrayOf).let {
-        val value = it.getDimensionPixelSize(0, 0)
+        val value = it.getDimensionPixelSize(0, default)
+        it.recycle()
+        return@let value
+    }
+}
+
+@AnyRes
+fun Context.getAttrResourceId(@AttrRes attrRes: Int, default: Int = 0): Int {
+    val intArrayOf = intArrayOf(attrRes)
+    return obtainStyledAttributes(intArrayOf).let {
+        val value = it.getResourceId(0, default)
         it.recycle()
         return@let value
     }

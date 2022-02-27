@@ -12,13 +12,13 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_status"
-            android:layout_width="@dimen/ui_size_300"
-            android:layout_height="@dimen/ui_size_240"
+            android:layout_width="@dimen/ui_size_250"
+            android:layout_height="@dimen/ui_size_250"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25" />
+            app:layout_constraintVertical_bias="0.2" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_hint"
@@ -38,13 +38,15 @@
             android:id="@+id/tv_operate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ui_size_8"
+            android:layout_marginTop="@dimen/ui_size_16"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:paddingHorizontal="@dimen/ui_size_40"
             android:paddingVertical="@dimen/ui_size_8"
             android:text="@string/ui_view_status_refresh"
-            android:textColor="@color/ui_theme_c0"
-            android:textSize="@dimen/ui_font_14"
+            android:textColor="@color/ui_theme_c1"
+            android:textSize="@dimen/ui_font_12"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_hint" />
