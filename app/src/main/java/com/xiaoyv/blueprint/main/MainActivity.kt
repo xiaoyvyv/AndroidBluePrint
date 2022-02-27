@@ -15,6 +15,7 @@ import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
 import com.xiaoyv.blueprint.app.databinding.DialogInputBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
 import com.xiaoyv.blueprint.utils.LazyUtils.loadRootFragment
+import com.xiaoyv.widget.callback.setOnFastLimitClickListener
 import com.xiaoyv.widget.dialog.UiNormalDialog
 import com.xiaoyv.widget.dialog.UiOptionsDialog
 import com.xiaoyv.widget.utils.AdaptCompat.ADAPT_WIDTH_DP
@@ -47,9 +48,10 @@ class MainActivity :
     }
 
     override fun initListener() {
-        binding.tvTest.setOnClickListener {
+        binding.tvTest.setOnFastLimitClickListener(2500) { view, b ->
 //            stateController.showRetryView()
-
+            ToastUtils.showShort("tttttttttttttt")
+/*
             val optionsDialog = UiOptionsDialog.Builder().apply {
                 itemDataList = arrayListOf(
                     "横屏",
@@ -81,15 +83,6 @@ class MainActivity :
                                 onDismissListener = {
                                     LogUtils.e("onDismissListener")
                                 }
-                                onShowListener = {
-                                    LogUtils.e("onShowListener")
-                                    val inputBinding = DialogInputBinding.bind(it.requireCustomView)
-                                    KeyboardUtils.showSoftInput(inputBinding.tvInput)
-//
-//                                    inputBinding.tvInput.postDelayed({
-//                                        KeyboardUtils.showSoftInput(inputBinding.tvInput)
-//                                    }, 200)
-                                }
                                 onStartListener = { dialog, window ->
                                     LogUtils.e("onStartListener")
                                     window.isSoftInputModeAlwaysVisible = true
@@ -108,6 +101,8 @@ class MainActivity :
                 }
             }.create()
             optionsDialog.show(this)
+
+            */
         }
     }
 

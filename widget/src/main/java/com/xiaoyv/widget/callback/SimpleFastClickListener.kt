@@ -9,19 +9,18 @@ import android.view.View
  * @since 2020/11/29
  */
 abstract class SimpleFastClickListener(private val interval: Long = 200L) : View.OnClickListener {
-    private var lastClickTime: Long = 0
+    private var lastCallbackTime: Long = 0
 
     abstract fun onMultiClick(v: View)
 
     override fun onClick(v: View) {
         val curClickTime = System.currentTimeMillis()
 
-        if (curClickTime - lastClickTime >= interval) {
+        if (curClickTime - lastCallbackTime >= interval) {
             onMultiClick(v)
-            lastClickTime = curClickTime
+            lastCallbackTime = curClickTime
             return
         }
-        lastClickTime = curClickTime
     }
 }
 
