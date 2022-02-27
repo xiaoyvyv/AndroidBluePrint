@@ -21,8 +21,10 @@ import android.widget.ImageView
 import androidx.annotation.*
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.BarUtils
+import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.Utils
 import com.github.nukc.stateview.StateView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -212,5 +214,11 @@ inline fun doOnBarClick(
         override fun onClick(view: View, which: Int) {
             onBarClick.invoke(view, which)
         }
+    }
+}
+
+fun DialogFragment.dismissSoftInput() {
+   dialog?.currentFocus?.apply {
+        KeyboardUtils.hideSoftInput(this)
     }
 }

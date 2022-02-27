@@ -17,11 +17,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ColorUtils
-import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.StringUtils
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiDialogNormalBinding
 import com.xiaoyv.widget.utils.canShow
+import com.xiaoyv.widget.utils.dismissSoftInput
 import com.xiaoyv.widget.utils.dpi
 
 /**
@@ -125,21 +125,30 @@ open class UiNormalDialog : DialogFragment() {
             }
             param.onConfirmClickListener.invoke(this, it)
         }
+
     }
 
     override fun onStart() {
         super.onStart()
-
         val window = dialog?.window ?: return
         val param = builder ?: return
-
-        dialog?.setCanceledOnTouchOutside(param.touchOutsideCancelable)
 
         window.setBackgroundDrawableResource(R.color.ui_transparent)
         window.attributes = window.attributes.apply {
             dimAmount = param.dimAmount
             width = param.width
         }
+
+        dialog?.setCanceledOnTouchOutside(param.touchOutsideCancelable)
+        dialog?.setOnDismissListener {
+            dismissSoftInput()
+            param.onDismissListener.invoke(this)
+        }
+        dialog?.setOnShowListener {
+            param.onShowListener.invoke(this)
+        }
+
+        param.onStartListener.invoke(this)
     }
 
     fun show(fragmentActivity: FragmentActivity) {
@@ -155,18 +164,14 @@ open class UiNormalDialog : DialogFragment() {
     }
 
     override fun dismiss() {
-        this.dialog?.currentFocus?.apply {
-            KeyboardUtils.hideSoftInput(this)
-        }
+        dismissSoftInput()
         if (isAdded) {
             super.dismissAllowingStateLoss()
         }
     }
 
     override fun dismissAllowingStateLoss() {
-        this.dialog?.currentFocus?.apply {
-            KeyboardUtils.hideSoftInput(this)
-        }
+        dismissSoftInput()
         if (isAdded) {
             super.dismissAllowingStateLoss()
         }
@@ -212,7 +217,9 @@ open class UiNormalDialog : DialogFragment() {
         var onCustomViewInitListener: (UiNormalDialog, View) -> Unit = { _, _ -> },
         var onConfirmClickListener: (UiNormalDialog, View) -> Unit = { _, _ -> },
         var onCancelClickListener: (UiNormalDialog, View) -> Unit = { _, _ -> },
-
+        var onStartListener: (UiNormalDialog) -> Unit = { },
+        var onShowListener: (UiNormalDialog) -> Unit = { },
+        var onDismissListener: (UiNormalDialog) -> Unit = { },
         ) : Parcelable {
 
 
