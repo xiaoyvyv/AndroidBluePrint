@@ -17,8 +17,8 @@ abstract class SimpleFastClickListener(private val interval: Long = 200L) : View
         val curClickTime = System.currentTimeMillis()
 
         if (curClickTime - lastClickTime >= interval) {
-            lastClickTime = 0
             onMultiClick(v)
+            lastClickTime = curClickTime
             return
         }
         lastClickTime = curClickTime
