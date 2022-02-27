@@ -122,7 +122,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     protected open fun initBarConfig() {
         ImmersionBar.with(this)
             .transparentStatusBar()
-            .autoStatusBarDarkModeEnable(true)
+            .statusBarDarkFont(true)
             .init()
     }
 
