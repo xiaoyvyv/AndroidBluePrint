@@ -21,6 +21,7 @@ import com.blankj.utilcode.util.ToastUtils
 import com.github.nukc.stateview.StateView
 import com.gyf.immersionbar.ImmersionBar
 import com.xiaoyv.blueprint.BluePrint
+import com.xiaoyv.blueprint.base.rxjava.event.RxEvent
 import com.xiaoyv.blueprint.localize.LocalizeManager.attachBaseContextWithLanguage
 import com.xiaoyv.blueprint.rxbus.RxBus
 import com.xiaoyv.widget.dialog.UiLoadingDialog
@@ -190,6 +191,24 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
      * 返回 true，下次还会继续执行该方法播放动画
      */
     protected open fun initAnimation() = false
+
+    /**
+     * 添加 RxEvent TAG 接收
+     */
+    fun addReceiveEventTag(rxEventTag: String) {
+        RxBus.getDefault().subscribe(this, rxEventTag, object : RxBus.Callback<RxEvent>() {
+            override fun onEvent(t: RxEvent?) {
+                onReceiveRxEvent(t ?: return, rxEventTag)
+            }
+        })
+    }
+
+    /**
+     * 收到事件，需要提前调用 addReceiveEventTag 添加事件
+     */
+    protected open fun onReceiveRxEvent(rxEvent: RxEvent, rxEventTag: String) {
+
+    }
 
     @CallSuper
     override fun onWindowFocusChanged(hasFocus: Boolean) {
