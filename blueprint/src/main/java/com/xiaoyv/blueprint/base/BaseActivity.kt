@@ -4,7 +4,6 @@ package com.xiaoyv.blueprint.base
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
@@ -24,11 +23,10 @@ import com.xiaoyv.blueprint.BluePrint
 import com.xiaoyv.blueprint.base.rxjava.event.RxEvent
 import com.xiaoyv.blueprint.localize.LocalizeManager.attachBaseContextWithLanguage
 import com.xiaoyv.blueprint.rxbus.RxBus
+import com.xiaoyv.widget.adapt.autoConvertDensity
 import com.xiaoyv.widget.dialog.UiLoadingDialog
 import com.xiaoyv.widget.stateview.StateViewImpl
-import com.xiaoyv.widget.utils.autoConvertDensity
 import io.reactivex.rxjava3.core.ObservableTransformer
-import me.jessyan.autosize.internal.CancelAdapt
 import java.lang.ref.WeakReference
 
 
@@ -222,24 +220,6 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
      * Window 第一次获取焦点
      */
     open fun onWindowFirstFocus() {
-    }
-
-
-    /**
-     * 解决横屏屏幕适配问题
-     *
-     * 该回调方法请使用 [onConfigurationChangedAdapt] 替代，尽量不要重写此方法，重写也需要回调该父类方法
-     */
-    @CallSuper
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        if (this !is CancelAdapt) {
-            resources.autoConvertDensity()
-        }
-        onConfigurationChangedAdapt(newConfig)
-    }
-
-    protected open fun onConfigurationChangedAdapt(newConfig: Configuration) {
 
     }
 
@@ -299,12 +279,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
 
     @CallSuper
     override fun getResources(): Resources {
-        val resources = super.getResources()
-        if (this is CancelAdapt) {
-            return resources
-        }
-        // 解决 AutoSize 横屏时对话框显示状态，切后台再切回前台导致的适配失效问题
-        return resources.autoConvertDensity()
+        return super.getResources().autoConvertDensity()
     }
 
     @CallSuper

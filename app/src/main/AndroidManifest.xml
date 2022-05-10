@@ -24,6 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.xiaoyv.blueprint.activity.WebActivity"/>
     </application>
 
 </manifest>

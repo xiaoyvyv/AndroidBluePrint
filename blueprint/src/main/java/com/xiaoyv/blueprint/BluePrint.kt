@@ -13,16 +13,12 @@ import com.xiaoyv.blueprint.base.IBaseView
 import com.xiaoyv.blueprint.exception.RxExceptionHandler
 import com.xiaoyv.blueprint.exception.RxGlobalExceptionHandler
 import com.xiaoyv.blueprint.json.GsonParse
-import com.xiaoyv.widget.utils.AdaptCompat
+import com.xiaoyv.widget.adapt.AdaptScreenConfig
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import io.reactivex.rxjava3.schedulers.Schedulers
-import me.jessyan.autosize.AutoSize
-import me.jessyan.autosize.AutoSizeConfig
-import kotlin.math.max
-import kotlin.math.min
 
 /**
  * BluePrint
@@ -31,23 +27,14 @@ import kotlin.math.min
  * @since 2021/10/8
  */
 object BluePrint {
-    /**
-     * 启动时 APP 的宽高记录，不会因为屏幕旋转而改变
-     */
-    private var startAppWidth = 0
-    private var startAppHeight = 0
-
     @JvmStatic
     @JvmOverloads
     fun init(application: Application, adaptScreen: Boolean = false) {
         Utils.init(application)
         if (ProcessUtils.isMainProcess()) {
             initRxError()
-
             // 是否适配屏幕
-            if (adaptScreen) {
-                initAutoSize(application)
-            }
+            initAutoSize(application, adaptScreen)
 
             // 将 null 为空的情况下会优先读取默认值，没有再设置字符串类型转为 ""
             // 将 null List 类型转为 []，为空的情况下会优先读取默认值，没有再设置为 List empty对象
@@ -71,27 +58,10 @@ object BluePrint {
 
     /**
      * 屏幕分辨率适配
-     *
-     * @param application application
      */
-    private fun initAutoSize(application: Application) {
-        AutoSize.checkAndInit(application)
-        AutoSizeConfig.getInstance()
-            .setExcludeFontScale(true)
-            .designWidthInDp = AdaptCompat.ADAPT_WIDTH_DP.toInt()
-
-        startAppWidth = ScreenUtils.getAppScreenWidth()
-        startAppHeight = ScreenUtils.getAppScreenHeight()
-
-        // 偏小一边
-        val min = min(startAppWidth, startAppHeight)
-        // 偏大一边
-        val max = max(startAppWidth, startAppHeight)
-        // 根据宽度固定值适配计算高度的适配值，用于横屏界面保证 UI 大小和竖屏一样
-        AdaptCompat.ADAPT_HEIGHT_DEPEND_WIDTH_DP = max * AdaptCompat.ADAPT_WIDTH_DP / min
-        AdaptCompat.ENABLE_AUTO_RESOURCE_CONVERT = true
+    private fun initAutoSize(application: Application, adaptScreen: Boolean) {
+        AdaptScreenConfig.instance.init(application, adaptScreen)
     }
-
 
     /**
      * 统一线程处理

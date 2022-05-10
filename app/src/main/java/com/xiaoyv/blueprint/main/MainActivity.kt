@@ -4,24 +4,18 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
-import android.view.WindowManager
-import com.blankj.utilcode.util.KeyboardUtils
-import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ScreenUtils
-import com.blankj.utilcode.util.ToastUtils
+import androidx.core.view.updateLayoutParams
+import com.blankj.utilcode.util.*
 import com.github.nukc.stateview.StateView
+import com.xiaoyv.blueprint.activity.WebActivity
 import com.xiaoyv.blueprint.app.R
 import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
-import com.xiaoyv.blueprint.app.databinding.DialogInputBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
 import com.xiaoyv.blueprint.utils.LazyUtils.loadRootFragment
 import com.xiaoyv.widget.callback.setOnFastLimitClickListener
 import com.xiaoyv.widget.dialog.UiNormalDialog
 import com.xiaoyv.widget.dialog.UiOptionsDialog
-import com.xiaoyv.widget.utils.AdaptCompat.ADAPT_WIDTH_DP
 import com.xiaoyv.widget.utils.isSoftInputModeAlwaysVisible
-import kotlin.math.max
-import kotlin.math.min
 
 class MainActivity :
     BaseMvpBindingActivity<ActivityMainBinding, MainContract.View, MainPresenter>(),
@@ -40,6 +34,10 @@ class MainActivity :
 
 //        binding.toolbar.setLeftIcon()
         binding.toolbar.bottomDivider = true
+
+        binding.tvTest1.updateLayoutParams {
+            height = ConvertUtils.dp2px(60f)
+        }
     }
 
     override fun initData() {
@@ -48,10 +46,14 @@ class MainActivity :
     }
 
     override fun initListener() {
+        binding.tvTest1.setOnFastLimitClickListener { view, b ->
+            ActivityUtils.startActivity(WebActivity::class.java)
+        }
+
         binding.tvTest.setOnFastLimitClickListener(2500) { view, b ->
 //            stateController.showRetryView()
             ToastUtils.showShort("tttttttttttttt")
-/*
+
             val optionsDialog = UiOptionsDialog.Builder().apply {
                 itemDataList = arrayListOf(
                     "横屏",
@@ -67,13 +69,8 @@ class MainActivity :
                             ScreenUtils.setLandscape(this@MainActivity)
                         }
                         1 -> {
-                            val screenWidth = ScreenUtils.getScreenWidth()
-                            val screenHeight = ScreenUtils.getScreenHeight()
-                            val min = min(screenWidth, screenHeight)
-                            val max = max(screenWidth, screenHeight)
-                            val adaptHeight = max * ADAPT_WIDTH_DP / min
 
-                            ToastUtils.showLong(" adaptHeight: $adaptHeight")
+                            ToastUtils.showLong("adaptHeight")
                         }
                         2 -> {
                             dialog.dismiss()
@@ -102,7 +99,6 @@ class MainActivity :
             }.create()
             optionsDialog.show(this)
 
-            */
         }
     }
 

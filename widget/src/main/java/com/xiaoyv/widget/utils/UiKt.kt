@@ -16,8 +16,6 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.*
@@ -36,7 +34,6 @@ import com.xiaoyv.widget.span.CustomTypefaceSpan
 import com.xiaoyv.widget.toolbar.UiToolbar
 import me.everything.android.ui.overscroll.IOverScrollDecor
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
-import me.jessyan.autosize.utils.AutoSizeUtils
 
 
 /**
@@ -83,7 +80,7 @@ object UiUtils {
         endIndex: Int = text.length,
     ): SpannableStringBuilder {
         return SpannableStringBuilder(text).also {
-            val fontSize = AutoSizeUtils.sp2px(Utils.getApp(), textSize)
+            val fontSize = AutoSizeKt.sp2px(Utils.getApp(), textSize)
 
             it.setSpan(
                 ForegroundColorSpan(color), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

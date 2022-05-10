@@ -13,7 +13,8 @@ import com.blankj.utilcode.util.ColorUtils
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiDialogLoadingBinding
 import com.xiaoyv.widget.utils.DrawableUtils
-import com.xiaoyv.widget.utils.canShow
+import com.xiaoyv.widget.utils.canShowInActivity
+import com.xiaoyv.widget.utils.canShowInFragment
 import com.xiaoyv.widget.utils.dpi
 
 /**
@@ -55,14 +56,14 @@ class UiLoadingDialog : DialogFragment() {
 
 
     fun show(fragmentActivity: FragmentActivity, msg: String? = null) {
-        if (canShow) {
+        if (canShowInActivity(fragmentActivity)) {
             this.message = msg
             showNow(fragmentActivity.supportFragmentManager, fragmentTag)
         }
     }
 
     fun show(fragment: Fragment, msg: String? = null) {
-        if (canShow) {
+        if (canShowInFragment(fragment)) {
             this.message = msg
             showNow(fragment.childFragmentManager, fragmentTag)
         }

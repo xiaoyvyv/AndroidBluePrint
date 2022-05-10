@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.view.View
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.KeyboardUtils
@@ -50,12 +51,21 @@ fun View.getFragmentActivity(): FragmentActivity? {
 }
 
 /**
- * 判断 Fragment 是否可以显示
+ * 判断 DialogFragment 是否可以显示
  */
-val DialogFragment.canShow: Boolean
-    get() {
-        if (isAdded || isRemoving || isVisible) {
-            return false
-        }
-        return true
+fun DialogFragment.canShowInFragment(fragment: Fragment): Boolean {
+    if (isAdded || isRemoving || isVisible || fragment.childFragmentManager.isDestroyed) {
+        return false
     }
+    return true
+}
+
+/**
+ * 判断 DialogFragment 是否可以显示
+ */
+fun DialogFragment.canShowInActivity(fragmentActivity: FragmentActivity): Boolean {
+    if (isAdded || isRemoving || isVisible || fragmentActivity.supportFragmentManager.isDestroyed) {
+        return false
+    }
+    return true
+}

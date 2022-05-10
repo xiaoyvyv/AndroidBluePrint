@@ -27,7 +27,8 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiDialogSelectBinding
 import com.xiaoyv.widget.databinding.UiDialogSelectItemBinding
-import com.xiaoyv.widget.utils.canShow
+import com.xiaoyv.widget.utils.canShowInActivity
+import com.xiaoyv.widget.utils.canShowInFragment
 import com.xiaoyv.widget.utils.dpi
 
 /**
@@ -157,7 +158,7 @@ class UiSelectDialog : DialogFragment() {
      * 上下两端添加空白占位
      */
     private fun convertOptionItems(options: List<String>): List<String> {
-        if (options.isNullOrEmpty()) {
+        if (options.isEmpty()) {
             return emptyList()
         }
         return mutableListOf<String>().apply {
@@ -186,13 +187,13 @@ class UiSelectDialog : DialogFragment() {
     }
 
     fun show(fragmentActivity: FragmentActivity) {
-        if (canShow) {
+        if (canShowInActivity(fragmentActivity)) {
             showNow(fragmentActivity.supportFragmentManager, fragmentTag)
         }
     }
 
     fun show(fragment: Fragment) {
-        if (canShow) {
+        if (canShowInFragment(fragment)) {
             showNow(fragment.childFragmentManager, fragmentTag)
         }
     }

@@ -62,7 +62,7 @@ dependencies {
     // AdapterHelper
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
     // AutoSize
-    api 'me.jessyan:autosize:1.2.1'
+//    api 'me.jessyan:autosize:1.2.1'
     // StateView
     api 'com.github.nukc:StateView:v3.0.0'
     // Bar
@@ -92,7 +92,6 @@ dependencies {
     // OkHttp
     // noinspection GradleDependency,GradleDynamicVersion
     implementation "com.squareup.okhttp3:logging-interceptor:3.14.9"
-
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

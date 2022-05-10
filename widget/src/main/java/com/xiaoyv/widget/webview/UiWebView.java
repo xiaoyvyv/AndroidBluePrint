@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -30,8 +31,9 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.Utils;
 import com.google.android.material.snackbar.Snackbar;
+import com.xiaoyv.widget.adapt.AdaptScreenKtKt;
 import com.xiaoyv.widget.toolbar.UiToolbar;
-import com.xiaoyv.widget.utils.AdaptCompat;
+import com.xiaoyv.widget.utils.AutoSizeKt;
 import com.xiaoyv.widget.webview.listener.OnFileChooseListener;
 import com.xiaoyv.widget.webview.listener.OnProgressChangeListener;
 import com.xiaoyv.widget.webview.listener.OnWebLoadFinishListener;
@@ -43,8 +45,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.jessyan.autosize.AutoSizeCompat;
-import me.jessyan.autosize.utils.AutoSizeUtils;
 import okhttp3.Cookie;
 
 
@@ -88,7 +88,7 @@ public class UiWebView extends WebView {
     /**
      * 若 WebView 加载的 H5 高度为浮动不固定的话，开启高度适配后，将以下值作为 H5 最低高度
      */
-    private final int dp600 = AutoSizeUtils.dp2px(Utils.getApp(), 600);
+    private final int dp600 = AutoSizeKt.dp2px(Utils.getApp(), 600);
 
     private final List<String> urlHistory = new ArrayList<>();
 
@@ -383,9 +383,8 @@ public class UiWebView extends WebView {
     }
 
     @Override
-    public void setOverScrollMode(int mode) {
-        super.setOverScrollMode(mode);
-        AutoSizeCompat.autoConvertDensity(super.getResources(), AdaptCompat.ADAPT_WIDTH_DP, true);
+    public Resources getResources() {
+        return AdaptScreenKtKt.autoConvertDensity(super.getResources());
     }
 
     /**

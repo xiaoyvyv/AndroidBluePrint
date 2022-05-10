@@ -23,7 +23,8 @@ import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.StringUtils
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiDialogNormalBinding
-import com.xiaoyv.widget.utils.canShow
+import com.xiaoyv.widget.utils.canShowInActivity
+import com.xiaoyv.widget.utils.canShowInFragment
 import com.xiaoyv.widget.utils.dismissSoftInput
 import com.xiaoyv.widget.utils.dpi
 
@@ -156,13 +157,13 @@ open class UiNormalDialog : DialogFragment() {
         }
 
     fun show(fragmentActivity: FragmentActivity) {
-        if (canShow) {
+        if (canShowInActivity(fragmentActivity)) {
             showNow(fragmentActivity.supportFragmentManager, fragmentTag)
         }
     }
 
     fun show(fragment: Fragment) {
-        if (canShow) {
+        if (canShowInFragment(fragment)) {
             showNow(fragment.childFragmentManager, fragmentTag)
         }
     }
