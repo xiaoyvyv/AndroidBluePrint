@@ -18,3 +18,4 @@ rootProject.name = "AndroidBlueprint"
 include ':app'
 include ':blueprint'
 include ':widget'
+include ':calendar'
