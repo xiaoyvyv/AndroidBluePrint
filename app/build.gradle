@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation project(':blueprint')
+    implementation project(':calendar')
 
     //    implementation "io.github.xiaoyvyv:blueprint:$pomVersion"
 

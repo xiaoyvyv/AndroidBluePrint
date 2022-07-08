@@ -12,6 +12,9 @@ import com.xiaoyv.blueprint.app.R
 import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
 import com.xiaoyv.blueprint.utils.LazyUtils.loadRootFragment
+import com.xiaoyv.calendar.CalendarAccount
+import com.xiaoyv.calendar.CalendarEvent
+import com.xiaoyv.calendar.CalendarReminder
 import com.xiaoyv.widget.callback.setOnFastLimitClickListener
 import com.xiaoyv.widget.dialog.UiNormalDialog
 import com.xiaoyv.widget.dialog.UiOptionsDialog
@@ -45,7 +48,37 @@ class MainActivity :
         loadRootFragment(binding.flContainer.id, mainFragment)
     }
 
+    @SuppressLint("MissingPermission")
     override fun initListener() {
+        val accountName = "Test Account"
+        val calendarAccount = CalendarAccount(
+            name = "reminder",
+            accountName = accountName,
+            displayName = "Test Account Display Name"
+        )
+
+        binding.checkCalendar.setOnClickListener {
+            val account = CalendarReminder.checkCalendarAccount(this, accountName)
+            ToastUtils.showShort("ID: $account")
+        }
+        binding.addCalendar.setOnClickListener {
+            val account = CalendarReminder.createCalendarAccount(this, calendarAccount)
+            ToastUtils.showShort("ID: $account")
+        }
+        binding.addEvent.setOnClickListener {
+            val eventId = CalendarReminder.createCalendarEvent(this, 9, CalendarEvent().apply {
+                this.eventName = "TestEvent"
+                this.startTime = System.currentTimeMillis() + 30000
+                this.endTime = System.currentTimeMillis() + 60000
+                this.description = "TestEvent Desc"
+                this.eventLocation = "TestEvent Location"
+            })
+            ToastUtils.showShort("eventId: $eventId")
+        }
+        binding.deleteEvent.setOnClickListener {
+            CalendarReminder.deleteCalendarEvent(this, 2)
+        }
+
         binding.tvTest1.setOnFastLimitClickListener { view, b ->
             ActivityUtils.startActivity(WebActivity::class.java)
         }
