@@ -7,7 +7,6 @@ import android.content.Context
 import android.provider.CalendarContract
 import android.util.Log
 import androidx.annotation.RequiresPermission
-import androidx.core.database.getIntOrNull
 import java.util.*
 
 /**
@@ -288,10 +287,12 @@ object CalendarReminder {
             }
 
             // 返回事件ID
+            val columnIndex = cursor.getColumnIndex(CalendarContract.Instances.EVENT_ID)
+            if (columnIndex == -1) {
+                return -1
+            }
             cursor.moveToFirst()
-            return cursor.getIntOrNull(
-                cursor.getColumnIndex(CalendarContract.Instances.EVENT_ID)
-            )?.toLong() ?: -1L
+            return cursor.getInt(columnIndex).toLong()
         }
     }
 }
