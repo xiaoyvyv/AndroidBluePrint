@@ -4,6 +4,7 @@ package com.xiaoyv.widget.glide
 
 import android.content.Context
 import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.xiaoyv.widget.utils.isDestroyed
 import okhttp3.OkHttpClient
 
@@ -32,7 +33,7 @@ object GlideHelper {
             return
         }
 
-        GlideApp.with(context)
+        Glide.with(context)
             .load(model)
             .error(globalConfig.defaultAvatarError)
             .placeholder(globalConfig.defaultAvatarHolder)
@@ -45,7 +46,7 @@ object GlideHelper {
             return
         }
 
-        GlideApp.with(context)
+        Glide.with(context)
             .load(model ?: return)
             .let {
                 if (cropOrFit) it.centerCrop() else it.fitCenter()
