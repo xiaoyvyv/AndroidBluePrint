@@ -41,7 +41,7 @@ object GlideHelper {
     }
 
     @JvmStatic
-    fun ImageView.loadImage(context: Context, model: Any?, cropOrFit: Boolean = true) {
+    fun ImageView.loadImage(context: Context, model: Any?, cropOrFit: Boolean? = true) {
         if (context.isDestroyed()) {
             return
         }
@@ -49,7 +49,10 @@ object GlideHelper {
         Glide.with(context)
             .load(model ?: return)
             .let {
-                if (cropOrFit) it.centerCrop() else it.fitCenter()
+                if (cropOrFit != null) {
+                    return@let if (cropOrFit) it.centerCrop() else it.fitCenter()
+                }
+                return@let it
             }
             .error(globalConfig.defaultHolder4_3)
             .placeholder(globalConfig.defaultHolder4_3)

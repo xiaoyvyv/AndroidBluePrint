@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="bp_nav_toolbar" type="id" />
+    <item name="bp_nav_host_fragment_content" type="id" />
+
+</resources>

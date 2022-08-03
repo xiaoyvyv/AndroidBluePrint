@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate", "SpellCheckingInspection")
 
 package com.xiaoyv.blueprint.localize
 
@@ -73,7 +73,7 @@ object LocalizeLanguage {
     private const val SCRIPT_HANT = "Hant"
 
     val locale: Locale
-        get() = LocaleListCompat.getAdjustedDefault()[0]
+        get() = LocaleListCompat.getAdjustedDefault()[0]!!
 
     /**
      * 获取当前手机系统的语言类型
