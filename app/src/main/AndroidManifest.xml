@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.xiaoyv.blueprint.activity.WebActivity"/>
+        <activity android:name="com.xiaoyv.blueprint.activity.MvvmTestActivity"/>
     </application>
 
 </manifest>

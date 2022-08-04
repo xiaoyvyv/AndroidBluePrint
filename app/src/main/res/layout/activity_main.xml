@@ -16,78 +16,80 @@
         app:layout_constraintTop_toTopOf="parent"
         app:ui_title="rdp_main_title" />
 
-    <Button
-        android:id="@+id/check_calendar"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="检测日历账户"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:ignore="HardcodedText" />
-
-    <Button
-        android:id="@+id/add_calendar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="增加日历账户"
-        app:layout_constraintTop_toBottomOf="@+id/check_calendar"
-        tools:ignore="HardcodedText" />
-    <Button
-        android:id="@+id/add_event"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="增加事件"
-        app:layout_constraintTop_toBottomOf="@+id/add_calendar"
-        tools:ignore="HardcodedText" />
-
-    <Button
-        android:id="@+id/delete_event"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="删除事件"
-        app:layout_constraintTop_toBottomOf="@+id/add_event"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:id="@+id/tv_test"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/ui_size_60"
-        android:background="#ff0000"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:padding="@dimen/ui_size_8"
-        android:text="@string/main_hello"
-        android:textColor="@color/ui_text_c5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_test1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_test1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#0000ff"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:padding="@dimen/ui_size_8"
-        android:text="@string/main_hello"
-        android:textColor="@color/ui_text_c5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_test"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <FrameLayout
-        android:id="@+id/fl_container"
-        android:layout_width="match_parent"
+        android:id="@+id/sv_scroll"
         android:layout_height="@dimen/ui_size_0"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_test" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/check_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="检测日历账户"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/add_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="增加日历账户"
+                app:layout_constraintTop_toBottomOf="@+id/check_calendar"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/add_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="增加事件"
+                app:layout_constraintTop_toBottomOf="@+id/add_calendar"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/delete_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="删除事件"
+                app:layout_constraintTop_toBottomOf="@+id/add_event"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/tv_test"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ui_size_60"
+                android:background="#ff0000"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:padding="@dimen/ui_size_8"
+                android:text="@string/main_hello"
+                android:textColor="@color/ui_text_c5"/>
+
+            <TextView
+                android:id="@+id/tv_test1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#0000ff"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:padding="@dimen/ui_size_8"
+                android:text="@string/main_hello"
+                android:textColor="@color/ui_text_c5"/>
+
+            <FrameLayout
+                android:id="@+id/fl_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ui_size_200"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,10 +22,6 @@ object GlideHelper {
      */
     var globalConfig: GlideConfig = GlideConfig.DEFAULT_CONFIG
 
-    @JvmStatic
-    fun loadImage() {
-
-    }
 
     @JvmStatic
     fun ImageView.loadAvatar(context: Context, model: Any) {

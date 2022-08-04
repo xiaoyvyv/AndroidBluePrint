@@ -75,7 +75,7 @@ class UiOptionsDialog : UiNormalDialog() {
             binding.tvOption.textSize = optionsBuilder.itemTextSize
 
             // 点击回调
-            binding.tvOption.setOnFastLimitClickListener { _, _ ->
+            binding.tvOption.setOnFastLimitClickListener {
                 optionsBuilder.onOptionsClickListener.invoke(
                     this@UiOptionsDialog, optionsBuilder.itemDataList[position], position
                 )

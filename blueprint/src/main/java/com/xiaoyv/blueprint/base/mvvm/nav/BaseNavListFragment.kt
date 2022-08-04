@@ -8,8 +8,6 @@ import androidx.viewbinding.ViewBinding
  * @author why
  * @since 2022/7/12
  */
-abstract class BaseNavListFragment<VB : ViewBinding, VM : BaseNavViewModel> :
-    BaseNavFragment<VB, VM>() {
-
+abstract class BaseNavListFragment<VB : ViewBinding, VM : BaseNavViewModel> : BaseNavFragment<VB, VM>() {
 
 }

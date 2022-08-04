@@ -355,7 +355,6 @@ class BinderDataListView @JvmOverloads constructor(
         }
     }
 
-
     data class LoadEndBean(val id: Long)
 
     inner class LoadEndBinder : BaseItemBinder<LoadEndBean, BaseViewHolder>() {

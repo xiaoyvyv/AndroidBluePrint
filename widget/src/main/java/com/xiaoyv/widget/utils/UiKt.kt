@@ -2,12 +2,13 @@
 
 package com.xiaoyv.widget.utils
 
+import android.app.Dialog
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
@@ -16,15 +17,14 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
-import android.widget.ImageView
-import androidx.annotation.*
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.annotation.FloatRange
+import androidx.annotation.FontRes
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.RecyclerView
-import com.blankj.utilcode.util.BarUtils
-import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.Utils
 import com.github.nukc.stateview.StateView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -32,8 +32,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.xiaoyv.widget.span.CustomTypefaceSpan
 import com.xiaoyv.widget.toolbar.UiToolbar
-import me.everything.android.ui.overscroll.IOverScrollDecor
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 
 /**
@@ -50,7 +48,6 @@ object UiUtils {
         Utils.getApp().theme.resolveAttribute(attrRes, typedValue, true)
         return typedValue.data
     }
-
 
     @JvmStatic
     fun getClickSpan(
@@ -110,32 +107,6 @@ object UiUtils {
 
 
 /**
- * 由于自定义 View 中的一些简化拓展方法
- */
-fun View.getDpx(dp: Float): Int = if (isInEditMode) (dp * 2.5).toInt() else dp.dpi
-
-fun View.getSpx(sp: Float): Int = if (isInEditMode) (sp * 2.5).toInt() else sp.spi
-
-@ColorInt
-fun View.getColor(@ColorRes colorResId: Int): Int =
-    ResourcesCompat.getColor(resources, colorResId, null)
-
-fun View.getDrawable(@DrawableRes drawableResId: Int): Drawable? =
-    ResourcesCompat.getDrawable(resources, drawableResId, null)
-
-fun View.getString(@StringRes stringResId: Int): String = resources.getString(stringResId)
-
-fun View.getStatusBarHeight() = if (isInEditMode) 60 else BarUtils.getStatusBarHeight()
-
-fun ImageView.imageTintColorRes(@ColorRes colorResId: Int) {
-    imageTintList = ColorStateList.valueOf(getColor(colorResId))
-}
-
-fun ImageView.setImageTintColorInt(@ColorInt color: Int) {
-    imageTintList = ColorStateList.valueOf(color)
-}
-
-/**
  * 设置透明背景 BottomSheetDialogFragment
  *
  * @param skipCollapsed  是否跳过折叠
@@ -165,28 +136,6 @@ fun BottomSheetDialogFragment.onStartTransparentDialog(
     bottomSheet?.setBackgroundColor(Color.TRANSPARENT)
 }
 
-/**
- * 越界动画
- */
-fun RecyclerView.overScrollV(): IOverScrollDecor =
-    OverScrollDecoratorHelper.setUpOverScroll(this, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
-
-fun RecyclerView.overScrollH(): IOverScrollDecor = OverScrollDecoratorHelper.setUpOverScroll(
-    this,
-    OverScrollDecoratorHelper.ORIENTATION_HORIZONTAL
-)
-
-fun NestedScrollView.overScrollV(): IOverScrollDecor =
-    OverScrollDecoratorHelper.setUpStaticOverScroll(
-        this,
-        OverScrollDecoratorHelper.ORIENTATION_VERTICAL
-    )
-
-fun NestedScrollView.overScrollH(): IOverScrollDecor =
-    OverScrollDecoratorHelper.setUpStaticOverScroll(
-        this,
-        OverScrollDecoratorHelper.ORIENTATION_HORIZONTAL
-    )
 
 @JvmOverloads
 fun StateView.doDelayLoadingAndRun(
@@ -216,8 +165,21 @@ inline fun doOnBarClick(
     }
 }
 
-fun DialogFragment.dismissSoftInput() {
-    dialog?.currentFocus?.apply {
-        KeyboardUtils.hideSoftInput(this)
+/**
+ * 修复 Dialog 有输入框时，焦点问题导致关闭弹窗时，键盘不消失
+ */
+fun DialogFragment.createFixFocusDialog(): Dialog = object : Dialog(requireActivity(), theme) {
+    override fun dismiss() {
+        dismissSoftInput()
+        super.dismiss()
     }
 }
+
+fun DialogFragment.dismissSoftInput() {
+    dialog?.currentFocus?.apply {
+        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager ?: return
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+}
+
+

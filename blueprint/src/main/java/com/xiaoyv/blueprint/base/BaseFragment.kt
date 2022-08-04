@@ -6,20 +6,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import autodispose2.AutoDisposeConverter
+import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.github.nukc.stateview.StateView
-import com.xiaoyv.blueprint.BluePrint
-import com.xiaoyv.blueprint.base.rxjava.event.RxEvent
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xiaoyv.blueprint.databinding.BpFragmentRootBinding
-import com.xiaoyv.blueprint.rxbus.RxBus
 import com.xiaoyv.widget.dialog.UiLoadingDialog
 import com.xiaoyv.widget.stateview.StateViewImpl
-import io.reactivex.rxjava3.core.ObservableTransformer
+import com.xiaoyv.widget.utils.removeFromParent
 import java.lang.ref.WeakReference
 
 /**
@@ -61,15 +60,23 @@ abstract class BaseFragment : Fragment(), IBaseView {
     ): View? {
         // 设置视图
         if (rootView == null) {
-            rootBinding = BpFragmentRootBinding.inflate(layoutInflater, container, false)
-            rootBinding.flRoot.addView(createContentView())
+            rootBinding = BpFragmentRootBinding.inflate(inflater, container, false)
+
+            val fragmentContentView = createContentView(inflater, rootBinding.flRoot)
+            if (fragmentContentView != null) {
+                rootBinding.flRoot.addView(fragmentContentView)
+            }
             rootView = rootBinding.root
         }
+        rootView.removeFromParent()
+        return rootView
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // 初始化相关回调
         initBaseView()
         initView()
-        return rootView
     }
 
     private fun initBaseView() {
@@ -95,7 +102,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
         }
     }
 
-    protected abstract fun createContentView(): View?
+    protected abstract fun createContentView(inflater: LayoutInflater, parent: FrameLayout): View?
     protected open fun initArgumentsData(arguments: Bundle) {}
     protected abstract fun initView()
     protected abstract fun initData()
@@ -130,19 +137,8 @@ abstract class BaseFragment : Fragment(), IBaseView {
     /**
      * 添加 RxEvent TAG 接收
      */
-    fun addReceiveEventTag(rxEventTag: String) {
-        RxBus.getDefault().subscribe(this, rxEventTag, object : RxBus.Callback<RxEvent>() {
-            override fun onEvent(t: RxEvent?) {
-                onReceiveRxEvent(t ?: return, rxEventTag)
-            }
-        })
-    }
-
-    /**
-     * 收到事件，需要提前调用 addReceiveEventTag 添加事件
-     */
-    protected open fun onReceiveRxEvent(rxEvent: RxEvent, rxEventTag: String) {
-
+    fun <T> addReceiveEventTag(key: String, type: Class<T>, observer: Observer<T>) {
+        LiveEventBus.get(key, type).observe(this, observer)
     }
 
     /**
@@ -180,20 +176,6 @@ abstract class BaseFragment : Fragment(), IBaseView {
     }
 
     /**
-     * 统一线程处理
-     */
-    protected fun <T : Any> bindTransformer(): ObservableTransformer<T, T> {
-        return BluePrint.bindTransformer()
-    }
-
-    /**
-     * 绑定生命周期
-     */
-    protected fun <T : Any> bindLifecycle(): AutoDisposeConverter<T> {
-        return BluePrint.bindLifecycle(this)
-    }
-
-    /**
      * 返回键
      */
     open fun onFragmentBackPressed(): Boolean {
@@ -210,10 +192,6 @@ abstract class BaseFragment : Fragment(), IBaseView {
     override fun onDestroy() {
         loading?.dismiss()
         loading = null
-
-        RxBus.getDefault().unregister(this)
         super.onDestroy()
     }
-
-
 }

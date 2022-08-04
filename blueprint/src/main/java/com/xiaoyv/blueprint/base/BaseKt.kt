@@ -6,14 +6,12 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.ComponentActivity
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.createViewModelLazy
-import androidx.lifecycle.HasDefaultViewModelProviderFactory
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions
@@ -137,6 +135,32 @@ fun <VM : ViewModel> Fragment.createViewModel(
         factoryProducer = factoryProducer ?: {
             (owner as? HasDefaultViewModelProviderFactory)?.defaultViewModelProviderFactory ?: defaultViewModelProviderFactory
         })
+}
+
+
+@MainThread
+fun <VM : ViewModel> ComponentActivity.createViewModel(
+    extrasProducer: (() -> CreationExtras)? = null,
+    factoryProducer: (() -> ViewModelProvider.Factory)? = null
+): Lazy<VM> {
+    val viewModelClass = javaClass.createViewModel<VM>()
+        ?: javaClass.superclass?.createViewModel()
+        ?: javaClass.superclass?.superclass?.createViewModel()
+        ?: javaClass.superclass?.superclass?.superclass?.createViewModel()
+        ?: javaClass.superclass?.superclass?.superclass?.superclass?.createViewModel()
+        ?: javaClass.superclass?.superclass?.superclass?.superclass?.superclass?.createViewModel()
+        ?: throw Exception(javaClass.simpleName + " Unable to initialize ViewModel properly, please check!")
+
+    val factoryPromise = factoryProducer ?: {
+        defaultViewModelProviderFactory
+    }
+
+    return ViewModelLazy(
+        viewModelClass = viewModelClass,
+        storeProducer = { viewModelStore },
+        factoryProducer = factoryPromise,
+        extrasProducer = { extrasProducer?.invoke() ?: this.defaultViewModelCreationExtras }
+    )
 }
 
 @MainThread

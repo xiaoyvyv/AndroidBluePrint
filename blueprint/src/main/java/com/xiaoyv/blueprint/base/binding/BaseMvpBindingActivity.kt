@@ -14,8 +14,7 @@ import com.xiaoyv.blueprint.base.ImplBasePresenter
  * @author why
  * @since 2021/10/9
  */
-abstract class BaseMvpBindingActivity<BINDING : ViewBinding, V : IBaseView, PRESENTER : ImplBasePresenter<V>> :
-    BaseMvpActivity<V, PRESENTER>() {
+abstract class BaseMvpBindingActivity<BINDING : ViewBinding, V : IBaseView, PRESENTER : ImplBasePresenter<V>> : BaseMvpActivity<V, PRESENTER>() {
 
     lateinit var binding: BINDING
 

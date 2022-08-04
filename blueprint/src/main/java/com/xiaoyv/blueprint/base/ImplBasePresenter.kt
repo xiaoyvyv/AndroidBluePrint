@@ -3,15 +3,7 @@
 package com.xiaoyv.blueprint.base
 
 import android.content.Context
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import autodispose2.AutoDisposeConverter
-import com.xiaoyv.blueprint.BluePrint
-import com.xiaoyv.blueprint.base.rxjava.BaseSubscriber
-import com.xiaoyv.blueprint.base.rxjava.subscribes
-import com.xiaoyv.blueprint.exception.RxException
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.ObservableTransformer
 import java.lang.ref.WeakReference
 
 /**
@@ -71,65 +63,4 @@ open class ImplBasePresenter<V : IBaseView> : IBasePresenter {
     override fun setLifecycleOwner(lifecycleOwner: LifecycleOwner) {
         this.lifecycleOwner = lifecycleOwner
     }
-
-    override fun onLifecycleChanged(owner: LifecycleOwner, event: Lifecycle.Event) {}
-
-    /**
-     * 绑定生命周期
-     *
-     * @param <O> o
-     * @return o
-     */
-    fun <T : Any> bindLifecycle(): AutoDisposeConverter<T> {
-        return BluePrint.bindLifecycle(
-            lifecycleOwner ?: throw NullPointerException("lifecycleOwner == null")
-        )
-    }
-
-    /**
-     * 统一线程处理
-     */
-    fun <T : Any> bindTransformer(): ObservableTransformer<T, T> {
-        return BluePrint.bindTransformer()
-    }
-
-
-    override fun v2pOnCreate() {}
-    override fun v2pOnStart() {}
-    override fun v2pOnResume() {}
-    override fun v2pOnPause() {}
-    override fun v2pOnStop() {}
-    override fun v2pOnDestroy() {}
-}
-
-
-/**
- * 根据 ImplBasePresenter 同时绑定 线程切换 和 生命周期
- *
- * @param presenter 当前 P 层
- * @param autoHideLoading 默认接口请求结束会自动关闭 Loading 对话框（如果存在显示的情况）
- * @param onError 错误回调
- * @param onSuccess 正常回调
- */
-inline fun <R : Any, V : IBaseView> Observable<R>.subscribesWithPresenter(
-    presenter: ImplBasePresenter<V>,
-    autoHideLoading: Boolean = true,
-    crossinline onError: (e: RxException) -> Unit = { _ -> },
-    crossinline onSuccess: (t: R) -> Unit = { _ -> },
-): BaseSubscriber<R> {
-    return this.compose(presenter.bindTransformer())
-        .to(presenter.bindLifecycle())
-        .subscribes(
-            onError = {
-                if (autoHideLoading) {
-                    presenter.getView().p2vHideLoading()
-                }
-                onError.invoke(it)
-            },
-            onSuccess = {
-                if (autoHideLoading) {
-                    presenter.getView().p2vHideLoading()
-                }
-                onSuccess.invoke(it)
-            })
 }

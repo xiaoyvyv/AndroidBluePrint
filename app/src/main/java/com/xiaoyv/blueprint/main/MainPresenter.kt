@@ -13,7 +13,5 @@ class MainPresenter : ImplBasePresenter<MainContract.View>(), MainContract.Prese
 
     override fun v2pPrint() {
         model.p2mPrint()
-//        getView().p2vShowEmptyView()
     }
-
 }

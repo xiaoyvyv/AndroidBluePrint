@@ -12,21 +12,18 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
-import autodispose2.AutoDisposeConverter
+import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.github.nukc.stateview.StateView
 import com.gyf.immersionbar.ImmersionBar
-import com.xiaoyv.blueprint.BluePrint
-import com.xiaoyv.blueprint.base.rxjava.event.RxEvent
+import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xiaoyv.blueprint.localize.LocalizeManager.attachBaseContextWithLanguage
-import com.xiaoyv.blueprint.rxbus.RxBus
 import com.xiaoyv.widget.adapt.autoConvertDensity
 import com.xiaoyv.widget.dialog.UiLoadingDialog
 import com.xiaoyv.widget.stateview.StateViewImpl
-import io.reactivex.rxjava3.core.ObservableTransformer
 import java.lang.ref.WeakReference
 
 
@@ -53,7 +50,6 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
      * 是否第一次获取焦点
      */
     private var firstFocus = true
-
 
     val requireActivity: BaseActivity
         get() = this@BaseActivity
@@ -136,7 +132,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
         )
     }
 
-    private fun initBaseView() {
+    protected open fun initBaseView() {
         rootContent = findViewById(android.R.id.content)
 
         loadingDialog = UiLoadingDialog()
@@ -193,19 +189,8 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     /**
      * 添加 RxEvent TAG 接收
      */
-    fun addReceiveEventTag(rxEventTag: String) {
-        RxBus.getDefault().subscribe(this, rxEventTag, object : RxBus.Callback<RxEvent>() {
-            override fun onEvent(t: RxEvent?) {
-                onReceiveRxEvent(t ?: return, rxEventTag)
-            }
-        })
-    }
-
-    /**
-     * 收到事件，需要提前调用 addReceiveEventTag 添加事件
-     */
-    protected open fun onReceiveRxEvent(rxEvent: RxEvent, rxEventTag: String) {
-
+    fun <T> addReceiveEventTag(key: String, type: Class<T>, observer: Observer<T>) {
+        LiveEventBus.get(key, type).observe(this, observer)
     }
 
     @CallSuper
@@ -258,20 +243,6 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
 
     }
 
-    /**
-     * 统一线程处理
-     */
-    protected fun <T : Any> bindTransformer(): ObservableTransformer<T, T> {
-        return BluePrint.bindTransformer()
-    }
-
-    /**
-     * 绑定生命周期
-     */
-    protected fun <T : Any> bindLifecycle(): AutoDisposeConverter<T> {
-        return BluePrint.bindLifecycle(this)
-    }
-
     @CallSuper
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(newBase.attachBaseContextWithLanguage())
@@ -297,10 +268,6 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     override fun onDestroy() {
         loadingDialog?.dismiss()
         loadingDialog = null
-
-        RxBus.getDefault().unregister(this)
         super.onDestroy()
     }
-
-
 }

@@ -36,9 +36,9 @@ abstract class BaseItemBindingBinder<T, VB : ViewBinding> : QuickViewBindingItem
         data: T,
         fastClickLimit: Long = 500
     ) {
-        view.setOnFastLimitClickListener(fastClickLimit) { _, longClick ->
+        view.setOnFastLimitClickListener(fastClickLimit) {
             onItemChildClickListener?.onItemChildClick(
-                view, data, bindingAdapterPosition, longClick
+                view, data, bindingAdapterPosition
             )
         }
     }
@@ -50,30 +50,8 @@ abstract class BaseItemBindingBinder<T, VB : ViewBinding> : QuickViewBindingItem
          * @param view        点击的 view
          * @param dataBean    数据
          * @param position    位置
-         * @param isLongClick 是否长按
          */
-        fun onItemChildClick(view: View, dataBean: BEAN, position: Int, isLongClick: Boolean)
+        fun onItemChildClick(view: View, dataBean: BEAN, position: Int)
     }
-
-}
-
-/**
- * Kotlin 扩展版本
- */
-inline fun <reified T, reified VB : ViewBinding> BaseItemBindingBinder<T, VB>.setOnItemClickListener(
-    crossinline onItemChildClick: (view: View, dataBean: T, position: Int, isLongClick: Boolean) -> Unit
-): BaseItemBindingBinder.OnItemChildClickListener<T> {
-    val clickListener = object : BaseItemBindingBinder.OnItemChildClickListener<T> {
-        override fun onItemChildClick(
-            view: View,
-            dataBean: T,
-            position: Int,
-            isLongClick: Boolean
-        ) {
-            onItemChildClick.invoke(view, dataBean, position, isLongClick)
-        }
-    }
-    onItemChildClickListener = clickListener
-    return clickListener
 }
 

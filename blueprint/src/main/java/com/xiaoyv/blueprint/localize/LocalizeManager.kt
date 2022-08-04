@@ -5,9 +5,9 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.FileIOUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.Utils
-import com.xiaoyv.blueprint.BluePrint
-import com.xiaoyv.blueprint.base.rxjava.subscribes
-import io.reactivex.rxjava3.core.Observable
+import com.xiaoyv.blueprint.utils.ioCoroutineContext
+import com.xiaoyv.widget.utils.ProcessLifecycleScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
 
@@ -68,17 +68,11 @@ object LocalizeManager {
      */
     @JvmStatic
     fun switchLanguage(@LanguageType languageType: Int) {
-        Observable.create<Boolean> {
+        ProcessLifecycleScope.launch(ioCoroutineContext) {
             FileIOUtils.writeFileFromString(languageConfigFile, languageType.toString())
-
             // 清除当前语言类型缓存
             cacheType = null
-
-            it.onNext(true)
-            it.onComplete()
-        }.compose(BluePrint.schedulerTransformer())
-            .subscribes {
-                AppUtils.relaunchApp(true)
-            }
+            AppUtils.relaunchApp(true)
+        }
     }
 }

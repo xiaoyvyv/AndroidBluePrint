@@ -2,7 +2,6 @@
 
 package com.xiaoyv.widget.dialog
 
-import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.Typeface
 import android.os.Bundle
@@ -25,7 +24,7 @@ import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiDialogNormalBinding
 import com.xiaoyv.widget.utils.canShowInActivity
 import com.xiaoyv.widget.utils.canShowInFragment
-import com.xiaoyv.widget.utils.dismissSoftInput
+import com.xiaoyv.widget.utils.createFixFocusDialog
 import com.xiaoyv.widget.utils.dpi
 
 /**
@@ -148,13 +147,7 @@ open class UiNormalDialog : DialogFragment() {
         param.onStartListener.invoke(this, window)
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?) =
-        object : Dialog(requireContext(), theme) {
-            override fun dismiss() {
-                dismissSoftInput()
-                super.dismiss()
-            }
-        }
+    override fun onCreateDialog(savedInstanceState: Bundle?) = createFixFocusDialog()
 
     fun show(fragmentActivity: FragmentActivity) {
         if (canShowInActivity(fragmentActivity)) {

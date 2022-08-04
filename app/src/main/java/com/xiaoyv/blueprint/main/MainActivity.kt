@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.view.updateLayoutParams
 import com.blankj.utilcode.util.*
 import com.github.nukc.stateview.StateView
+import com.xiaoyv.blueprint.activity.MvvmTestActivity
 import com.xiaoyv.blueprint.activity.WebActivity
 import com.xiaoyv.blueprint.app.R
 import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
@@ -79,11 +80,11 @@ class MainActivity :
             CalendarReminder.deleteCalendarEvent(this, 2)
         }
 
-        binding.tvTest1.setOnFastLimitClickListener { view, b ->
+        binding.tvTest1.setOnFastLimitClickListener {
             ActivityUtils.startActivity(WebActivity::class.java)
         }
 
-        binding.tvTest.setOnFastLimitClickListener(2500) { view, b ->
+        binding.tvTest.setOnFastLimitClickListener(2500) {
 //            stateController.showRetryView()
             ToastUtils.showShort("tttttttttttttt")
 
