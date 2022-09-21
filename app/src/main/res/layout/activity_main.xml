@@ -59,6 +59,13 @@
                 android:text="删除事件"
                 app:layout_constraintTop_toBottomOf="@+id/add_event"
                 tools:ignore="HardcodedText" />
+            <Button
+                android:id="@+id/nav"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MVVM Nav"
+                app:layout_constraintTop_toBottomOf="@+id/add_event"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/tv_test"

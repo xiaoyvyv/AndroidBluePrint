@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.view.updateLayoutParams
 import com.blankj.utilcode.util.*
 import com.github.nukc.stateview.StateView
+import com.xiaoyv.blueprint.NavActivity
 import com.xiaoyv.blueprint.activity.MvvmTestActivity
 import com.xiaoyv.blueprint.activity.WebActivity
 import com.xiaoyv.blueprint.app.R
@@ -78,6 +79,9 @@ class MainActivity :
         }
         binding.deleteEvent.setOnClickListener {
             CalendarReminder.deleteCalendarEvent(this, 2)
+        }
+        binding.nav.setOnFastLimitClickListener {
+            ActivityUtils.startActivity(NavActivity::class.java)
         }
 
         binding.tvTest1.setOnFastLimitClickListener {

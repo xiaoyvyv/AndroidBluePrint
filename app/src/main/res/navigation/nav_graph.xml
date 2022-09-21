@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/audioFragment">
+
+    <fragment
+        android:id="@+id/audioFragment"
+        android:name="com.xiaoyv.blueprint.fragment.TestNavFragment"
+        android:label="audio_title"
+        tools:layout="@layout/fragment_nav">
+        <argument
+            android:name="showBottomBar"
+            android:defaultValue="true" />
+    </fragment>
+
+</navigation>

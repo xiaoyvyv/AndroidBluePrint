@@ -2,13 +2,16 @@
 
 package com.xiaoyv.blueprint.base
 
+import android.animation.Animator
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.Animation
 import androidx.activity.ComponentActivity
 import androidx.annotation.IdRes
 import androidx.annotation.MainThread
+import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.*
@@ -19,6 +22,7 @@ import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.R
 import com.xiaoyv.blueprint.base.mvvm.nav.BaseNavFragment
 import com.xiaoyv.blueprint.base.mvvm.nav.BaseNavViewModel
+import com.xiaoyv.blueprint.base.mvvm.nav.OnAnimationListener
 import java.lang.reflect.ParameterizedType
 import kotlin.reflect.KClass
 
@@ -32,22 +36,35 @@ fun <VB : ViewBinding> Activity.createBinding(): VB {
         ?: javaClass.superclass?.superclass?.createBinding(layoutInflater)
         ?: javaClass.superclass?.superclass?.superclass?.createBinding(layoutInflater)
         ?: javaClass.superclass?.superclass?.superclass?.superclass?.createBinding(layoutInflater)
-        ?: javaClass.superclass?.superclass?.superclass?.superclass?.superclass?.createBinding(layoutInflater)
-    return binding ?: throw Exception(javaClass.simpleName + " Unable to initialize ViewBinding properly, please check!")
+        ?: javaClass.superclass?.superclass?.superclass?.superclass?.superclass?.createBinding(
+            layoutInflater
+        )
+    return binding
+        ?: throw Exception(javaClass.simpleName + " Unable to initialize ViewBinding properly, please check!")
 }
 
 /**
  * Fragment ViewBinding 泛型反射初始化
  */
 @MainThread
-fun <VB : ViewBinding> Fragment.createBinding(layoutInflater: LayoutInflater, parent: ViewGroup?): VB {
+fun <VB : ViewBinding> Fragment.createBinding(
+    layoutInflater: LayoutInflater,
+    parent: ViewGroup?
+): VB {
     val binding = javaClass.createBinding<VB>(layoutInflater, parent)
         ?: javaClass.superclass?.createBinding(layoutInflater, parent)
         ?: javaClass.superclass?.superclass?.createBinding(layoutInflater, parent)
         ?: javaClass.superclass?.superclass?.superclass?.createBinding(layoutInflater, parent)
-        ?: javaClass.superclass?.superclass?.superclass?.superclass?.createBinding(layoutInflater, parent)
-        ?: javaClass.superclass?.superclass?.superclass?.superclass?.superclass?.createBinding(layoutInflater, parent)
-    return binding ?: throw Exception(javaClass.simpleName + " Unable to initialize ViewBinding properly, please check!")
+        ?: javaClass.superclass?.superclass?.superclass?.superclass?.createBinding(
+            layoutInflater,
+            parent
+        )
+        ?: javaClass.superclass?.superclass?.superclass?.superclass?.superclass?.createBinding(
+            layoutInflater,
+            parent
+        )
+    return binding
+        ?: throw Exception(javaClass.simpleName + " Unable to initialize ViewBinding properly, please check!")
 }
 
 @MainThread
@@ -130,10 +147,12 @@ fun <VM : ViewModel> Fragment.createViewModel(
             owner.viewModelStore
         },
         extrasProducer = {
-            (owner as? HasDefaultViewModelProviderFactory)?.defaultViewModelCreationExtras ?: CreationExtras.Empty
+            (owner as? HasDefaultViewModelProviderFactory)?.defaultViewModelCreationExtras
+                ?: CreationExtras.Empty
         },
         factoryProducer = factoryProducer ?: {
-            (owner as? HasDefaultViewModelProviderFactory)?.defaultViewModelProviderFactory ?: defaultViewModelProviderFactory
+            (owner as? HasDefaultViewModelProviderFactory)?.defaultViewModelProviderFactory
+                ?: defaultViewModelProviderFactory
         })
 }
 
@@ -203,7 +222,7 @@ private fun Class<*>.checkImplViewModel(): Boolean {
  */
 @MainThread
 fun <VB : ViewBinding, VM : BaseNavViewModel> BaseNavFragment<VB, VM>.navigate(
-    @IdRes resId: Int, args: Bundle?,
+    @IdRes resId: Int, args: Bundle? = null,
     options: NavOptions? = navOptions {
         anim {
             enter = R.anim.anim_slide_in_right
@@ -214,4 +233,40 @@ fun <VB : ViewBinding, VM : BaseNavViewModel> BaseNavFragment<VB, VM>.navigate(
     }
 ) {
     navController.navigate(resId, args, options)
+}
+
+
+fun Animation?.bindListener(animationListener: OnAnimationListener, enter: Boolean): Animation? {
+    if (enter.not()) {
+        return this
+    }
+    this?.setAnimationListener(object : Animation.AnimationListener {
+        override fun onAnimationStart(animation: Animation?) {
+            animationListener.onAnimationStart()
+        }
+
+        override fun onAnimationEnd(animation: Animation?) {
+            animationListener.onAnimationEnd()
+        }
+
+        override fun onAnimationRepeat(animation: Animation?) {
+
+        }
+    })
+    return this
+}
+
+fun Animator?.bindListener(animationListener: OnAnimationListener, enter: Boolean): Animator? {
+    if (enter.not()) {
+        return this
+    }
+    this?.addListener(
+        onStart = {
+            animationListener.onAnimationStart()
+        },
+        onEnd = {
+            animationListener.onAnimationEnd()
+        }
+    )
+    return this
 }

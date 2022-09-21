@@ -12,5 +12,7 @@ import com.xiaoyv.blueprint.base.mvvm.normal.BaseViewModel
  * @since 2022/7/9
  **/
 open class BaseNavViewModel : BaseViewModel() {
+    open fun onAnimationStart() {}
 
+    open fun onAnimationEnd() {}
 }
