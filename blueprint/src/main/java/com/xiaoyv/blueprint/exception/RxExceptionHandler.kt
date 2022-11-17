@@ -1,9 +1,21 @@
 package com.xiaoyv.blueprint.exception
 
+import com.blankj.utilcode.util.LogUtils
+import kotlinx.coroutines.CoroutineExceptionHandler
+
+val GlobalCoroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    runCatching {
+        RxExceptionHandler.handleException(throwable)
+    }.onFailure {
+        LogUtils.e("请设置 RxExceptionHandler.setExceptionHandler() 全局异常处理")
+    }
+}
+
 /**
- * 全局 RxJava 异常处理器
+ * 全局异常处理器
  */
 object RxExceptionHandler {
+
     /**
      * 默认的错误信息处理者
      */

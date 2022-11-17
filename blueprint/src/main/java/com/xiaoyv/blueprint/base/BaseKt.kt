@@ -13,6 +13,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.MainThread
 import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.CreationExtras

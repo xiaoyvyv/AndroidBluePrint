@@ -25,10 +25,14 @@ import com.xiaoyv.widget.adapt.AdaptScreenConfig
 object BluePrint {
     @JvmStatic
     @JvmOverloads
-    fun init(application: Application, adaptScreen: Boolean = false, lifecycleObserver: DefaultLifecycleObserver? = null) {
+    fun init(
+        application: Application,
+        adaptScreen: Boolean = false,
+        lifecycleObserver: DefaultLifecycleObserver? = null
+    ) {
         Utils.init(application)
         if (ProcessUtils.isMainProcess()) {
-            initRxError()
+            initErrorHandler()
             // 是否适配屏幕
             initAutoSize(application, adaptScreen)
 
@@ -46,9 +50,9 @@ object BluePrint {
     }
 
     /**
-     * RxJava 未捕获的异常
+     * 未捕获的异常处理
      */
-    private fun initRxError() {
+    private fun initErrorHandler() {
         // 设置全局异常处理器
         RxExceptionHandler.setExceptionHandler(RxGlobalExceptionHandler())
     }
