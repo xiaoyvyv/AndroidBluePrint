@@ -48,6 +48,8 @@ configurations.all {
 }
 
 dependencies {
+    // implementation(project(":leveldb"))
+
     api 'androidx.core:core-ktx:1.9.0'
     api 'androidx.appcompat:appcompat:1.5.1'
     api 'androidx.annotation:annotation:1.5.0'
@@ -57,20 +59,15 @@ dependencies {
     api "androidx.multidex:multidex:2.0.1"
     api "com.google.android:flexbox:2.0.1"
     api "org.jetbrains.anko:anko-commons:0.10.0"
-    api 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-    api 'androidx.navigation:navigation-ui-ktx:2.5.3'
-    api 'com.kunminx.arch:unpeek-livedata:7.8.0'
 
     // Lifecycle
     api 'androidx.lifecycle:lifecycle-process:2.5.1'
     api "androidx.lifecycle:lifecycle-common-java8:2.5.1"
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    api "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
     api "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
 
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
     // Utils
     api 'com.blankj:utilcodex:1.31.1'
@@ -99,13 +96,11 @@ dependencies {
     // Glide 图片加载框架
     api 'com.github.bumptech.glide:glide:4.14.2'
     api 'com.github.bumptech.glide:okhttp3-integration:4.14.2'
+
     kapt 'com.github.bumptech.glide:compiler:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
-    // OkHttp
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10'
-
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

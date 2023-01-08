@@ -17,8 +17,8 @@
         app:ui_title="rdp_main_title" />
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
         android:id="@+id/sv_scroll"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/ui_size_0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
@@ -59,6 +59,7 @@
                 android:text="删除事件"
                 app:layout_constraintTop_toBottomOf="@+id/add_event"
                 tools:ignore="HardcodedText" />
+
             <Button
                 android:id="@+id/nav"
                 android:layout_width="match_parent"
@@ -66,6 +67,34 @@
                 android:text="MVVM Nav"
                 app:layout_constraintTop_toBottomOf="@+id/add_event"
                 tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/cookie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="获取网页 Cookie 查询数据测试"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/tv_jwc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="深信服登录"
+                android:textColor="@color/ui_text_c5" />
+
+            <Button
+                android:id="@+id/tv_local_storage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tbs install local"
+                android:textColor="@color/ui_text_c5" />
+
+            <Button
+                android:id="@+id/tv_tbs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TBS"
+                android:textColor="@color/ui_text_c5" />
 
             <TextView
                 android:id="@+id/tv_test"
@@ -77,7 +106,7 @@
                 android:gravity="center"
                 android:padding="@dimen/ui_size_8"
                 android:text="@string/main_hello"
-                android:textColor="@color/ui_text_c5"/>
+                android:textColor="@color/ui_text_c5" />
 
             <TextView
                 android:id="@+id/tv_test1"
@@ -89,12 +118,12 @@
                 android:gravity="center"
                 android:padding="@dimen/ui_size_8"
                 android:text="@string/main_hello"
-                android:textColor="@color/ui_text_c5"/>
+                android:textColor="@color/ui_text_c5" />
 
             <FrameLayout
                 android:id="@+id/fl_container"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/ui_size_200"/>
+                android:layout_height="@dimen/ui_size_200" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>

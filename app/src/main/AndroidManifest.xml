@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.xiaoyv.blueprint.app">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name="com.xiaoyv.blueprint.App"
         android:allowBackup="true"
@@ -24,9 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.xiaoyv.blueprint.activity.WebActivity"/>
-        <activity android:name="com.xiaoyv.blueprint.activity.MvvmTestActivity"/>
-        <activity android:name="com.xiaoyv.blueprint.NavActivity"/>
+        <activity android:name="com.xiaoyv.blueprint.activity.WebActivity" />
+        <activity android:name="com.xiaoyv.blueprint.activity.MvvmTestActivity" />
+        <activity android:name="com.xiaoyv.blueprint.NavActivity" />
     </application>
 
 </manifest>

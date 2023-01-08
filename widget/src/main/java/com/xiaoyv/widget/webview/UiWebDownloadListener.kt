@@ -25,7 +25,7 @@ class UiWebDownloadListener(private val context: Context) : DownloadListener {
         contentLength: Long
     ) {
         LogUtils.i(
-            "StlDownloadListener",
+            "DownloadListener",
             "$url $userAgent $contentDisposition $mimeType $contentLength"
         )
         // 外部浏览器打开下载链接

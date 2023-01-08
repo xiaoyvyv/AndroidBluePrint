@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.xiaoyv.widget.webview.UiWebView
+    <com.xiaoyv.webview.X5WebView
         android:id="@+id/web"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/ui_size_44" />
 </androidx.constraintlayout.widget.ConstraintLayout>
