@@ -55,6 +55,7 @@ class X5WebView @JvmOverloads constructor(
         webChromeClient = X5WebChromeClient(this)
         webChromeClientExtension = X5WebChromeClientExtension(this)
         initSettings()
+
     }
 
     @SuppressLint("SetJavaScriptEnabled")

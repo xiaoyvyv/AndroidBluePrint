@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.blankj.utilcode.util.Utils
+import com.tencent.smtt.sdk.CookieManager
 import com.tencent.smtt.sdk.DownloadListener
 import com.tencent.smtt.sdk.MimeTypeMap
 import com.xiaoyv.webview.helper.X5OpenActionHelper
@@ -58,6 +59,8 @@ open class X5DownloadListener(private val x5WebView: X5WebView) : DownloadListen
 
         val uri = url.toSafeUri()
 
+        val cookie = CookieManager.getInstance().getCookie(url).orEmpty().trim()
+
         val request = DownloadManager.Request(uri)
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
         request.setAllowedOverRoaming(true)
@@ -66,6 +69,8 @@ open class X5DownloadListener(private val x5WebView: X5WebView) : DownloadListen
         request.setTitle(fileName)
         request.setDescription("正在下载：$fileName")
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
+        request.addRequestHeader("Cookie", cookie)
+        request.addRequestHeader("Referer", url)
 
         // 执行
         Utils.getApp().getSystemService(Context.DOWNLOAD_SERVICE)
