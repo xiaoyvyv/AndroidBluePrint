@@ -6,6 +6,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.Toolbar
 import com.blankj.utilcode.util.*
 import com.tencent.smtt.sdk.*
 import com.xiaoyv.webview.listener.*
@@ -31,9 +33,20 @@ class X5WebView @JvmOverloads constructor(
     var onReceivedTitleListener: OnReceivedTitleListener? = null
 
     /**
+     * WebView 网络请求拦截器，遍历回调
+     */
+    internal var x5Interceptors: List<X5WebInterceptor> = arrayListOf()
+
+    /**
      * WebView 销毁时，遍历回调
      */
     internal val onDestroyListeners = arrayListOf<() -> Unit>()
+
+    /**
+     * Title
+     */
+    internal var titleTextView: AppCompatTextView? = null
+    internal var titleBarView: Toolbar? = null
 
     init {
         webViewClient = X5WebViewClient(this)

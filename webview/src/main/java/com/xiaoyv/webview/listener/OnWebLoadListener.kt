@@ -32,7 +32,7 @@ interface OnWebLoadListener {
      * @param webView 网页
      * @param url url
      */
-    fun onHtmlLoadListener(webView: WebView, url: String, html: String, text: String) {}
+    fun onHtmlLoaded(webView: WebView, url: String, html: String, text: String) {}
 
     /**
      * 加载失败

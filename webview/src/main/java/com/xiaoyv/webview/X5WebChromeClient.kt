@@ -29,8 +29,15 @@ class X5WebChromeClient(private val x5WebView: X5WebView) : WebChromeClient() {
         }
     }
 
-
     override fun onReceivedTitle(webView: WebView, title: String?) {
+        val webTitle = title.orEmpty().trim()
+            .ifBlank { webView.url.orEmpty() }
+            .ifBlank { webView.url.orEmpty() }
+
+        // Title
+        x5WebView.titleTextView?.text = webTitle
+        x5WebView.titleBarView?.title = webTitle
+
         x5WebView.onReceivedTitleListener?.onReceivedTitle(webView, title.orEmpty())
     }
 
@@ -67,7 +74,8 @@ class X5WebChromeClient(private val x5WebView: X5WebView) : WebChromeClient() {
             it.webViewClient = object : X5WebViewClient(it) {
                 override fun shouldOverrideUrlLoading(webView: WebView, url: String): Boolean {
                     if (URLUtil.isNetworkUrl(url)) {
-                        return x5WebView.onWindowListener?.openNewWindow(url) ?: false
+                        x5WebView.onWindowListener?.openNewWindow(url)
+                        return true
                     }
                     X5OpenActionHelper.showCanOpenAppDialog(webView, url.toSafeUri())
                     return true

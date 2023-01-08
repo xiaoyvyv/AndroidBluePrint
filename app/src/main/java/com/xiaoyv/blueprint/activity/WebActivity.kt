@@ -43,13 +43,12 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>() {
         }
 
         binding.web.onWindowListener = object : OnWindowListener {
-            override fun openNewWindow(url: String): Boolean {
+            override fun openNewWindow(url: String) {
                 LogUtils.e(" open window ==>")
 
                 ActivityUtils.startActivity(
                     bundleOf("webUrl" to url), WebActivity::class.java
                 )
-                return true
             }
         }
 

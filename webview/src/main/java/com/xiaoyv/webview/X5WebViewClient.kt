@@ -30,7 +30,6 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
         x5WebView.addJavascriptInterface(PageFinishJsInterface(), "android_view_client")
     }
 
-
     override fun shouldOverrideUrlLoading(webView: WebView, request: WebResourceRequest): Boolean {
         val uri = request.url
         val linkUrl = uri?.toString().orEmpty()
@@ -42,9 +41,22 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
         return true
     }
 
+    override fun shouldInterceptRequest(
+        webView: WebView,
+        request: WebResourceRequest
+    ): WebResourceResponse {
+        for (interceptor in x5WebView.x5Interceptors) {
+            val resourceResponse = interceptor.shouldInterceptRequest(webView, request)
+            if (resourceResponse != null) {
+                return resourceResponse
+            }
+        }
+        return super.shouldInterceptRequest(webView, request)
+    }
+
     override fun onReceivedError(
         webView: WebView,
-        request: WebResourceRequest?,
+        request: WebResourceRequest,
         error: WebResourceError?
     ) {
         super.onReceivedError(webView, request, error)
@@ -102,8 +114,16 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
         @JavascriptInterface
         fun onPageFinishWithHtml(html: String?, text: String?) {
             runOnUiThread {
-                x5WebView.onWebLoadListener?.onHtmlLoadListener(
-                    x5WebView, x5WebView.url.orEmpty(), html.orEmpty(), text.orEmpty()
+                val htmlUrl = x5WebView.url.orEmpty().trim()
+                val htmlEncode = html.orEmpty()
+                val htmlText = text.orEmpty().replace("\n", "￥")
+                    .replace("\t", "￥")
+                    .replace(" ", "￥")
+                    .replace(" ", "￥")
+                    .replace(Regex("￥+"), "￥")
+
+                x5WebView.onWebLoadListener?.onHtmlLoaded(
+                    x5WebView, htmlUrl, htmlEncode, htmlText
                 )
             }
         }

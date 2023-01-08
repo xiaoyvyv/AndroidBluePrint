@@ -7,5 +7,5 @@ package com.xiaoyv.webview.listener
  * @since 2023/1/7
  */
 interface OnWindowListener {
-    fun openNewWindow(url: String): Boolean
+    fun openNewWindow(url: String)
 }
