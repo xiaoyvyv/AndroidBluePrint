@@ -1,7 +1,7 @@
 package com.xiaoyv.blueprint
 
 import android.app.Application
-import com.xiaoyv.webview.X5WebView
+import com.xiaoyv.webview.helper.X5InstallHelper
 
 /**
  * App
@@ -13,6 +13,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         BluePrint.init(this, true)
-        X5WebView.init(this)
+        X5InstallHelper.init(this)
     }
 }

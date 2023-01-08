@@ -5,9 +5,7 @@ import android.graphics.Bitmap
 import android.webkit.JavascriptInterface
 import androidx.appcompat.app.AlertDialog
 import com.blankj.utilcode.util.ThreadUtils
-import com.tencent.smtt.export.external.interfaces.SslError
-import com.tencent.smtt.export.external.interfaces.SslErrorHandler
-import com.tencent.smtt.export.external.interfaces.WebResourceRequest
+import com.tencent.smtt.export.external.interfaces.*
 import com.tencent.smtt.sdk.URLUtil
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
@@ -23,8 +21,8 @@ import com.xiaoyv.webview.helper.X5OpenActionHelper
 open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
     private val queryHtmlJavascript = """
         window.cacheArray = [];
-        window.cacheArray[0] = document.getElementsByTagName('html')[0].outerText;
-        window.cacheArray[1] = document.getElementsByTagName('html')[0].outerHTML;
+        window.cacheArray[0] = document.getElementsByTagName('html')[0].outerHTML || '';
+        window.cacheArray[1] = document.getElementsByTagName('html')[0].outerText || '';
         window.android_view_client.onPageFinishWithHtml(window.cacheArray[0], window.cacheArray[1]);
     """.trimIndent()
 
@@ -42,6 +40,31 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
 
         X5OpenActionHelper.showCanOpenAppDialog(webView, request.url)
         return true
+    }
+
+    override fun onReceivedError(
+        webView: WebView,
+        request: WebResourceRequest?,
+        error: WebResourceError?
+    ) {
+        super.onReceivedError(webView, request, error)
+        runOnUiThread {
+            val errorCode = error?.errorCode ?: 0
+            val errorMsg = error?.description.toString()
+            x5WebView.onWebLoadListener?.onLoadError(errorCode, errorMsg)
+        }
+    }
+
+    override fun onReceivedHttpError(
+        webView: WebView,
+        p1: WebResourceRequest,
+        response: WebResourceResponse?
+    ) {
+        runOnUiThread {
+            val errorCode = response?.statusCode ?: 0
+            val errorMsg = response?.reasonPhrase.orEmpty()
+            x5WebView.onWebLoadListener?.onLoadError(errorCode, errorMsg)
+        }
     }
 
     override fun onReceivedSslError(

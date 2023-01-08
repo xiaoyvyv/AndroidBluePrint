@@ -7,7 +7,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
 import com.blankj.utilcode.util.*
-import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.*
 import com.xiaoyv.webview.listener.*
 
@@ -95,63 +94,5 @@ class X5WebView @JvmOverloads constructor(
         clearHistory()
         (parent as? ViewGroup)?.removeView(this)
         super.destroy()
-    }
-
-    companion object {
-        /**
-         * TBS 安装成功的 Code
-         */
-        const val INSTALL_SUCCESS_CODE = 200
-
-        @JvmStatic
-        fun init(appContext: Context, initWithoutWifi: Boolean = true) {
-            // 在调用 TBS 初始化、创建 WebView 之前进行如下配置
-            val map = HashMap<String, Any>()
-            map[TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER] = true
-            map[TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE] = true
-            QbSdk.initTbsSettings(map)
-            QbSdk.setDownloadWithoutWifi(initWithoutWifi)
-
-            QbSdk.initX5Environment(appContext, object : QbSdk.PreInitCallback {
-                /**
-                 * 预初始化结束
-                 * 由于X5内核体积较大，需要依赖网络动态下发，所以当内核不存在的时候，默认会回调 false，此时将会使用系统内核代替
-                 *
-                 * @param isX5 是否使用X5内核
-                 */
-                override fun onViewInitFinished(isX5: Boolean) {
-                    LogUtils.e("X5WebView: 预初始化结束，是否使用X5内核 => $isX5")
-                    val x5CrashInfo = getCrashExtraMessage(appContext)
-                    if (isX5.not()) {
-                        LogUtils.e("X5 错误原因：$x5CrashInfo")
-                    }
-                }
-
-                /**
-                 * 内核初始化完成，可能为系统内核，也可能为系统内核
-                 */
-                override fun onCoreInitFinished() {
-                    LogUtils.e("X5WebView: 内核初始化完成")
-                }
-            })
-        }
-
-        @JvmStatic
-        fun initByLocal(apkPath: String, tbsVersion: Int, callback: ((Int) -> Unit)? = null) {
-            QbSdk.setTbsListener(object : OnTbsListener {
-                override fun onInstallFinish(status: Int) {
-                    callback?.invoke(status)
-                    return
-                }
-            })
-
-            if (FileUtils.isFileExists(apkPath)) {
-                QbSdk.reset(Utils.getApp())
-                QbSdk.installLocalTbsCore(Utils.getApp(), tbsVersion, apkPath)
-                return
-            }
-
-            callback?.invoke(-1)
-        }
     }
 }

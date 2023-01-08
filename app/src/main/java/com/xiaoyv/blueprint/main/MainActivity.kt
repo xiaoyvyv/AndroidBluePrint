@@ -17,14 +17,17 @@ import com.xiaoyv.blueprint.utils.LazyUtils.loadRootFragment
 import com.xiaoyv.calendar.CalendarAccount
 import com.xiaoyv.calendar.CalendarEvent
 import com.xiaoyv.calendar.CalendarReminder
-import com.xiaoyv.webview.X5WebView
+import com.xiaoyv.webview.helper.X5InstallHelper
 import com.xiaoyv.widget.callback.setOnFastLimitClickListener
 import com.xiaoyv.widget.dialog.UiNormalDialog
 import com.xiaoyv.widget.dialog.UiOptionsDialog
 import com.xiaoyv.widget.utils.isSoftInputModeAlwaysVisible
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okio.IOException
+import org.jetbrains.anko.doAsync
 
 class MainActivity :
     BaseMvpBindingActivity<ActivityMainBinding, MainContract.View, MainPresenter>(),
@@ -98,12 +101,26 @@ class MainActivity :
             )
         }
         binding.tvLocalStorage.setOnFastLimitClickListener {
-            LogUtils.e(tbsApk)
-            val time = System.currentTimeMillis()
+//            LogUtils.e(tbsApk)
+//            val time = System.currentTimeMillis()
+//
+//
+//            X5InstallHelper.installByLocal(tbsApk, 46141) {
+//                LogUtils.e("安装耗时：${System.currentTimeMillis() - time}, 安卓结果：$it")
+//            }
 
+            X5InstallHelper.downloadTbs(useCache = true) {
+                ToastUtils.showShort("下载完成，准备安装！")
 
-            X5WebView.initByLocal(tbsApk, 46141) {
-                LogUtils.e("安装耗时：${System.currentTimeMillis() - time}, 安卓结果：$it")
+                X5InstallHelper.installByLocal(it, 46141) {
+                    ToastUtils.showShort("安装成功！")
+                    doAsync {
+                        runBlocking {
+                            delay(2000)
+                            AppUtils.exitApp()
+                        }
+                    }
+                }
             }
         }
         binding.tvJwc.setOnFastLimitClickListener {
