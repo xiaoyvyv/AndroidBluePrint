@@ -3,10 +3,7 @@ package com.xiaoyv.webview.helper
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AlertDialog
-import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.IntentUtils
-import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ToastUtils
+import com.blankj.utilcode.util.*
 import com.tencent.smtt.sdk.WebView
 import com.xiaoyv.webview.utils.toSafeUri
 import java.lang.ref.WeakReference
@@ -37,7 +34,7 @@ object X5OpenActionHelper {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         if (IntentUtils.isIntentAvailable(intent)) {
-            AlertDialog.Builder(webView.context)
+            val alertDialog = AlertDialog.Builder(Utils.getApp())
                 .setMessage("$currentUrl 请求打开 App，是否允许？")
                 .setPositiveButton("允许") { _, _ ->
                     runCatching {
@@ -47,11 +44,25 @@ object X5OpenActionHelper {
                     }
                 }
                 .setNegativeButton("取消", null)
-                .create().also { lastAskDialog = WeakReference(it) }
-                .show()
+                .create()
+            alertDialog.show()
+            alertDialog.fitWindowWidth()
+
+            lastAskDialog = WeakReference(alertDialog)
             return
         }
 
         LogUtils.e("无法处理请求意图：${targetAppUri.toString()}")
+    }
+
+    fun AlertDialog?.fitWindowWidth(padding: Int = ConvertUtils.dp2px(12f)) {
+        val dialog = this ?: return
+        if (dialog.isShowing.not()) {
+            return
+        }
+        val window = dialog.window ?: return
+        window.attributes = window.attributes?.apply {
+            width = ScreenUtils.getScreenWidth() - padding * 2
+        }
     }
 }

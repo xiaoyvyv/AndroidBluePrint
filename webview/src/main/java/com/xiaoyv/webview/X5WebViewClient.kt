@@ -11,6 +11,8 @@ import com.tencent.smtt.sdk.URLUtil
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
 import com.xiaoyv.webview.helper.X5OpenActionHelper
+import com.xiaoyv.webview.helper.X5OpenActionHelper.fitWindowWidth
+import java.lang.ref.WeakReference
 
 /**
  * X5WebViewClient
@@ -86,15 +88,22 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient(), 
         errorHandler: SslErrorHandler,
         error: SslError
     ) {
-        AlertDialog.Builder(x5WebView.context)
+        X5OpenActionHelper.lastAskDialog?.get()?.dismiss()
+        X5OpenActionHelper.lastAskDialog?.clear()
+
+        val alertDialog = AlertDialog.Builder(x5WebView.context)
             .setTitle("温馨提示")
             .setMessage("该网页证书校验错误，是否继续加载网页？")
             .setPositiveButton("继续") { _, _ -> errorHandler.proceed() }
-            .setPositiveButton("取消") { _, _ -> errorHandler.cancel() }
+            .setNegativeButton("取消") { _, _ -> errorHandler.cancel() }
             .setCancelable(false)
             .create()
-            .apply { setCanceledOnTouchOutside(false) }
-            .show()
+
+        alertDialog.apply { setCanceledOnTouchOutside(false) }
+        alertDialog.show()
+        alertDialog.fitWindowWidth()
+
+        X5OpenActionHelper.lastAskDialog = WeakReference(alertDialog)
     }
 
     override fun onPageStarted(webView: WebView, url: String, favicon: Bitmap?) {

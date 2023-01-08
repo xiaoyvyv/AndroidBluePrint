@@ -131,10 +131,10 @@ class MainActivity :
 
         }
         binding.tvTest1.setOnFastLimitClickListener {
-//            val url = "https://www.baidu.com"
+            val url = "https://www.bilibili.com"
 //            val url = "https://atrust.yangtzeu.edu.cn:4443"
 //            val url = "https://portal.qiniu.com/kodo/overview"
-            val url = "http://jwc3.yangtzeu.edu.cn"
+//            val url = "http://jwc.yangtzeu.edu.cn"
 
             ActivityUtils.startActivity(
                 bundleOf(

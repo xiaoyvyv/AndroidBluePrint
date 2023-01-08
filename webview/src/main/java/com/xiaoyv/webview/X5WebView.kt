@@ -4,6 +4,7 @@ package com.xiaoyv.webview
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
@@ -50,12 +51,13 @@ class X5WebView @JvmOverloads constructor(
     internal var progressView: X5WebProgress? = null
 
     init {
+        getResourcesProxy.invoke(resources)
+
         webViewClient = X5WebViewClient(this)
         webViewClientExtension = X5WebViewClientExtension(this)
         webChromeClient = X5WebChromeClient(this)
         webChromeClientExtension = X5WebChromeClientExtension(this)
         initSettings()
-
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -141,11 +143,19 @@ class X5WebView @JvmOverloads constructor(
         loadDataWithBaseURL(baseUrl, html, "text/html", "utf-8", baseUrl)
     }
 
+    override fun getResources(): Resources {
+        return getResourcesProxy.invoke(super.getResources())
+    }
+
     override fun destroy() {
         stopLoading()
         onDestroyListeners.forEach { it.invoke() }
         clearHistory()
         (parent as? ViewGroup)?.removeView(this)
         super.destroy()
+    }
+
+    companion object {
+        var getResourcesProxy: (Resources) -> Resources = { it }
     }
 }

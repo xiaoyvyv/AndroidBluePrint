@@ -12,6 +12,7 @@ import com.tencent.smtt.sdk.CookieManager
 import com.tencent.smtt.sdk.DownloadListener
 import com.tencent.smtt.sdk.MimeTypeMap
 import com.xiaoyv.webview.helper.X5OpenActionHelper
+import com.xiaoyv.webview.helper.X5OpenActionHelper.fitWindowWidth
 import com.xiaoyv.webview.utils.toSafeUri
 import java.lang.ref.WeakReference
 import java.net.URLDecoder
@@ -41,14 +42,17 @@ open class X5DownloadListener(private val x5WebView: X5WebView) : DownloadListen
 
         LogUtils.e("下载文件请求：FileName: $fileName, Url: $url")
 
-        AlertDialog.Builder(x5WebView.context)
+        val alertDialog = AlertDialog.Builder(x5WebView.context)
             .setMessage("该网页请求下载文件，是否允许？\n\n$fileName\n文件大小：$fileSize")
             .setPositiveButton("允许") { _, _ ->
                 startDownload(url, mimeType, fileName)
             }
             .setNegativeButton("取消", null)
-            .create().also { X5OpenActionHelper.lastAskDialog = WeakReference(it) }
-            .show()
+            .create()
+        alertDialog.show()
+        alertDialog.fitWindowWidth()
+
+        X5OpenActionHelper.lastAskDialog = WeakReference(alertDialog)
     }
 
     /**
