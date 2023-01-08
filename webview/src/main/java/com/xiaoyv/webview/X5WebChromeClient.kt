@@ -42,6 +42,8 @@ class X5WebChromeClient(private val x5WebView: X5WebView) : WebChromeClient() {
     }
 
     override fun onProgressChanged(webView: WebView, progress: Int) {
+        x5WebView.progressView?.setProgress(progress)
+
         x5WebView.onProgressChangeListener?.onProgressChanged(webView, progress)
     }
 

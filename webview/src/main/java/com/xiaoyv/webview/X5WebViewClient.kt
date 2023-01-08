@@ -44,7 +44,7 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
     override fun shouldInterceptRequest(
         webView: WebView,
         request: WebResourceRequest
-    ): WebResourceResponse {
+    ): WebResourceResponse? {
         for (interceptor in x5WebView.x5Interceptors) {
             val resourceResponse = interceptor.shouldInterceptRequest(webView, request)
             if (resourceResponse != null) {

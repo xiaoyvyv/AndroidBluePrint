@@ -35,7 +35,7 @@ class X5WebView @JvmOverloads constructor(
     /**
      * WebView 网络请求拦截器，遍历回调
      */
-    internal var x5Interceptors: List<X5WebInterceptor> = arrayListOf()
+    internal var x5Interceptors = arrayListOf<X5WebInterceptor>()
 
     /**
      * WebView 销毁时，遍历回调
@@ -47,6 +47,7 @@ class X5WebView @JvmOverloads constructor(
      */
     internal var titleTextView: AppCompatTextView? = null
     internal var titleBarView: Toolbar? = null
+    internal var progressView: X5WebProgress? = null
 
     init {
         webViewClient = X5WebViewClient(this)
@@ -99,6 +100,44 @@ class X5WebView @JvmOverloads constructor(
 
         // 下载
         setDownloadListener(X5DownloadListener(this))
+    }
+
+    fun addUrlInterceptor(webInterceptor: X5WebInterceptor) {
+        if (x5Interceptors.contains(webInterceptor)) {
+            return
+        }
+        x5Interceptors.add(webInterceptor)
+    }
+
+    fun bindTitleText(textView: AppCompatTextView) {
+        this.titleTextView = textView
+    }
+
+    fun bindTitleToolbar(toolbar: Toolbar) {
+        this.titleBarView = toolbar
+    }
+
+    fun bindWebProgress(progressView: X5WebProgress) {
+        this.progressView = progressView
+    }
+
+    /**
+     * 加载Html
+     *
+     * @param html html
+     */
+    fun loadHtml(html: String) {
+        loadDataWithBaseURL(null, html, "text/html", "utf-8", null)
+    }
+
+    /**
+     * 加载Html
+     *
+     * @param baseUrl baseUrl
+     * @param html    html
+     */
+    fun loadHtml(baseUrl: String, html: String) {
+        loadDataWithBaseURL(baseUrl, html, "text/html", "utf-8", baseUrl)
     }
 
     override fun destroy() {
