@@ -4,17 +4,20 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AlertDialog
 import com.blankj.utilcode.util.*
+import com.tencent.smtt.sdk.MimeTypeMap
 import com.tencent.smtt.sdk.WebView
 import com.xiaoyv.webview.utils.toSafeUri
 import java.lang.ref.WeakReference
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 /**
- * X5OpenActionHelper
+ * X5ActionHelper
  *
  * @author why
  * @since 2023/1/7
  */
-object X5OpenActionHelper {
+object X5ActionHelper {
     internal var lastAskDialog: WeakReference<AlertDialog>? = null
 
     /**
@@ -64,5 +67,48 @@ object X5OpenActionHelper {
         window.attributes = window.attributes?.apply {
             width = ScreenUtils.getScreenWidth() - padding * 2
         }
+    }
+
+    /**
+     * 解析文件名称
+     */
+    fun String.fetchFileNameWithContentDisposition(url: String, mimeType: String): String {
+        val strings = split(";")
+
+        // name="xxx"
+        val nameDesc = strings
+            .firstOrNull { it.contains("name=", true) }
+            .let {
+                runCatching { URLDecoder.decode(it, StandardCharsets.UTF_8.name()) }.getOrNull()
+            }
+            .orEmpty()
+            .trim()
+
+        // name 字段名字
+        val name = "\"(.*?)\"".toRegex().find(nameDesc)?.groupValues?.getOrNull(1)
+            .orEmpty().trim().ifBlank { nameDesc.substringAfter("=") }
+
+        // filename="xxx"
+        val fileNameDesc = strings
+            .firstOrNull { it.contains("filename=", true) || it.contains("filename*=", true) }
+            .let {
+                runCatching { URLDecoder.decode(it, StandardCharsets.UTF_8.name()) }.getOrNull()
+            }
+            .orEmpty()
+            .trim()
+
+        // 文件名
+        val fileName = "\"(.*?)\"".toRegex().find(fileNameDesc)?.groupValues?.getOrNull(1)
+            .orEmpty().trim().ifBlank { fileNameDesc.substringAfter("=") }
+
+
+        // Url 截取名称
+        val urlName = url.toSafeUri().pathSegments.lastOrNull().orEmpty()
+
+        // 默认兜底名称
+        val extensionName = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType).orEmpty()
+        val defaultName = "${System.currentTimeMillis()}.$extensionName"
+
+        return fileName.ifBlank { urlName }.ifBlank { name }.ifBlank { defaultName }
     }
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.core.view.updateLayoutParams
 import com.blankj.utilcode.util.*
@@ -17,17 +18,13 @@ import com.xiaoyv.blueprint.utils.LazyUtils.loadRootFragment
 import com.xiaoyv.calendar.CalendarAccount
 import com.xiaoyv.calendar.CalendarEvent
 import com.xiaoyv.calendar.CalendarReminder
-import com.xiaoyv.webview.helper.X5InstallHelper
 import com.xiaoyv.widget.callback.setOnFastLimitClickListener
 import com.xiaoyv.widget.dialog.UiNormalDialog
 import com.xiaoyv.widget.dialog.UiOptionsDialog
 import com.xiaoyv.widget.utils.isSoftInputModeAlwaysVisible
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okio.IOException
-import org.jetbrains.anko.doAsync
 
 class MainActivity :
     BaseMvpBindingActivity<ActivityMainBinding, MainContract.View, MainPresenter>(),
@@ -109,19 +106,19 @@ class MainActivity :
 //                LogUtils.e("安装耗时：${System.currentTimeMillis() - time}, 安卓结果：$it")
 //            }
 
-            X5InstallHelper.downloadTbs(useCache = true) {
-                ToastUtils.showShort("下载完成，准备安装！")
-
-                X5InstallHelper.installByLocal(it, 46141) {
-                    ToastUtils.showShort("安装成功！")
-                    doAsync {
-                        runBlocking {
-                            delay(2000)
-                            AppUtils.exitApp()
-                        }
-                    }
-                }
-            }
+//            X5InstallHelper.downloadTbs(useCache = true) {
+//                ToastUtils.showShort("下载完成，准备安装！")
+//
+//                X5InstallHelper.installByLocal(it, 46141) { code ->
+//                    ToastUtils.showShort("安装结果：$code！")
+//                    doAsync {
+//                        runBlocking {
+//                            delay(2000)
+//                            // AppUtils.exitApp()
+//                        }
+//                    }
+//                }
+//            }
         }
         binding.tvJwc.setOnFastLimitClickListener {
             val url = "https://atrust.yangtzeu.edu.cn:4443"
@@ -131,16 +128,26 @@ class MainActivity :
 
         }
         binding.tvTest1.setOnFastLimitClickListener {
-            val url = "https://www.bilibili.com"
+
+//            val alertDialog = android.app.AlertDialog.Builder(this)
+            val alertDialog = AlertDialog.Builder(this)
+                .setMessage("网页请求，是否允许？")
+                .setPositiveButton("允许") { _, _ ->
+//            val url = "https://www.bilibili.com"
 //            val url = "https://atrust.yangtzeu.edu.cn:4443"
 //            val url = "https://portal.qiniu.com/kodo/overview"
-//            val url = "http://jwc.yangtzeu.edu.cn"
+                    val url = "https://212.129.249.109"
 
-            ActivityUtils.startActivity(
-                bundleOf(
-                    "webUrl" to url
-                ), WebActivity::class.java
-            )
+                    ActivityUtils.startActivity(
+                        bundleOf(
+                            "webUrl" to url
+                        ), WebActivity::class.java
+                    )
+                }
+                .setNegativeButton("取消", null)
+                .create()
+            alertDialog.show()
+//            alertDialog.fitWindowWidth()
         }
 
         // PHPSESSID=unl536vasbbnmmok39t2e7871ktccskf

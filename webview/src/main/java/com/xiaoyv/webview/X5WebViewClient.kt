@@ -10,8 +10,8 @@ import com.tencent.smtt.sdk.DownloadListener
 import com.tencent.smtt.sdk.URLUtil
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
-import com.xiaoyv.webview.helper.X5OpenActionHelper
-import com.xiaoyv.webview.helper.X5OpenActionHelper.fitWindowWidth
+import com.xiaoyv.webview.helper.X5ActionHelper
+import com.xiaoyv.webview.helper.X5ActionHelper.fitWindowWidth
 import java.lang.ref.WeakReference
 
 /**
@@ -41,7 +41,7 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient(), 
             return super.shouldOverrideUrlLoading(webView, request)
         }
 
-        X5OpenActionHelper.showCanOpenAppDialog(webView, request.url)
+        X5ActionHelper.showCanOpenAppDialog(webView, request.url)
         return true
     }
 
@@ -88,8 +88,8 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient(), 
         errorHandler: SslErrorHandler,
         error: SslError
     ) {
-        X5OpenActionHelper.lastAskDialog?.get()?.dismiss()
-        X5OpenActionHelper.lastAskDialog?.clear()
+        X5ActionHelper.lastAskDialog?.get()?.dismiss()
+        X5ActionHelper.lastAskDialog?.clear()
 
         val alertDialog = AlertDialog.Builder(x5WebView.context)
             .setTitle("温馨提示")
@@ -103,7 +103,7 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient(), 
         alertDialog.show()
         alertDialog.fitWindowWidth()
 
-        X5OpenActionHelper.lastAskDialog = WeakReference(alertDialog)
+        X5ActionHelper.lastAskDialog = WeakReference(alertDialog)
     }
 
     override fun onPageStarted(webView: WebView, url: String, favicon: Bitmap?) {

@@ -10,13 +10,11 @@ import com.blankj.utilcode.util.ToastUtils
 import com.blankj.utilcode.util.Utils
 import com.tencent.smtt.sdk.CookieManager
 import com.tencent.smtt.sdk.DownloadListener
-import com.tencent.smtt.sdk.MimeTypeMap
-import com.xiaoyv.webview.helper.X5OpenActionHelper
-import com.xiaoyv.webview.helper.X5OpenActionHelper.fitWindowWidth
+import com.xiaoyv.webview.helper.X5ActionHelper
+import com.xiaoyv.webview.helper.X5ActionHelper.fetchFileNameWithContentDisposition
+import com.xiaoyv.webview.helper.X5ActionHelper.fitWindowWidth
 import com.xiaoyv.webview.utils.toSafeUri
 import java.lang.ref.WeakReference
-import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
 
 
 /**
@@ -34,10 +32,10 @@ open class X5DownloadListener(private val x5WebView: X5WebView) : DownloadListen
         mimeType: String,
         contentLength: Long
     ) {
-        X5OpenActionHelper.lastAskDialog?.get()?.dismiss()
-        X5OpenActionHelper.lastAskDialog?.clear()
+        X5ActionHelper.lastAskDialog?.get()?.dismiss()
+        X5ActionHelper.lastAskDialog?.clear()
 
-        val fileName = contentDisposition.fetchFileName(url, mimeType)
+        val fileName = contentDisposition.fetchFileNameWithContentDisposition(url, mimeType)
         val fileSize = ConvertUtils.byte2FitMemorySize(contentLength, 2)
 
         LogUtils.e("下载文件请求：FileName: $fileName, Url: $url")
@@ -52,7 +50,7 @@ open class X5DownloadListener(private val x5WebView: X5WebView) : DownloadListen
         alertDialog.show()
         alertDialog.fitWindowWidth()
 
-        X5OpenActionHelper.lastAskDialog = WeakReference(alertDialog)
+        X5ActionHelper.lastAskDialog = WeakReference(alertDialog)
     }
 
     /**
@@ -80,48 +78,5 @@ open class X5DownloadListener(private val x5WebView: X5WebView) : DownloadListen
         Utils.getApp().getSystemService(Context.DOWNLOAD_SERVICE)
             .let { it as DownloadManager }
             .enqueue(request)
-    }
-
-    /**
-     * 解析文件名称
-     */
-    private fun String.fetchFileName(url: String, mimeType: String): String {
-        val strings = split(";")
-
-        // name="xxx"
-        val nameDesc = strings
-            .firstOrNull { it.contains("name=", true) }
-            .let {
-                runCatching { URLDecoder.decode(it, StandardCharsets.UTF_8.name()) }.getOrNull()
-            }
-            .orEmpty()
-            .trim()
-
-        // name 字段名字
-        val name = "\"(.*?)\"".toRegex().find(nameDesc)?.groupValues?.getOrNull(1)
-            .orEmpty().trim().ifBlank { nameDesc.substringAfter("=") }
-
-        // filename="xxx"
-        val fileNameDesc = strings
-            .firstOrNull { it.contains("filename=", true) || it.contains("filename*=", true) }
-            .let {
-                runCatching { URLDecoder.decode(it, StandardCharsets.UTF_8.name()) }.getOrNull()
-            }
-            .orEmpty()
-            .trim()
-
-        // 文件名
-        val fileName = "\"(.*?)\"".toRegex().find(fileNameDesc)?.groupValues?.getOrNull(1)
-            .orEmpty().trim().ifBlank { fileNameDesc.substringAfter("=") }
-
-
-        // Url 截取名称
-        val urlName = url.toSafeUri().pathSegments.lastOrNull().orEmpty()
-
-        // 默认兜底名称
-        val extensionName = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType).orEmpty()
-        val defaultName = "${System.currentTimeMillis()}.$extensionName"
-
-        return fileName.ifBlank { urlName }.ifBlank { name }.ifBlank { defaultName }
     }
 }

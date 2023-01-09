@@ -38,11 +38,20 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
 
-    // X5
-    api 'com.tencent.tbs:tbssdk:54002-beta'
+    // Lifecycle
+    implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
     // Utils
     implementation 'com.blankj:utilcodex:1.31.1'
+
+    // X5
+    api 'com.tencent.tbs:tbssdk:54002-beta'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

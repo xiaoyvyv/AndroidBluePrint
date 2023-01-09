@@ -35,8 +35,8 @@ class AdaptScreenConfig(
     fun init(
         application: Application,
         adaptScreen: Boolean,
-        designWidthInDp: Int = 375,
-        designHeightInDp: Int = 750
+        designWidthInDp: Int = 400,
+        designHeightInDp: Int = 1000
     ) {
         val displayMetrics = Resources.getSystem().displayMetrics
         val configuration = Resources.getSystem().configuration

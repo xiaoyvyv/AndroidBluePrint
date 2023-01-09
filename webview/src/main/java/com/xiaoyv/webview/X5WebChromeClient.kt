@@ -6,7 +6,7 @@ import com.tencent.smtt.sdk.URLUtil
 import com.tencent.smtt.sdk.ValueCallback
 import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebView
-import com.xiaoyv.webview.helper.X5OpenActionHelper
+import com.xiaoyv.webview.helper.X5ActionHelper
 import com.xiaoyv.webview.utils.getActivity
 import com.xiaoyv.webview.utils.toSafeUri
 import java.lang.ref.WeakReference
@@ -42,7 +42,7 @@ class X5WebChromeClient(private val x5WebView: X5WebView) : WebChromeClient() {
     }
 
     override fun onProgressChanged(webView: WebView, progress: Int) {
-        x5WebView.progressView?.setProgress(progress)
+        x5WebView.progressView?.setWebProgress(progress)
 
         x5WebView.onProgressChangeListener?.onProgressChanged(webView, progress)
     }
@@ -80,7 +80,7 @@ class X5WebChromeClient(private val x5WebView: X5WebView) : WebChromeClient() {
                         x5WebView.onWindowListener?.openNewWindow(url)
                         return true
                     }
-                    X5OpenActionHelper.showCanOpenAppDialog(webView, url.toSafeUri())
+                    X5ActionHelper.showCanOpenAppDialog(webView, url.toSafeUri())
                     return true
                 }
             }

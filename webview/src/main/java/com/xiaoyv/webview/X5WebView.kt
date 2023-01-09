@@ -32,6 +32,7 @@ class X5WebView @JvmOverloads constructor(
     var onProgressChangeListener: OnProgressChangeListener? = null
     var onWebLoadListener: OnWebLoadListener? = null
     var onReceivedTitleListener: OnReceivedTitleListener? = null
+    var onTipDialogListener: OnTipDialogListener? = null
 
     /**
      * WebView 网络请求拦截器，遍历回调

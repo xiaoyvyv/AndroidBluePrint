@@ -1,18 +1,48 @@
 package com.xiaoyv.webview.helper
 
-import android.app.DownloadManager
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.os.Environment
-import androidx.core.content.getSystemService
-import com.blankj.utilcode.util.*
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.Utils
 import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.QbSdk
-import com.tencent.smtt.sdk.WebView
 import com.xiaoyv.webview.listener.OnTbsListener
-import com.xiaoyv.webview.utils.toSafeUri
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
+
+/**
+ * TBS 默认下载路径
+ */
+const val TBS_DEFEAT_CORE_URL: String =
+    "https://tbs.imtt.qq.com/others/release/x5/tbs_core_046141_20220915165042_nolog_fs_obfs_arm64-v8a_release.tbs"
+
+/**
+ * TBS 默认下载版本号
+ */
+const val TBS_DEFEAT_CORE_VERSION = 46141
+
+
+/**
+ * TBS 安装成功的 Code
+ */
+const val TBS_INSTALL_SUCCESS_CODE = 200
+
+/**
+ * 超时
+ */
+const val TBS_INSTALL_TIMEOUT = -100
+
+/**
+ * 文件不存在
+ */
+const val TBS_INSTALL_FILE_NOT_FOUND = -101
 
 /**
  * X5InstallHelper
@@ -21,63 +51,6 @@ import com.xiaoyv.webview.utils.toSafeUri
  * @since 2023/1/8
  */
 object X5InstallHelper {
-    private const val defaultTbsUrl: String =
-        "https://tbs.imtt.qq.com/others/release/x5/tbs_core_046141_20220915165042_nolog_fs_obfs_arm64-v8a_release.tbs"
-
-    /**
-     * TBS 安装成功的 Code
-     */
-    const val INSTALL_SUCCESS_CODE = 200
-
-    private const val DOWNLOAD_TMP = ".tmp-tbs.apk"
-
-    private val downloadTbsTmpPath by lazy {
-        PathUtils.getExternalAppFilesPath() + "/Download/$DOWNLOAD_TMP"
-    }
-
-    val downloadTbsPath by lazy {
-        PathUtils.getExternalAppFilesPath() + "/Download/tbs-local.apk"
-    }
-
-    private var cacheDownloadId: Long = 0
-
-    private var downloadSuccess: (String) -> Unit = {}
-
-    /**
-     * 下载完成
-     */
-    private val downloadBroadcastReceiver = object : BroadcastReceiver() {
-
-        override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action == DownloadManager.ACTION_DOWNLOAD_COMPLETE) {
-                val downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0)
-
-                LogUtils.e("下载完成：$downloadId, cacheDownloadId = $cacheDownloadId")
-
-                ThreadUtils.getCachedPool().submit {
-                    fetchDownloadInfo(downloadId)
-                }
-            }
-        }
-
-        @Synchronized
-        private fun fetchDownloadInfo(downloadId: Long) {
-            if (downloadId <= 0 || cacheDownloadId != downloadId) {
-                FileUtils.delete(downloadTbsTmpPath)
-                return
-            }
-
-            if (FileUtils.isFileExists(downloadTbsTmpPath)) {
-                FileUtils.copy(downloadTbsTmpPath, downloadTbsPath)
-                FileUtils.delete(downloadTbsTmpPath)
-            }
-
-            if (FileUtils.isFileExists(downloadTbsPath)) {
-                LogUtils.e("下载保存路径：$downloadTbsPath")
-                downloadSuccess.invoke(downloadTbsPath)
-            }
-        }
-    }
 
     @JvmStatic
     fun init(appContext: Context, initWithoutWifi: Boolean = true) {
@@ -97,10 +70,6 @@ object X5InstallHelper {
              */
             override fun onViewInitFinished(isX5: Boolean) {
                 LogUtils.e("X5WebView: 预初始化结束，是否使用X5内核 => $isX5")
-                val x5CrashInfo = WebView.getCrashExtraMessage(appContext)
-                if (isX5.not()) {
-                    LogUtils.e("X5 错误原因：$x5CrashInfo")
-                }
             }
 
             /**
@@ -110,78 +79,41 @@ object X5InstallHelper {
                 LogUtils.e("X5WebView: 内核初始化完成")
             }
         })
-
-        // 注册下载监听广播
-        appContext.registerReceiver(
-            downloadBroadcastReceiver,
-            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-        )
     }
 
+    /**
+     * 本地安装 TBS
+     */
     @JvmStatic
-    @Synchronized
-    fun downloadTbs(
-        tbsUrl: String = defaultTbsUrl,
-        useCache: Boolean = true,
-        downloadSuccess: (String) -> Unit = {}
-    ) {
-        this.downloadSuccess = downloadSuccess
-
-        val downloadManager = Utils.getApp().getSystemService<DownloadManager>() ?: return
-        val saveDir = FileUtils.getDirName(downloadTbsTmpPath)
-
-        // 删除缓存
-        FileUtils.delete(downloadTbsTmpPath)
-
-        if (cacheDownloadId != 0L) {
-            downloadManager.remove(cacheDownloadId)
-            cacheDownloadId = 0
-        }
-
-        // 本地有缓存直接发送下载成功的 Action
-        if (FileUtils.isFileExists(downloadTbsPath) && useCache) {
-            downloadSuccess.invoke(downloadTbsPath)
-            return
-        }
-
-        LogUtils.e("开始下载")
-
-        FileUtils.deleteAllInDir(saveDir)
-        FileUtils.createOrExistsDir(saveDir)
-        FileUtils.delete(downloadTbsPath)
-
-        val uri = tbsUrl.toSafeUri()
-
-        val request = DownloadManager.Request(uri)
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
-        request.setAllowedOverRoaming(true)
-        request.setMimeType("application/vnd.android.package-archive")
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN)
-        request.setDestinationInExternalFilesDir(
-            Utils.getApp(),
-            Environment.DIRECTORY_DOWNLOADS,
-            DOWNLOAD_TMP
-        )
-
-        // 执行
-        cacheDownloadId = downloadManager.enqueue(request)
-    }
-
-    @JvmStatic
-    fun installByLocal(apkPath: String, tbsVersion: Int, callback: ((Int) -> Unit)? = null) {
-        QbSdk.setTbsListener(object : OnTbsListener {
-            override fun onInstallFinish(status: Int) {
-                callback?.invoke(status)
-                return
+    fun installByLocal(apkPath: String, tbsVersion: Int, callback: ((Int) -> Unit) = {}) {
+        ProcessLifecycleOwner.get().lifecycleScope.launch {
+            runCatching {
+                withTimeout(10000) {
+                    val installCode = callbackFlow {
+                        QbSdk.setTbsListener(object : OnTbsListener {
+                            override fun onInstallFinish(status: Int) {
+                                trySend(status)
+                                close()
+                                return
+                            }
+                        })
+                        if (FileUtils.isFileExists(apkPath)) {
+                            QbSdk.reset(Utils.getApp())
+                            QbSdk.installLocalTbsCore(Utils.getApp(), tbsVersion, apkPath)
+                        } else {
+                            trySend(TBS_INSTALL_FILE_NOT_FOUND)
+                            close()
+                        }
+                        awaitClose {
+                            QbSdk.setTbsListener(null)
+                        }
+                    }.flowOn(Dispatchers.IO).single()
+                    callback.invoke(installCode)
+                }
+            }.onFailure {
+                QbSdk.setTbsListener(null)
+                callback.invoke(TBS_INSTALL_TIMEOUT)
             }
-        })
-
-        if (FileUtils.isFileExists(apkPath)) {
-            QbSdk.reset(Utils.getApp())
-            QbSdk.installLocalTbsCore(Utils.getApp(), tbsVersion, apkPath)
-            return
         }
-
-        callback?.invoke(-1)
     }
 }
