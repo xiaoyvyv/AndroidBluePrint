@@ -10,6 +10,7 @@ import androidx.core.view.updateLayoutParams
 import com.blankj.utilcode.util.*
 import com.github.nukc.stateview.StateView
 import com.xiaoyv.blueprint.NavActivity
+import com.xiaoyv.blueprint.activity.DownloadActivity
 import com.xiaoyv.blueprint.activity.WebActivity
 import com.xiaoyv.blueprint.app.R
 import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
@@ -41,6 +42,10 @@ class MainActivity :
     @SuppressLint("NewApi")
     override fun initView() {
         stateController.fitTitleAndStatusBar = true
+
+        binding.download.setOnFastLimitClickListener {
+            ActivityUtils.startActivity(DownloadActivity::class.java)
+        }
 
 
 //        binding.toolbar.setLeftIcon()

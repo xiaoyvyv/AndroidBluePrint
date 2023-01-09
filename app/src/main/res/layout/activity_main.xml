@@ -29,6 +29,13 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/download"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Download"
+                tools:ignore="HardcodedText" />
+
+            <Button
                 android:id="@+id/check_calendar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
