@@ -11,7 +11,6 @@ import com.tencent.smtt.sdk.URLUtil
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
 import com.xiaoyv.webview.helper.X5ActionHelper
-import com.xiaoyv.webview.helper.X5ActionHelper.fitWindowWidth
 import java.lang.ref.WeakReference
 
 /**
@@ -101,7 +100,6 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient(), 
 
         alertDialog.apply { setCanceledOnTouchOutside(false) }
         alertDialog.show()
-        alertDialog.fitWindowWidth()
 
         X5ActionHelper.lastAskDialog = WeakReference(alertDialog)
     }

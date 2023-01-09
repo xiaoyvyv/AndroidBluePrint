@@ -49,24 +49,12 @@ object X5ActionHelper {
                 .setNegativeButton("取消", null)
                 .create()
             alertDialog.show()
-            alertDialog.fitWindowWidth()
 
             lastAskDialog = WeakReference(alertDialog)
             return
         }
 
         LogUtils.e("无法处理请求意图：${targetAppUri.toString()}")
-    }
-
-    fun AlertDialog?.fitWindowWidth(padding: Int = ConvertUtils.dp2px(12f)) {
-        val dialog = this ?: return
-        if (dialog.isShowing.not()) {
-            return
-        }
-        val window = dialog.window ?: return
-        window.attributes = window.attributes?.apply {
-            width = ScreenUtils.getScreenWidth() - padding * 2
-        }
     }
 
     /**

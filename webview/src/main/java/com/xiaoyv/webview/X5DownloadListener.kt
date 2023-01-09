@@ -12,7 +12,6 @@ import com.tencent.smtt.sdk.CookieManager
 import com.tencent.smtt.sdk.DownloadListener
 import com.xiaoyv.webview.helper.X5ActionHelper
 import com.xiaoyv.webview.helper.X5ActionHelper.fetchFileNameWithContentDisposition
-import com.xiaoyv.webview.helper.X5ActionHelper.fitWindowWidth
 import com.xiaoyv.webview.utils.toSafeUri
 import java.lang.ref.WeakReference
 
@@ -48,7 +47,6 @@ open class X5DownloadListener(private val x5WebView: X5WebView) : DownloadListen
             .setNegativeButton("取消", null)
             .create()
         alertDialog.show()
-        alertDialog.fitWindowWidth()
 
         X5ActionHelper.lastAskDialog = WeakReference(alertDialog)
     }
