@@ -156,7 +156,9 @@ object X5InstallHelper {
                                         maxLength
                                     )
                                 }
-                                delay(1000)
+                                if (progress != 1f) {
+                                    delay(1000)
+                                }
                             }
                     }
                 }
