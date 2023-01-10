@@ -74,6 +74,8 @@ class X5WebChromeClient(private val x5WebView: X5WebView) : WebChromeClient() {
         val transport = resultMsg.obj as WebView.WebViewTransport
         transport.webView = tmpWeb?.get() ?: X5WebView(webView.context).also {
             it.setDownloadListener(X5DownloadListener(it))
+            it.settings.javaScriptCanOpenWindowsAutomatically = false
+            it.settings.setSupportMultipleWindows(false)
             it.webViewClient = object : X5WebViewClient(it) {
                 override fun shouldOverrideUrlLoading(webView: WebView, url: String): Boolean {
                     if (URLUtil.isNetworkUrl(url)) {

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.webkit.JavascriptInterface
 import androidx.appcompat.app.AlertDialog
+import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ThreadUtils
 import com.tencent.smtt.export.external.interfaces.*
 import com.tencent.smtt.sdk.DownloadListener
@@ -35,6 +36,7 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient(), 
     override fun shouldOverrideUrlLoading(webView: WebView, request: WebResourceRequest): Boolean {
         val uri = request.url
         val linkUrl = uri?.toString().orEmpty()
+        LogUtils.e(linkUrl)
         if (URLUtil.isNetworkUrl(linkUrl)) {
             webView.setDownloadListener(this)
             return super.shouldOverrideUrlLoading(webView, request)
@@ -72,9 +74,12 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient(), 
 
     override fun onReceivedHttpError(
         webView: WebView,
-        p1: WebResourceRequest,
+        request: WebResourceRequest,
         response: WebResourceResponse?
     ) {
+        if (request.isForMainFrame.not()) {
+            webView.goBack()
+        }
         runOnUiThread {
             val errorCode = response?.statusCode ?: 0
             val errorMsg = response?.reasonPhrase.orEmpty()

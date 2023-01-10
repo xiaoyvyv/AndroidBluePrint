@@ -141,7 +141,7 @@ class MainActivity :
 //            val url = "https://www.bilibili.com"
 //            val url = "https://atrust.yangtzeu.edu.cn:4443"
 //            val url = "https://portal.qiniu.com/kodo/overview"
-                    val url = "https://212.129.249.109"
+                    val url = "http://jwc.yangtzeu.edu.cn/info/1087/2434.htm"
 
                     ActivityUtils.startActivity(
                         bundleOf(
