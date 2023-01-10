@@ -16,5 +16,5 @@ data class CalendarAccount(
     var accountName: String = "",
     var displayName: String = "",
     @ColorInt
-    var color: Int = Color.BLUE
+    var color: Int = Color.parseColor("#FF80AB")
 ) : Serializable

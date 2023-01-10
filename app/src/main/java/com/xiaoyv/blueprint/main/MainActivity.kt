@@ -2,6 +2,7 @@ package com.xiaoyv.blueprint.main
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +13,8 @@ import com.github.nukc.stateview.StateView
 import com.xiaoyv.blueprint.NavActivity
 import com.xiaoyv.blueprint.activity.DownloadActivity
 import com.xiaoyv.blueprint.activity.WebActivity
+import com.xiaoyv.blueprint.activity.runWithCalendarPermission
+import com.xiaoyv.blueprint.activity.testTable
 import com.xiaoyv.blueprint.app.R
 import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
@@ -47,7 +50,6 @@ class MainActivity :
             ActivityUtils.startActivity(DownloadActivity::class.java)
         }
 
-
 //        binding.toolbar.setLeftIcon()
         binding.toolbar.bottomDivider = true
 
@@ -63,35 +65,110 @@ class MainActivity :
         loadRootFragment(binding.flContainer.id, mainFragment)
     }
 
-    @SuppressLint("MissingPermission")
     override fun initListener() {
-        val accountName = "Test Account"
+        val accountName = "201603246"
         val calendarAccount = CalendarAccount(
-            name = "reminder",
+            name = "jwc-timetable",
             accountName = accountName,
-            displayName = "Test Account Display Name"
+            displayName = "新长大助手-课表日历"
         )
 
         binding.checkCalendar.setOnClickListener {
-            val account = CalendarReminder.checkCalendarAccount(this, accountName)
-            ToastUtils.showShort("ID: $account")
+            runWithCalendarPermission(block = {
+                val account = CalendarReminder.checkCalendarAccount(this, accountName)
+                ToastUtils.showShort("ID: $account")
+            })
         }
         binding.addCalendar.setOnClickListener {
-            val account = CalendarReminder.createCalendarAccount(this, calendarAccount)
-            ToastUtils.showShort("ID: $account")
+            runWithCalendarPermission {
+                val account =
+                    CalendarReminder.createCalendarAccount(this, calendarAccount)
+                ToastUtils.showShort("ID: $account")
+            }
         }
         binding.addEvent.setOnClickListener {
-            val eventId = CalendarReminder.createCalendarEvent(this, 9, CalendarEvent().apply {
-                this.eventName = "TestEvent"
-                this.startTime = System.currentTimeMillis() + 30000
-                this.endTime = System.currentTimeMillis() + 60000
-                this.description = "TestEvent Desc"
-                this.eventLocation = "TestEvent Location"
-            })
-            ToastUtils.showShort("eventId: $eventId")
+            val startTimeStr = "2023-02-13 00:00:00"
+            val startTimeMills = TimeUtils.string2Millis(startTimeStr)
+
+            runWithCalendarPermission {
+                testTable.curriculums.forEach { table ->
+                    val dayMills = 24 * 60 * 60 * 1000L
+                    val weekMills = dayMills * 7L
+
+                    table.allWeek.forEachIndexed { termWeekIndex, c ->
+                        if (c == '1') {
+                            // 周次时间偏移
+                            val weekMillOffset: Long = termWeekIndex * weekMills
+                            // 星期几时间偏移
+                            val weekDayOffset = table.week.toLong() * dayMills
+                            // 节次偏移
+                            val sectionMill = table.section.toSectionMills()
+                            val sectionStartOffset = sectionMill.first
+                            val sectionEndOffset = sectionMill.second
+
+                            val startTime =
+                                startTimeMills + weekMillOffset + weekDayOffset + sectionStartOffset
+                            Log.e(
+                                "startTimeMills",
+                                "startTime: $startTime, " +
+                                        "startTimeMills: $startTimeMills, " +
+                                        "termWeekIndex: $termWeekIndex, " +
+                                        "weekMills: $weekMills, " +
+                                        "weekMillOffset: $weekMillOffset, " +
+                                        "weekDayOffset: $weekDayOffset, " +
+                                        "sectionStartOffset: $sectionStartOffset"
+                            )
+
+                            val endTime =
+                                startTimeMills + weekMillOffset + weekDayOffset + sectionEndOffset
+
+                            val calendarEvent = CalendarEvent().apply {
+                                this.eventName = table.name.orEmpty()
+                                this.startTime = startTime
+                                this.endTime = endTime
+                                this.description = """
+                                    ${table.name}
+
+                                    老师：${table.teacher}
+                                    教室：${table.room}
+                                    星期 ${table.week.toInt() + 1}，第 ${table.section.toInt() + 1} 大节
+                                    
+                                    ${if (table.crashCourses.isNullOrEmpty()) "没有冲突课程" else "存在冲突课程！"}
+                                """.trimIndent()
+                                this.eventLocation = table.room
+                            }
+//                            Log.e(
+//                                "Table", "${table.name}：" +
+//                                        "第${termWeekIndex + 1}周，" +
+//                                        "节次: ${table.section.toInt() + 1} -> ${sectionMill.first}，" +
+//                                        "星期偏移：$weekDayOffset，" + TimeUtils.millis2String(
+//                                    startTime
+//                                )
+//                            )
+
+                            try {
+                                CalendarReminder.createCalendarEvent(this, 111, calendarEvent)
+                            } catch (e: Throwable) {
+                                LogUtils.e(e)
+                                ToastUtils.showShort(e.toString())
+                            }
+                        }
+                    }
+                }
+
+//                val eventId = CalendarReminder.createCalendarEvent(this, 3, CalendarEvent().apply {
+//                    this.eventName = "TestEvent"
+//                    this.startTime = System.currentTimeMillis() + 30000
+//                    this.endTime = System.currentTimeMillis() + 60000
+//                    this.description = "TestEvent Desc"
+//                    this.eventLocation = "TestEvent Location"
+//                })
+            }
         }
         binding.deleteEvent.setOnClickListener {
-            CalendarReminder.deleteCalendarEvent(this, 2)
+            runWithCalendarPermission {
+                CalendarReminder.deleteCalendarEvent(this, 2)
+            }
         }
         binding.nav.setOnFastLimitClickListener {
             ActivityUtils.startActivity(NavActivity::class.java)
@@ -266,5 +343,27 @@ class MainActivity :
 
     override fun p2vClickStatusView(stateView: StateView, view: View) {
 
+    }
+}
+
+fun String.toSectionMills(): Pair<Long, Long> {
+    val section = toIntOrNull() ?: return 0L to 0L
+
+    val minuteMills = 60 * 1000
+    val hourMills = 60 * minuteMills
+
+    // 课程大节
+    return when (section + 1) {
+        1 -> (8 * hourMills).toLong() to (9 * hourMills + 35 * minuteMills).toLong()
+        2 -> (10 * hourMills + 5 * minuteMills).toLong() to (11 * hourMills + 40 * minuteMills).toLong()
+        3 -> (14 * hourMills).toLong() to (15 * hourMills + 35 * minuteMills).toLong()
+        4 -> (16 * hourMills + 5 * minuteMills).toLong() to (17 * hourMills + 40 * minuteMills).toLong()
+        5 -> (19 * hourMills).toLong() to (20 * hourMills + 35 * minuteMills).toLong()
+        6 -> (20 * hourMills + 45 * minuteMills).toLong() to (22 * hourMills + 20 * minuteMills).toLong()
+        // 午间课
+        7 -> (12 * hourMills).toLong() to (13 * hourMills + 35 * minuteMills).toLong()
+        // 晚间课
+        8 -> (18 * hourMills).toLong() to (18 * hourMills + 45 * minuteMills).toLong()
+        else -> 0L to 0L
     }
 }

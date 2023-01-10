@@ -1,12 +1,15 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.xiaoyv.calendar
 
 import android.Manifest
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
+import android.content.pm.PackageManager
 import android.provider.CalendarContract
 import android.util.Log
-import androidx.annotation.RequiresPermission
+import androidx.core.app.ActivityCompat
 import java.util.*
 
 /**
@@ -18,17 +21,38 @@ import java.util.*
 object CalendarReminder {
     private const val TAG = "CalendarReminder"
 
+    const val ERROR_DATA = -1L
+    const val ERROR_PERMISSION = -2L
+
+    /**
+     * 是否有权限
+     */
+    fun hasCalendarPermission(context: Context): Boolean {
+        val writePermission =
+            ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_CALENDAR)
+        val readPermission =
+            ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR)
+        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED) {
+            return false
+        }
+        return true
+    }
+
+
     /**
      * 添加日历账户
      *
      * @return 成功则返回账户id，否则返回-1
      */
-    @RequiresPermission(Manifest.permission.WRITE_CALENDAR)
     fun createCalendarAccount(context: Context, user: CalendarAccount): Long {
+        if (hasCalendarPermission(context).not()) {
+            return ERROR_PERMISSION
+        }
+
         val accountName = user.accountName
         if (accountName.isBlank()) {
             Log.e(TAG, "createCalendarAccount: accountName can`t be empty")
-            return -1
+            return ERROR_DATA
         }
 
         // 先检测是否存在
@@ -40,7 +64,7 @@ object CalendarReminder {
         val value = ContentValues()
         // 账户类型：本地
         // 在添加账户时，如果账户类型不存在系统中，则可能该新增记录会被标记为脏数据而被删除
-        // 设置为ACCOUNT_TYPE_LOCAL可以保证在不存在账户类型时，该新增数据不会被删除
+        // 设置为 ACCOUNT_TYPE_LOCAL 可以保证在不存在账户类型时，该新增数据不会被删除
         value.put(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL)
         // 日历账户的名称
         value.put(CalendarContract.Calendars.ACCOUNT_NAME, accountName)
@@ -54,8 +78,6 @@ object CalendarReminder {
         value.put(CalendarContract.Calendars.OWNER_ACCOUNT, accountName)
         // 设置此日历可见
         value.put(CalendarContract.Calendars.VISIBLE, 1)
-        // 可以响应事件
-        value.put(CalendarContract.Calendars.CAN_ORGANIZER_RESPOND, 1)
         // 单个事件设置的最大的提醒数
         value.put(CalendarContract.Calendars.MAX_REMINDERS, 8)
         // 日历时区
@@ -97,19 +119,23 @@ object CalendarReminder {
      *
      * @return 存在：日历账户ID  不存在：-1
      */
-    @RequiresPermission(Manifest.permission.WRITE_CALENDAR)
     fun checkCalendarAccount(context: Context, accountName: String): CalendarAccount? {
+        if (hasCalendarPermission(context).not()) {
+            return null
+        }
+
         val selection = "(" + CalendarContract.Calendars.ACCOUNT_NAME + " = ?)"
         val selectionArgs = arrayOf(accountName)
 
+        val projection = arrayOf(
+            CalendarContract.Calendars._ID,
+            CalendarContract.Calendars.NAME,
+            CalendarContract.Calendars.ACCOUNT_NAME,
+            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+            CalendarContract.Calendars.CALENDAR_COLOR,
+        )
         context.contentResolver.query(
-            CalendarContract.Calendars.CONTENT_URI, arrayOf(
-                CalendarContract.Calendars._ID,
-                CalendarContract.Calendars.NAME,
-                CalendarContract.Calendars.ACCOUNT_NAME,
-                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-                CalendarContract.Calendars.CALENDAR_COLOR,
-            ), selection, selectionArgs, null
+            CalendarContract.Calendars.CONTENT_URI, projection, selection, selectionArgs, null
         ).use { cursor ->
             // 不存在日历账户
             if (cursor == null || cursor.count == 0) {
@@ -122,9 +148,8 @@ object CalendarReminder {
             val nameIndex = cursor.getColumnIndex(CalendarContract.Calendars.NAME)
             val accountNameIndex = cursor.getColumnIndex(CalendarContract.Calendars.ACCOUNT_NAME)
             val colorIndex = cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_COLOR)
-            val displayNameIndex = cursor.getColumnIndex(
-                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME
-            )
+            val displayNameIndex =
+                cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
 
             if (idIndex == -1 || nameIndex == -1
                 || accountNameIndex == -1
@@ -140,9 +165,9 @@ object CalendarReminder {
             }
             return CalendarAccount().apply {
                 this.calendarId = calendarId
-                this.name = cursor.getString(nameIndex)
-                this.accountName = cursor.getString(accountNameIndex)
-                this.displayName = cursor.getString(displayNameIndex)
+                this.name = cursor.getString(nameIndex).orEmpty()
+                this.accountName = cursor.getString(accountNameIndex).orEmpty()
+                this.displayName = cursor.getString(displayNameIndex).orEmpty()
                 this.color = cursor.getInt(colorIndex)
             }
         }
@@ -157,12 +182,15 @@ object CalendarReminder {
      * - 对于非重复发生的事件,必须包含 DTEND 字段
      * - 对重复发生的事件,必须包含一个附加了 RRULE 或 RDATE 字段的 DURATION 字段
      */
-    @RequiresPermission(Manifest.permission.WRITE_CALENDAR)
     fun createCalendarEvent(
         context: Context,
         calendarId: Long,
         calendarEvent: CalendarEvent
     ): Long {
+        if (hasCalendarPermission(context).not()) {
+            return ERROR_PERMISSION
+        }
+
         val startTime = calendarEvent.startTime
         val endTime = calendarEvent.endTime
         val eventName = calendarEvent.eventName
@@ -195,7 +223,7 @@ object CalendarReminder {
         // 定义事件的显示，默认即可
         event.put(CalendarContract.Events.ACCESS_LEVEL, CalendarContract.Events.ACCESS_DEFAULT)
         // 事件的状态
-        event.put(CalendarContract.Events.STATUS, 0)
+        event.put(CalendarContract.Events.STATUS, CalendarContract.Events.STATUS_CONFIRMED)
         // 设置事件提醒警报可用
         event.put(CalendarContract.Events.HAS_ALARM, 1)
         // 设置事件忙
@@ -232,11 +260,15 @@ object CalendarReminder {
      *
      * @param eventId 事件ID
      */
-    @RequiresPermission(Manifest.permission.WRITE_CALENDAR)
     fun deleteCalendarEvent(context: Context, eventId: Long): Boolean {
+        if (hasCalendarPermission(context).not()) {
+            Log.e(TAG, "deleteCalendarEvent: 没有权限删除日历事件")
+            return false
+        }
+
         val deletedCount1: Int
 
-        // 删除匹配条件
+        // 删除条件匹配的 事件库数据
         val selection = "(" + CalendarContract.Events._ID + " = ?)"
         val selectionArgs = arrayOf(eventId.toString())
 
@@ -246,7 +278,7 @@ object CalendarReminder {
             selectionArgs
         )
 
-        // 删除匹配条件
+        // 删除条件匹配的 提醒库数据
         val selection2 = "(" + CalendarContract.Reminders.EVENT_ID + " = ?)"
         val selectionArgs2 = arrayOf(eventId.toString())
 
@@ -265,7 +297,6 @@ object CalendarReminder {
      * @param end   事件结束时间
      * @param title 事件标题
      */
-    @RequiresPermission(Manifest.permission.WRITE_CALENDAR)
     private fun isEventAlreadyExist(
         context: Context,
         begin: Long,

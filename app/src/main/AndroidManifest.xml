@@ -30,7 +30,6 @@
         <activity android:name="com.xiaoyv.blueprint.activity.WebActivity" />
         <activity android:name="com.xiaoyv.blueprint.activity.MvvmTestActivity" />
         <activity android:name="com.xiaoyv.blueprint.NavActivity" />
-        <activity android:name="com.xiaoyv.webview.download.DownloadActivity"/>
         <activity android:name="com.xiaoyv.blueprint.activity.DownloadActivity" />
     </application>
 
