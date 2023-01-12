@@ -103,6 +103,13 @@
                 android:text="TBS"
                 android:textColor="@color/ui_text_c5" />
 
+            <Button
+                android:id="@+id/tv_crop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="视频裁剪"
+                android:textColor="@color/ui_text_c5" />
+
             <TextView
                 android:id="@+id/tv_test"
                 android:layout_width="match_parent"

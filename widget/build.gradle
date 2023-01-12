@@ -40,6 +40,7 @@ android {
 
     // 限定资源前缀
     resourcePrefix "ui_"
+    namespace 'com.xiaoyv.widget'
 }
 
 configurations.all {
@@ -51,7 +52,7 @@ dependencies {
     // implementation(project(":leveldb"))
 
     api 'androidx.core:core-ktx:1.9.0'
-    api 'androidx.appcompat:appcompat:1.5.1'
+    api 'androidx.appcompat:appcompat:1.6.0'
     api 'androidx.annotation:annotation:1.5.0'
     api 'com.google.android.material:material:1.7.0'
     api "androidx.recyclerview:recyclerview:1.2.1"

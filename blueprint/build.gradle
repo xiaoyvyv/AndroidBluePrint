@@ -39,6 +39,7 @@ android {
 
     // 限定资源前缀
     resourcePrefix "bp_"
+    namespace 'com.xiaoyv.blueprint'
 }
 
 configurations.all {
@@ -62,7 +63,7 @@ dependencies {
     // Utils
     api 'com.blankj:utilcodex:1.31.1'
     // Gson
-    api 'com.google.code.gson:gson:2.8.5'
+    api 'com.google.code.gson:gson:2.9.1'
     // Retrofit
     api 'com.squareup.retrofit2:retrofit:2.9.0'
 

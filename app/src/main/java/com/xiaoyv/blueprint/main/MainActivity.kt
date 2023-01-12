@@ -11,10 +11,7 @@ import androidx.core.view.updateLayoutParams
 import com.blankj.utilcode.util.*
 import com.github.nukc.stateview.StateView
 import com.xiaoyv.blueprint.NavActivity
-import com.xiaoyv.blueprint.activity.DownloadActivity
-import com.xiaoyv.blueprint.activity.WebActivity
-import com.xiaoyv.blueprint.activity.runWithCalendarPermission
-import com.xiaoyv.blueprint.activity.testTable
+import com.xiaoyv.blueprint.activity.*
 import com.xiaoyv.blueprint.app.R
 import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
@@ -86,6 +83,12 @@ class MainActivity :
                 ToastUtils.showShort("ID: $account")
             }
         }
+
+        binding.tvCrop.setOnFastLimitClickListener {
+            ActivityUtils.startActivity(CropActivity::class.java)
+        }
+
+
         binding.addEvent.setOnClickListener {
             val startTimeStr = "2023-02-13 00:00:00"
             val startTimeMills = TimeUtils.string2Millis(startTimeStr)

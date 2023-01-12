@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.xiaoyv.blueprint.app">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,8 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidBlueprint"
         android:usesCleartextTraffic="true"
-        tools:ignore="AllowBackup"
-        tools:targetApi="m">
+        tools:ignore="AllowBackup">
+
         <activity
             android:name="com.xiaoyv.blueprint.main.MainActivity"
             android:configChanges="screenSize|orientation|keyboard|keyboardHidden"
@@ -31,6 +30,7 @@
         <activity android:name="com.xiaoyv.blueprint.activity.MvvmTestActivity" />
         <activity android:name="com.xiaoyv.blueprint.NavActivity" />
         <activity android:name="com.xiaoyv.blueprint.activity.DownloadActivity" />
+        <activity android:name="com.xiaoyv.blueprint.activity.CropActivity" />
     </application>
 
 </manifest>

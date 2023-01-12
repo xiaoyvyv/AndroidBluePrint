@@ -49,9 +49,9 @@ fun View?.removeFromParent() {
 /**
  * 由于自定义 View 中的一些简化拓展方法
  */
-fun View.getDpx(dp: Float): Int = if (isInEditMode) (dp * 2.5).toInt() else dp.dpi
+fun View.getDpx(dp: Float): Int = if (isInEditMode) (dp * 3).toInt() else dp.dpi
 
-fun View.getSpx(sp: Float): Int = if (isInEditMode) (sp * 2.5).toInt() else sp.spi
+fun View.getSpx(sp: Float): Int = if (isInEditMode) (sp * 3).toInt() else sp.spi
 
 @ColorInt
 fun View.getColor(@ColorRes colorResId: Int): Int =
