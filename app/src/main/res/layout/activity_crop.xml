@@ -4,12 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_40"
+        android:text="视频测试"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.xiaoyv.widget.crop.CropVideoView
         android:id="@+id/crop_view"
-        android:layout_width="@dimen/ui_size_250"
-        android:layout_height="@dimen/ui_size_120"
-        android:layout_margin="@dimen/ui_size_40"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/ui_size_12"
+        android:layout_marginBottom="@dimen/dp_40"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -19,6 +19,7 @@ import com.xiaoyv.blueprint.utils.LazyUtils.loadRootFragment
 import com.xiaoyv.calendar.CalendarAccount
 import com.xiaoyv.calendar.CalendarEvent
 import com.xiaoyv.calendar.CalendarReminder
+import com.xiaoyv.calendar.ics.IcsCreator
 import com.xiaoyv.widget.callback.setOnFastLimitClickListener
 import com.xiaoyv.widget.dialog.UiNormalDialog
 import com.xiaoyv.widget.dialog.UiOptionsDialog
@@ -38,6 +39,8 @@ class MainActivity :
     override fun createContentBinding(layoutInflater: LayoutInflater): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
     }
+
+    private val events = arrayListOf<CalendarEvent>()
 
     @SuppressLint("NewApi")
     override fun initView() {
@@ -94,6 +97,8 @@ class MainActivity :
             val startTimeMills = TimeUtils.string2Millis(startTimeStr)
 
             runWithCalendarPermission {
+                events.clear()
+
                 testTable.curriculums.forEach { table ->
                     val dayMills = 24 * 60 * 60 * 1000L
                     val weekMills = dayMills * 7L
@@ -140,6 +145,8 @@ class MainActivity :
                                 """.trimIndent()
                                 this.eventLocation = table.room
                             }
+
+                            events.add(calendarEvent)
 //                            Log.e(
 //                                "Table", "${table.name}：" +
 //                                        "第${termWeekIndex + 1}周，" +
@@ -150,7 +157,7 @@ class MainActivity :
 //                            )
 
                             try {
-                                CalendarReminder.createCalendarEvent(this, 111, calendarEvent)
+                             //   CalendarReminder.createCalendarEvent(this, 111, calendarEvent)
                             } catch (e: Throwable) {
                                 LogUtils.e(e)
                                 ToastUtils.showShort(e.toString())
@@ -158,6 +165,8 @@ class MainActivity :
                         }
                     }
                 }
+
+                generateIcs(calendarAccount, events)
 
 //                val eventId = CalendarReminder.createCalendarEvent(this, 3, CalendarEvent().apply {
 //                    this.eventName = "TestEvent"
@@ -334,6 +343,16 @@ class MainActivity :
             optionsDialog.show(this)
 
         }
+    }
+
+    private fun generateIcs(calendarAccount: CalendarAccount, events: ArrayList<CalendarEvent>) {
+        val content = IcsCreator.createIcsContent(calendarAccount, events)
+        LogUtils.e(content)
+
+        FileIOUtils.writeFileFromString(
+            PathUtils.getExternalAppFilesPath() + "/calendar.ics",
+            content
+        )
     }
 
     override fun onPresenterCreated() {
