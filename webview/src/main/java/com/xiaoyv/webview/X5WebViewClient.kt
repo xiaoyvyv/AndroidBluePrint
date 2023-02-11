@@ -7,7 +7,6 @@ import androidx.appcompat.app.AlertDialog
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ThreadUtils
 import com.tencent.smtt.export.external.interfaces.*
-import com.tencent.smtt.sdk.DownloadListener
 import com.tencent.smtt.sdk.URLUtil
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
@@ -21,7 +20,7 @@ import java.lang.ref.WeakReference
  * @since 2023/1/7
  */
 @SuppressLint("JavascriptInterface")
-open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient(), DownloadListener {
+open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
     private val queryHtmlJavascript = """
         window.cacheArray = [];
         window.cacheArray[0] = document.getElementsByTagName('html')[0].outerHTML || '';
@@ -38,7 +37,7 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient(), 
         val linkUrl = uri?.toString().orEmpty()
         LogUtils.e(linkUrl)
         if (URLUtil.isNetworkUrl(linkUrl)) {
-            webView.setDownloadListener(this)
+            webView.setDownloadListener(x5WebView.realInnerDownloadListener)
             return super.shouldOverrideUrlLoading(webView, request)
         }
 
@@ -147,21 +146,5 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient(), 
         fun runOnUiThread(block: () -> Unit = {}) {
             ThreadUtils.runOnUiThread { block.invoke() }
         }
-    }
-
-    override fun onDownloadStart(
-        url: String,
-        userAgent: String,
-        contentDisposition: String,
-        mimeType: String,
-        contentLength: Long
-    ) {
-        X5DownloadListener(x5WebView).onDownloadStart(
-            url,
-            userAgent,
-            contentDisposition,
-            mimeType,
-            contentLength
-        )
     }
 }

@@ -24,6 +24,7 @@ class X5WebView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : WebView(context, attrs) {
 
+
     /**
      * Listener
      */
@@ -50,6 +51,9 @@ class X5WebView @JvmOverloads constructor(
     internal var titleTextView: AppCompatTextView? = null
     internal var titleBarView: Toolbar? = null
     internal var progressView: X5WebProgress? = null
+
+    internal var realInnerDownloadListener: DownloadListener? = null
+    internal var outConfigDownloadListener: DownloadListener? = null
 
     init {
         getResourcesProxy.invoke(resources)
@@ -102,8 +106,33 @@ class X5WebView @JvmOverloads constructor(
         CookieManager.getInstance().setAcceptCookie(true)
         CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
 
-        // 下载
-        setDownloadListener(X5DownloadListener(this))
+        // 下载代理
+        val listener = object : X5DownloadListener(this) {
+            override fun onDownloadStart(
+                url: String,
+                userAgent: String,
+                contentDisposition: String,
+                mimeType: String,
+                contentLength: Long
+            ) {
+                if (outConfigDownloadListener != null) {
+                    outConfigDownloadListener?.onDownloadStart(
+                        url,
+                        userAgent,
+                        contentDisposition,
+                        mimeType,
+                        contentLength
+                    )
+                    return
+                }
+                super.onDownloadStart(url, userAgent, contentDisposition, mimeType, contentLength)
+            }
+        }
+        super.setDownloadListener(listener)
+    }
+
+    override fun setDownloadListener(p0: DownloadListener?) {
+        outConfigDownloadListener = p0
     }
 
     fun addUrlInterceptor(webInterceptor: X5WebInterceptor) {

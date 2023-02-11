@@ -1,5 +1,6 @@
 package com.xiaoyv.webview.helper
 
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AlertDialog
@@ -18,7 +19,7 @@ import java.nio.charset.StandardCharsets
  * @since 2023/1/7
  */
 object X5ActionHelper {
-    internal var lastAskDialog: WeakReference<AlertDialog>? = null
+    var lastAskDialog: WeakReference<Dialog>? = null
 
     /**
      * 网页请求打开 App

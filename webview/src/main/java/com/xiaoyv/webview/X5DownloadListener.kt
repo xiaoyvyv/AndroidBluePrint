@@ -23,7 +23,6 @@ import java.lang.ref.WeakReference
  * @since 2023/1/7
  */
 open class X5DownloadListener(private val x5WebView: X5WebView) : DownloadListener {
-
     override fun onDownloadStart(
         url: String,
         userAgent: String,
