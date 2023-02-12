@@ -1,7 +1,9 @@
 package com.xiaoyv.webview
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.webkit.JavascriptInterface
 import androidx.appcompat.app.AlertDialog
 import com.blankj.utilcode.util.LogUtils
@@ -22,7 +24,7 @@ import java.lang.ref.WeakReference
 @SuppressLint("JavascriptInterface")
 open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
     private val queryHtmlJavascript = """
-        try {
+        try{
             window.cacheArray = [];
             window.cacheArray[0] = document.getElementsByTagName('html')[0].outerHTML || '';
             window.cacheArray[1] = document.getElementsByTagName('html')[0].outerText || '';
@@ -63,6 +65,7 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
         error: WebResourceError?
     ) {
         super.onReceivedError(webView, request, error)
+
         runOnUiThread {
             val errorCode = error?.errorCode ?: 0
             val errorMsg = error?.description.toString()
@@ -75,9 +78,6 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
         request: WebResourceRequest,
         response: WebResourceResponse?
     ) {
-        if (request.isForMainFrame.not()) {
-            webView.goBack()
-        }
         runOnUiThread {
             val errorCode = response?.statusCode ?: 0
             val errorMsg = response?.reasonPhrase.orEmpty()
