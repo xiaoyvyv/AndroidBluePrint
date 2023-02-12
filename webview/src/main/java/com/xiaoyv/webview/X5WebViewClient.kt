@@ -115,7 +115,9 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
         runOnUiThread {
             x5WebView.onWebLoadListener?.onLoadFinish(webView, url)
         }
-        webView.evaluateJavascript(queryHtmlJavascript, null)
+        if (x5WebView.invokeHtmlWhenLoadFinish) {
+            webView.evaluateJavascript(queryHtmlJavascript, null)
+        }
     }
 
     inner class PageFinishJsInterface {

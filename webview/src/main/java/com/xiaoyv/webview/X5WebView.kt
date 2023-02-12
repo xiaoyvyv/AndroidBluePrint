@@ -54,6 +54,8 @@ class X5WebView @JvmOverloads constructor(
 
     private var realInnerDownloadListener: DownloadListener? = null
 
+    var invokeHtmlWhenLoadFinish: Boolean = false
+
     init {
         getResourcesProxy.invoke(resources)
 
