@@ -5,6 +5,7 @@ import androidx.activity.addCallback
 import androidx.core.os.bundleOf
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.ThreadUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.xiaoyv.blueprint.app.databinding.ActivityWebBinding
 import com.xiaoyv.blueprint.base.binding.BaseBindingActivity
@@ -52,18 +53,18 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>() {
             }
         }
 
-        binding.web.loadUrl(webUrl)
     }
 
     override fun initData() {
         binding.web.loadUrl(webUrl)
-    }
 
+        ThreadUtils.runOnUiThreadDelayed({
+            binding.web.loadUrl("https://beian.miit.gov.cn/")
+        }, 3000)
+    }
 
     override fun onDestroy() {
         binding.web.destroy()
         super.onDestroy()
     }
-
-
 }

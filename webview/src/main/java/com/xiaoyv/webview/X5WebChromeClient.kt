@@ -2,13 +2,13 @@ package com.xiaoyv.webview
 
 import android.net.Uri
 import android.os.Message
+import com.blankj.utilcode.util.LogUtils
 import com.tencent.smtt.sdk.URLUtil
 import com.tencent.smtt.sdk.ValueCallback
 import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebView
 import com.xiaoyv.webview.helper.X5ActionHelper
 import com.xiaoyv.webview.utils.getActivity
-import com.xiaoyv.webview.utils.toSafeUri
 import java.lang.ref.WeakReference
 
 /**
@@ -73,16 +73,36 @@ class X5WebChromeClient(private val x5WebView: X5WebView) : WebChromeClient() {
     ): Boolean {
         val transport = resultMsg.obj as WebView.WebViewTransport
         transport.webView = tmpWeb?.get() ?: X5WebView(webView.context).also {
-            it.setDownloadListener(X5DownloadListener(it))
+            it.setDownloadListener { url, userAgent, contentDisposition, mimeType, contentLength ->
+                if (X5WebView.outConfigDownloadListener != null) {
+                    X5WebView.outConfigDownloadListener?.onDownloadStart(
+                        url,
+                        userAgent,
+                        contentDisposition,
+                        mimeType,
+                        contentLength
+                    )
+                } else {
+                    X5DownloadListener(it).onDownloadStart(
+                        url,
+                        userAgent,
+                        contentDisposition,
+                        mimeType,
+                        contentLength
+                    )
+                }
+            }
             it.settings.javaScriptCanOpenWindowsAutomatically = false
             it.settings.setSupportMultipleWindows(false)
             it.webViewClient = object : X5WebViewClient(it) {
-                override fun shouldOverrideUrlLoading(webView: WebView, url: String): Boolean {
-                    if (URLUtil.isNetworkUrl(url)) {
-                        x5WebView.onWindowListener?.openNewWindow(url)
+                override fun shouldOverrideUrlLoading(webView: WebView, linkUrl: String): Boolean {
+                    LogUtils.i("new window => $linkUrl")
+
+                    if (URLUtil.isNetworkUrl(linkUrl)) {
+                        x5WebView.onWindowListener?.openNewWindow(linkUrl)
                         return true
                     }
-                    X5ActionHelper.showCanOpenAppDialog(webView, url.toSafeUri())
+                    X5ActionHelper.showCanOpenAppDialog(webView, linkUrl)
                     return true
                 }
             }

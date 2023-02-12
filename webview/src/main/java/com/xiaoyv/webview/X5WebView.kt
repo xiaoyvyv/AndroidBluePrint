@@ -52,8 +52,7 @@ class X5WebView @JvmOverloads constructor(
     internal var titleBarView: Toolbar? = null
     internal var progressView: X5WebProgress? = null
 
-    internal var realInnerDownloadListener: DownloadListener? = null
-    internal var outConfigDownloadListener: DownloadListener? = null
+    private var realInnerDownloadListener: DownloadListener? = null
 
     init {
         getResourcesProxy.invoke(resources)
@@ -107,7 +106,7 @@ class X5WebView @JvmOverloads constructor(
         CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
 
         // 下载代理
-        val listener = object : X5DownloadListener(this) {
+        realInnerDownloadListener = object : X5DownloadListener(this) {
             override fun onDownloadStart(
                 url: String,
                 userAgent: String,
@@ -128,7 +127,7 @@ class X5WebView @JvmOverloads constructor(
                 super.onDownloadStart(url, userAgent, contentDisposition, mimeType, contentLength)
             }
         }
-        super.setDownloadListener(listener)
+        super.setDownloadListener(realInnerDownloadListener)
     }
 
     override fun setDownloadListener(p0: DownloadListener?) {
@@ -178,6 +177,8 @@ class X5WebView @JvmOverloads constructor(
     }
 
     override fun destroy() {
+        outConfigDownloadListener = null
+
         stopLoading()
         onDestroyListeners.forEach { it.invoke() }
         clearHistory()
@@ -186,6 +187,8 @@ class X5WebView @JvmOverloads constructor(
     }
 
     companion object {
+        internal var outConfigDownloadListener: DownloadListener? = null
+
         var getResourcesProxy: (Resources) -> Resources = { it }
     }
 }

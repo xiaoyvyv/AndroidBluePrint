@@ -2,7 +2,6 @@ package com.xiaoyv.webview.helper
 
 import android.app.Dialog
 import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AlertDialog
 import com.blankj.utilcode.util.*
 import com.tencent.smtt.sdk.MimeTypeMap
@@ -24,17 +23,15 @@ object X5ActionHelper {
     /**
      * 网页请求打开 App
      */
-    fun showCanOpenAppDialog(webView: WebView, targetAppUri: Uri?) {
+    fun showCanOpenAppDialog(webView: WebView, targetAppLink: String) {
         lastAskDialog?.get()?.dismiss()
         lastAskDialog?.clear()
 
         val currentUri = webView.url.toSafeUri()
         val currentUrl = currentUri.scheme + "://" + currentUri.host
 
-
         // 目标 Intent
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = targetAppUri
+        val intent = Intent.parseUri(targetAppLink, Intent.URI_ALLOW_UNSAFE)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         if (IntentUtils.isIntentAvailable(intent)) {
@@ -55,7 +52,7 @@ object X5ActionHelper {
             return
         }
 
-        LogUtils.e("无法处理请求意图：${targetAppUri.toString()}")
+        LogUtils.e("无法处理请求意图：$targetAppLink")
     }
 
     /**

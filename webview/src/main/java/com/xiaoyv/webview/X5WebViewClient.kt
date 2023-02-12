@@ -22,26 +22,25 @@ import java.lang.ref.WeakReference
 @SuppressLint("JavascriptInterface")
 open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
     private val queryHtmlJavascript = """
-        window.cacheArray = [];
-        window.cacheArray[0] = document.getElementsByTagName('html')[0].outerHTML || '';
-        window.cacheArray[1] = document.getElementsByTagName('html')[0].outerText || '';
-        window.android_view_client.onPageFinishWithHtml(window.cacheArray[0], window.cacheArray[1]);
+        try {
+            window.cacheArray = [];
+            window.cacheArray[0] = document.getElementsByTagName('html')[0].outerHTML || '';
+            window.cacheArray[1] = document.getElementsByTagName('html')[0].outerText || '';
+            window.android.onPageFinishWithHtml(window.cacheArray[0], window.cacheArray[1]);
+        } catch(e) {}
     """.trimIndent()
 
     init {
-        x5WebView.addJavascriptInterface(PageFinishJsInterface(), "android_view_client")
+        x5WebView.addJavascriptInterface(PageFinishJsInterface(), "android")
     }
 
-    override fun shouldOverrideUrlLoading(webView: WebView, request: WebResourceRequest): Boolean {
-        val uri = request.url
-        val linkUrl = uri?.toString().orEmpty()
+    override fun shouldOverrideUrlLoading(webView: WebView, linkUrl: String): Boolean {
         LogUtils.e(linkUrl)
         if (URLUtil.isNetworkUrl(linkUrl)) {
-            webView.setDownloadListener(x5WebView.realInnerDownloadListener)
-            return super.shouldOverrideUrlLoading(webView, request)
+            x5WebView.loadUrl(linkUrl)
+            return true
         }
-
-        X5ActionHelper.showCanOpenAppDialog(webView, request.url)
+        X5ActionHelper.showCanOpenAppDialog(webView, linkUrl)
         return true
     }
 
