@@ -4,13 +4,17 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.webkit.JavascriptInterface
 import androidx.appcompat.app.AlertDialog
+import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ThreadUtils
 import com.tencent.smtt.export.external.interfaces.*
+import com.tencent.smtt.sdk.MimeTypeMap
 import com.tencent.smtt.sdk.URLUtil
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
+import com.xiaoyv.webview.X5WebView.Companion.SCHEME_STORAGE
 import com.xiaoyv.webview.helper.X5ActionHelper
+import java.io.FileInputStream
 import java.lang.ref.WeakReference
 
 /**
@@ -36,7 +40,7 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
 
     override fun shouldOverrideUrlLoading(webView: WebView, linkUrl: String): Boolean {
         LogUtils.e(linkUrl)
-        if (URLUtil.isNetworkUrl(linkUrl)) {
+        if (URLUtil.isNetworkUrl(linkUrl) || linkUrl.startsWith(SCHEME_STORAGE)) {
             x5WebView.loadUrl(linkUrl)
             return true
         }
@@ -53,6 +57,17 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
             if (resourceResponse != null) {
                 return resourceResponse
             }
+        }
+        val url = request.url.toString()
+        if (url.startsWith(SCHEME_STORAGE)) {
+            val realPath = url.substringAfter(SCHEME_STORAGE)
+            if (FileUtils.isFileExists(realPath).not()) {
+                return super.shouldInterceptRequest(webView, request)
+            }
+            val extension = MimeTypeMap.getFileExtensionFromUrl(realPath)
+            val mimeType =
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+            return WebResourceResponse(mimeType, "utf-8", FileInputStream(realPath))
         }
         return super.shouldInterceptRequest(webView, request)
     }

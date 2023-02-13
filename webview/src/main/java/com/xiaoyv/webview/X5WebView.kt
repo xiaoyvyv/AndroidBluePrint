@@ -24,7 +24,6 @@ class X5WebView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : WebView(context, attrs) {
 
-
     /**
      * Listener
      */
@@ -189,6 +188,8 @@ class X5WebView @JvmOverloads constructor(
     }
 
     companion object {
+        const val SCHEME_STORAGE = "file:///android_storage"
+
         internal var outConfigDownloadListener: DownloadListener? = null
 
         var getResourcesProxy: (Resources) -> Resources = { it }
