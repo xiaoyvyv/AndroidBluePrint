@@ -188,7 +188,7 @@ class X5WebView @JvmOverloads constructor(
     }
 
     companion object {
-        const val SCHEME_STORAGE = "file:///android_storage"
+        const val SCHEME_STORAGE = "http://localhost"
 
         internal var outConfigDownloadListener: DownloadListener? = null
 

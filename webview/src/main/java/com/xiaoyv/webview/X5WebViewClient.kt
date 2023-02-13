@@ -60,7 +60,9 @@ open class X5WebViewClient(private val x5WebView: X5WebView) : WebViewClient() {
         }
         val url = request.url.toString()
         if (url.startsWith(SCHEME_STORAGE)) {
-            val realPath = url.substringAfter(SCHEME_STORAGE)
+            val realPath = url.substringAfter(SCHEME_STORAGE).let {
+                if (it.contains("?")) it.substringBefore("?") else it
+            }
             if (FileUtils.isFileExists(realPath).not()) {
                 return super.shouldInterceptRequest(webView, request)
             }
