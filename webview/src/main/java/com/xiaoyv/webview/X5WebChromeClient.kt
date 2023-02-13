@@ -98,7 +98,7 @@ class X5WebChromeClient(private val x5WebView: X5WebView) : WebChromeClient() {
                 override fun shouldOverrideUrlLoading(webView: WebView, linkUrl: String): Boolean {
                     LogUtils.i("new window => $linkUrl")
 
-                    if (URLUtil.isNetworkUrl(linkUrl)) {
+                    if (URLUtil.isNetworkUrl(linkUrl) || linkUrl.startsWith(X5WebView.SCHEME_STORAGE)) {
                         x5WebView.onWindowListener?.openNewWindow(linkUrl)
                         return true
                     }
