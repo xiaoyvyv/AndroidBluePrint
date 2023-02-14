@@ -3,7 +3,6 @@ package com.xiaoyv.blueprint.main
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
@@ -35,10 +34,6 @@ class MainActivity :
     private val tbsApk by lazy { PathUtils.getExternalAppFilesPath() + "/tbs/tbs.apk" }
 
     override fun createPresenter() = MainPresenter()
-
-    override fun createContentBinding(layoutInflater: LayoutInflater): ActivityMainBinding {
-        return ActivityMainBinding.inflate(layoutInflater)
-    }
 
     private val events = arrayListOf<CalendarEvent>()
 

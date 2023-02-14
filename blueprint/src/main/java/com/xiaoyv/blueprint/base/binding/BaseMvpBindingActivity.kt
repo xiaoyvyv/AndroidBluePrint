@@ -7,6 +7,7 @@ import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.base.BaseMvpActivity
 import com.xiaoyv.blueprint.base.IBaseView
 import com.xiaoyv.blueprint.base.ImplBasePresenter
+import com.xiaoyv.blueprint.utils.injectViewBinding
 
 /**
  * BaseMvpBindingActivity
@@ -14,7 +15,8 @@ import com.xiaoyv.blueprint.base.ImplBasePresenter
  * @author why
  * @since 2021/10/9
  */
-abstract class BaseMvpBindingActivity<BINDING : ViewBinding, V : IBaseView, PRESENTER : ImplBasePresenter<V>> : BaseMvpActivity<V, PRESENTER>() {
+abstract class BaseMvpBindingActivity<BINDING : ViewBinding, V : IBaseView, PRESENTER : ImplBasePresenter<V>> :
+    BaseMvpActivity<V, PRESENTER>() {
 
     lateinit var binding: BINDING
 
@@ -26,7 +28,9 @@ abstract class BaseMvpBindingActivity<BINDING : ViewBinding, V : IBaseView, PRES
 
     abstract override fun createPresenter(): PRESENTER
 
-    abstract fun createContentBinding(layoutInflater: LayoutInflater): BINDING
+    protected open fun createContentBinding(layoutInflater: LayoutInflater): BINDING {
+        return injectViewBinding()
+    }
 
     abstract override fun initView()
 

@@ -24,6 +24,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>() {
 
 
     override fun createContentBinding(layoutInflater: LayoutInflater): ActivityWebBinding {
+
         return ActivityWebBinding.inflate(layoutInflater)
     }
 

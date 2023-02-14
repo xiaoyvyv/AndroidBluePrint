@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.base.BaseActivity
+import com.xiaoyv.blueprint.utils.injectViewBinding
 
 /**
  * BaseBindingActivity
@@ -21,7 +22,9 @@ abstract class BaseBindingActivity<BINDING : ViewBinding> : BaseActivity() {
         return binding.root
     }
 
-    abstract fun createContentBinding(layoutInflater: LayoutInflater): BINDING
+    protected open fun createContentBinding(layoutInflater: LayoutInflater): BINDING {
+        return injectViewBinding()
+    }
 
     abstract override fun initView()
 

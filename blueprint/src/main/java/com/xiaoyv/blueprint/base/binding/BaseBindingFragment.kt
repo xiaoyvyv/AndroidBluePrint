@@ -6,6 +6,7 @@ import android.widget.FrameLayout
 import androidx.annotation.CallSuper
 import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.base.BaseFragment
+import com.xiaoyv.blueprint.utils.injectViewBinding
 
 /**
  * BaseBindingFragment
@@ -17,12 +18,14 @@ abstract class BaseBindingFragment<BINDING : ViewBinding> : BaseFragment() {
     lateinit var binding: BINDING
 
     @CallSuper
-    override fun createContentView(inflater: LayoutInflater, flRoot: FrameLayout): View {
+    override fun createContentView(inflater: LayoutInflater, parent: FrameLayout): View {
         binding = createContentBinding(layoutInflater)
         return binding.root
     }
 
-    abstract fun createContentBinding(layoutInflater: LayoutInflater): BINDING
+    protected open fun createContentBinding(layoutInflater: LayoutInflater): BINDING {
+        return injectViewBinding()
+    }
 
     abstract override fun initView()
 

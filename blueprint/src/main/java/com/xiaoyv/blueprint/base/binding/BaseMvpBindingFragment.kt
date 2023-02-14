@@ -8,6 +8,7 @@ import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.base.BaseMvpFragment
 import com.xiaoyv.blueprint.base.IBaseView
 import com.xiaoyv.blueprint.base.ImplBasePresenter
+import com.xiaoyv.blueprint.utils.injectViewBinding
 
 /**
  * BaseMvpBindingFragment
@@ -28,7 +29,9 @@ abstract class BaseMvpBindingFragment<BINDING : ViewBinding, V : IBaseView, PRES
 
     abstract override fun createPresenter(): PRESENTER
 
-    abstract fun createContentBinding(layoutInflater: LayoutInflater): BINDING
+    protected open fun createContentBinding(layoutInflater: LayoutInflater): BINDING {
+        return injectViewBinding()
+    }
 
     abstract override fun initView()
 
