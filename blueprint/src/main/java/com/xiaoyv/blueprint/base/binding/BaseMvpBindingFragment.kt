@@ -8,7 +8,7 @@ import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.base.BaseMvpFragment
 import com.xiaoyv.blueprint.base.IBaseView
 import com.xiaoyv.blueprint.base.ImplBasePresenter
-import com.xiaoyv.blueprint.utils.injectViewBinding
+import com.xiaoyv.widget.utils.injectViewBinding
 
 /**
  * BaseMvpBindingFragment

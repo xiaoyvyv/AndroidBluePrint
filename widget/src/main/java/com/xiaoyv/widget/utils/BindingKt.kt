@@ -1,6 +1,6 @@
 @file:Suppress("UNCHECKED_CAST")
 
-package com.xiaoyv.blueprint.utils
+package com.xiaoyv.widget.utils
 
 import android.app.Activity
 import android.view.LayoutInflater

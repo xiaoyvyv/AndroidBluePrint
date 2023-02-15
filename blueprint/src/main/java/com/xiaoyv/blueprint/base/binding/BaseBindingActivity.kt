@@ -5,7 +5,7 @@ import android.view.View
 import androidx.annotation.CallSuper
 import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.base.BaseActivity
-import com.xiaoyv.blueprint.utils.injectViewBinding
+import com.xiaoyv.widget.utils.injectViewBinding
 
 /**
  * BaseBindingActivity
