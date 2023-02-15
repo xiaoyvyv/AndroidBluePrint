@@ -12,6 +12,12 @@ abstract class BaseQuickBindingAdapter<T, VB : ViewBinding>(
     data: MutableList<T>? = arrayListOf()
 ) : BaseQuickAdapter<T, BaseQuickBindingHolder<VB>>(0, data) {
 
+    override fun convert(holder: BaseQuickBindingHolder<VB>, item: T) {
+        holder.converted(item)
+    }
+
+    protected abstract fun BaseQuickBindingHolder<VB>.converted(item: T)
+
     override fun createBaseViewHolder(
         parent: ViewGroup,
         layoutResId: Int
@@ -25,6 +31,4 @@ abstract class BaseQuickBindingAdapter<T, VB : ViewBinding>(
         val vb = method.invoke(null, LayoutInflater.from(context), parent, false) as VB
         return BaseQuickBindingHolder(vb)
     }
-
-
 }
