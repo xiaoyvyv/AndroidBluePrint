@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -108,6 +109,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
     protected abstract fun initData()
     protected open fun initEvent() {}
     protected open fun initListener() {}
+    protected open fun LifecycleOwner.initViewObserver() {}
     protected open fun initFinish() {}
 
     /**
@@ -129,6 +131,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
             initData()
             initEvent()
             initListener()
+            viewLifecycleOwner.initViewObserver()
             initFinish()
             isLazyLoaded = true
         }

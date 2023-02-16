@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.LifecycleOwner
 import com.blankj.utilcode.util.*
 import com.github.nukc.stateview.StateView
 import com.xiaoyv.blueprint.NavActivity
@@ -357,6 +358,10 @@ class MainActivity :
     }
 
     override fun p2vClickStatusView(stateView: StateView, view: View) {
+
+    }
+
+    override fun LifecycleOwner.initViewObserver() {
 
     }
 }

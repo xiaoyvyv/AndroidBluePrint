@@ -12,6 +12,7 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.KeyboardUtils
@@ -92,9 +93,9 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     protected open fun initFun() {
         initData()
         initEvent()
+        initViewObserver()
         initListener()
     }
-
 
     @CallSuper
     override fun onNewIntent(intent: Intent?) {
@@ -178,6 +179,8 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     protected abstract fun initData()
     protected open fun initEvent() {}
     protected open fun initListener() {}
+
+    protected open fun LifecycleOwner.initViewObserver() {}
 
     /**
      * 页面动画效果
