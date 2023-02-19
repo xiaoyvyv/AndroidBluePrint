@@ -45,17 +45,6 @@ val Context?.fetchActivity: Activity?
 val Context?.fetchFragmentActivity: FragmentActivity?
     get() = fetchActivity as? FragmentActivity
 
-fun getActivity(c: Context?): Activity? {
-    var context = c
-    while (context is ContextWrapper) {
-        if (context is Activity) {
-            return context
-        }
-        context = context.baseContext
-    }
-    return null
-}
-
 /**
  * 根据 View 获取 Activity
  */
