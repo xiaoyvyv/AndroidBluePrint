@@ -1,14 +1,18 @@
 package com.xiaoyv.widget.utils
 
 import android.net.Uri
+import java.io.File
 
-/**
- * StringKt
- *
- * @author why
- * @since 2023/1/7
- */
+fun String.sizeOf(symbol: Char): Int {
+    var i = 0
+    forEach { if (it == symbol) i++ }
+    return i
+}
 
 fun String?.toSafeUri(): Uri {
     return runCatching { Uri.parse(this.orEmpty()) }.getOrDefault(Uri.EMPTY)
+}
+
+fun String.appendSeparator(): String {
+    return if (endsWith("/")) this else this + File.separator
 }
