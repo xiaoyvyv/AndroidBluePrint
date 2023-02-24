@@ -21,52 +21,48 @@ import kotlin.coroutines.EmptyCoroutineContext
  * IO 线程
  */
 fun LifecycleOwner.launchIO(
-    context: CoroutineContext = EmptyCoroutineContext,
     start: CoroutineStart = CoroutineStart.DEFAULT,
     state: MutableLiveData<LoadingState>? = null,
     error: (Throwable) -> Unit = {},
     block: suspend CoroutineScope.() -> Unit
 ): Job {
-    return lifecycleScope.launchCatch(context, start, state, error, block)
+    return lifecycleScope.launchCatch(Dispatchers.IO, start, state, error, block)
 }
 
 /**
  * UI 线程
  */
 fun LifecycleOwner.launchUI(
-    context: CoroutineContext = EmptyCoroutineContext,
     start: CoroutineStart = CoroutineStart.DEFAULT,
     state: MutableLiveData<LoadingState>? = null,
     error: (Throwable) -> Unit = {},
     block: suspend CoroutineScope.() -> Unit
 ): Job {
-    return lifecycleScope.launchCatch(context, start, state, error, block)
+    return lifecycleScope.launchCatch(Dispatchers.Main.immediate, start, state, error, block)
 }
 
 /**
  * IO 线程
  */
 fun ViewModel.launchIO(
-    context: CoroutineContext = EmptyCoroutineContext,
     start: CoroutineStart = CoroutineStart.DEFAULT,
     error: (Throwable) -> Unit = {},
     state: MutableLiveData<LoadingState>? = null,
     block: suspend CoroutineScope.() -> Unit
 ): Job {
-    return viewModelScope.launchCatch(context, start, state, error, block)
+    return viewModelScope.launchCatch(Dispatchers.IO, start, state, error, block)
 }
 
 /**
  * UI 线程
  */
 fun ViewModel.launchUI(
-    context: CoroutineContext = EmptyCoroutineContext,
     start: CoroutineStart = CoroutineStart.DEFAULT,
     state: MutableLiveData<LoadingState>? = null,
     error: (Throwable) -> Unit = {},
     block: suspend CoroutineScope.() -> Unit
 ): Job {
-    return viewModelScope.launchCatch(context, start, state, error, block)
+    return viewModelScope.launchCatch(Dispatchers.Main.immediate, start, state, error, block)
 }
 
 /**
@@ -93,7 +89,7 @@ fun CoroutineScope.launchCatch(
     block: suspend CoroutineScope.() -> Unit
 ): Job {
     val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        state?.value = LoadingState.Ending
+        runCatching { state?.value = LoadingState.Ending }
         error.invoke(throwable)
     }
     return launch(context + exceptionHandler, start) {
@@ -101,7 +97,7 @@ fun CoroutineScope.launchCatch(
             runCatching { state?.value = LoadingState.Starting }
         }
         block.invoke(this)
-        state?.value = LoadingState.Ending
+        runCatching { state?.value = LoadingState.Ending }
     }
 }
 
