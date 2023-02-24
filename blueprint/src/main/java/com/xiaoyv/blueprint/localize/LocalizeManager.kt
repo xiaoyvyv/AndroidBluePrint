@@ -5,11 +5,10 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.FileIOUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.Utils
-import com.xiaoyv.blueprint.utils.ioCoroutineContext
+import com.xiaoyv.blueprint.utils.launchCatch
 import com.xiaoyv.widget.utils.ProcessLifecycleScope
-import kotlinx.coroutines.launch
 import java.io.File
-import java.util.*
+import java.util.Locale
 
 /**
  * LocalizeManager 多语言 配置|切换
@@ -68,7 +67,7 @@ object LocalizeManager {
      */
     @JvmStatic
     fun switchLanguage(@LanguageType languageType: Int) {
-        ProcessLifecycleScope.launch(ioCoroutineContext) {
+        ProcessLifecycleScope.launchCatch {
             FileIOUtils.writeFileFromString(languageConfigFile, languageType.toString())
             // 清除当前语言类型缓存
             cacheType = null

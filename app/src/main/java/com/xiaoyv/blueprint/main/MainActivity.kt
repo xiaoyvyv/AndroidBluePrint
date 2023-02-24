@@ -87,7 +87,6 @@ class MainActivity :
             ActivityUtils.startActivity(CropActivity::class.java)
         }
 
-
         binding.addEvent.setOnClickListener {
             val startTimeStr = "2023-02-13 00:00:00"
             val startTimeMills = TimeUtils.string2Millis(startTimeStr)

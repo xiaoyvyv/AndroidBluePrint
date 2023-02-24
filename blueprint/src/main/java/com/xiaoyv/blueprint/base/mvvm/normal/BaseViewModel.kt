@@ -4,12 +4,6 @@ package com.xiaoyv.blueprint.base.mvvm.normal
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.xiaoyv.blueprint.utils.ioCoroutineContext
-import com.xiaoyv.blueprint.utils.mainCoroutineContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
 
@@ -23,7 +17,8 @@ open class BaseViewModel : ViewModel() {
     var reference: WeakReference<Context>? = null
 
     val context: Context
-        get() = reference?.get() ?: throw NullPointerException("viewModel context 已经解绑，请检查泄露代码！！！")
+        get() = reference?.get()
+            ?: throw NullPointerException("viewModel context 已经解绑，请检查泄露代码！！！")
 
     fun onAttach(context: Context) {
         reference?.clear()
@@ -41,22 +36,4 @@ open class BaseViewModel : ViewModel() {
     open fun onViewDestroy() {}
 
     open fun onDestroy() {}
-
-    /**
-     * UI 线程
-     */
-    fun launchUi(block: suspend CoroutineScope.() -> Unit): Job {
-        return viewModelScope.launch(mainCoroutineContext) {
-            block(this)
-        }
-    }
-
-    /**
-     * IO 线程
-     */
-    fun launchIo(block: suspend CoroutineScope.() -> Unit): Job {
-        return viewModelScope.launch(ioCoroutineContext) {
-            block(this)
-        }
-    }
 }

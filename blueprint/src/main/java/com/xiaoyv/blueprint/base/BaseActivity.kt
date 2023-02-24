@@ -1,4 +1,4 @@
-@file:Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
+@file:Suppress("DEPRECATION", "MemberVisibilityCanBePrivate", "OVERRIDE_DEPRECATION")
 
 package com.xiaoyv.blueprint.base
 
