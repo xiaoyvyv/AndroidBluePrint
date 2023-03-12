@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.xiaoyv.widget.utils
+package com.xiaoyv.widget.kts
 
 import android.os.Build
 import android.os.Bundle

@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.xiaoyv.widget.utils
+package com.xiaoyv.widget.kts
 
 const val SECONDS_MIN = 60
 const val SECONDS_HOUR = 60 * 60

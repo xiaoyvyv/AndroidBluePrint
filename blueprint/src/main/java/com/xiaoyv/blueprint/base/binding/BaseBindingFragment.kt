@@ -6,7 +6,7 @@ import android.widget.FrameLayout
 import androidx.annotation.CallSuper
 import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.base.BaseFragment
-import com.xiaoyv.widget.utils.injectViewBinding
+import com.xiaoyv.widget.kts.injectViewBinding
 
 /**
  * BaseBindingFragment

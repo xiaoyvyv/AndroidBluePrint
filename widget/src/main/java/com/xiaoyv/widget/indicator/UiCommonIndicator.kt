@@ -11,7 +11,7 @@ import androidx.annotation.ColorInt
 import androidx.viewpager2.widget.ViewPager2
 import com.blankj.utilcode.util.ColorUtils
 import com.xiaoyv.widget.R
-import com.xiaoyv.widget.utils.getDpx
+import com.xiaoyv.widget.kts.getDpx
 import net.lucode.hackware.magicindicator.MagicIndicator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter

@@ -20,10 +20,10 @@ import com.github.nukc.stateview.StateView
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiViewStatusErrorBinding
 import com.xiaoyv.widget.databinding.UiViewStatusTipBinding
+import com.xiaoyv.widget.kts.getAttrDrawable
+import com.xiaoyv.widget.kts.getAttrResourceId
+import com.xiaoyv.widget.kts.setTextAppearanceCompat
 import com.xiaoyv.widget.toolbar.UiToolbar
-import com.xiaoyv.widget.utils.getAttrDrawable
-import com.xiaoyv.widget.utils.getAttrResourceId
-import com.xiaoyv.widget.utils.setTextAppearanceCompat
 
 /**
  * StateViewImpl 全局状态布局

@@ -1,6 +1,6 @@
 @file:Suppress("UNCHECKED_CAST")
 
-package com.xiaoyv.widget.utils
+package com.xiaoyv.widget.kts
 
 import android.app.Activity
 import android.view.LayoutInflater

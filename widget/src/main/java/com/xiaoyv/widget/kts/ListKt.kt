@@ -1,6 +1,6 @@
 @file:Suppress("UNCHECKED_CAST")
 
-package com.xiaoyv.widget.utils
+package com.xiaoyv.widget.kts
 
 import java.util.*
 import kotlin.math.min

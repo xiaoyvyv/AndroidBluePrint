@@ -18,7 +18,7 @@ import com.xiaoyv.widget.R
 import com.xiaoyv.widget.callback.setOnFastLimitClickListener
 import com.xiaoyv.widget.databinding.UiDialogNormalBinding
 import com.xiaoyv.widget.databinding.UiDialogOptionsItemBinding
-import com.xiaoyv.widget.utils.dpi
+import com.xiaoyv.widget.kts.dpi
 
 /**
  * UiOptionsDialog

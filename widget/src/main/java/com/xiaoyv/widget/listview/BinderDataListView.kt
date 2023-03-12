@@ -28,8 +28,8 @@ import com.scwang.smart.refresh.layout.api.RefreshHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.xiaoyv.widget.databinding.UiViewListBinderBinding
 import com.xiaoyv.widget.databinding.UiViewListNoMoreBinding
+import com.xiaoyv.widget.kts.fetchActivity
 import com.xiaoyv.widget.stateview.StateViewImpl
-import com.xiaoyv.widget.utils.getActivity
 import java.lang.ref.WeakReference
 
 /**
@@ -164,7 +164,7 @@ class BinderDataListView @JvmOverloads constructor(
 
         addItemBinder(LoadEndBean::class.java, loadEndBinder)
 
-        val activity = getActivity()
+        val activity = fetchActivity()
         if (activity is FragmentActivity) {
             // 状态布局
             stateViewImpl = object : StateViewImpl(activity) {

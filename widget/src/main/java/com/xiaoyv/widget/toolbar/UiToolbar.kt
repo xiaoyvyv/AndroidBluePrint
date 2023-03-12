@@ -20,7 +20,11 @@ import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.Utils
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiViewToolbarBinding
-import com.xiaoyv.widget.utils.*
+import com.xiaoyv.widget.kts.dpi
+import com.xiaoyv.widget.kts.fetchActivity
+import com.xiaoyv.widget.kts.getAttrDimensionPixelSize
+import com.xiaoyv.widget.kts.getAttrDrawable
+import com.xiaoyv.widget.kts.getStatusBarHeight
 
 /**
  * UiToolbar
@@ -85,7 +89,7 @@ class UiToolbar @JvmOverloads constructor(
      */
     private val defaultClick4Finish: OnBarClickListener = object : OnBarClickListener {
         override fun onClick(view: View, which: Int) {
-            val activity = getActivity()
+            val activity = fetchActivity()
             if (activity != null) {
                 activity.onBackPressed()
             } else {

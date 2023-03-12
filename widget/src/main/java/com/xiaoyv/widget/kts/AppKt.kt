@@ -1,4 +1,4 @@
-package com.xiaoyv.widget.utils
+package com.xiaoyv.widget.kts
 
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils

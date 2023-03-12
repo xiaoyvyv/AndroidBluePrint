@@ -55,8 +55,8 @@ dependencies {
     compileOnly 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     compileOnly 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    api "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:2.6.0"
     api 'com.kunminx.arch:unpeek-livedata:7.8.0'
 
     // https://github.com/JeremyLiao/LiveEventBus

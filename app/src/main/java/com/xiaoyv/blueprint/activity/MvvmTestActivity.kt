@@ -5,7 +5,7 @@ import com.blankj.utilcode.util.LogUtils
 import com.xiaoyv.blueprint.app.databinding.ActivityMvvmBinding
 import com.xiaoyv.blueprint.base.mvvm.normal.BaseViewModelActivity
 import com.xiaoyv.widget.callback.setOnFastLimitClickListener
-import com.xiaoyv.widget.utils.parentView
+import com.xiaoyv.widget.kts.parentView
 
 /**
  * MvvmTestActivity

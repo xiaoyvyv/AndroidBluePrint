@@ -1,4 +1,4 @@
-package com.xiaoyv.widget.utils
+package com.xiaoyv.widget.kts
 
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ProcessLifecycleOwner

@@ -27,9 +27,9 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiDialogSelectBinding
 import com.xiaoyv.widget.databinding.UiDialogSelectItemBinding
-import com.xiaoyv.widget.utils.canShowInActivity
-import com.xiaoyv.widget.utils.canShowInFragment
-import com.xiaoyv.widget.utils.dpi
+import com.xiaoyv.widget.kts.canShowInActivity
+import com.xiaoyv.widget.kts.canShowInFragment
+import com.xiaoyv.widget.kts.dpi
 
 /**
  * UiSelectDialog

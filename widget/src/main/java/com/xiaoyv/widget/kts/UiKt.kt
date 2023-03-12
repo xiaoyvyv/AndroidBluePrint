@@ -1,9 +1,7 @@
 @file:Suppress("unused")
 
-package com.xiaoyv.widget.utils
+package com.xiaoyv.widget.kts
 
-import android.app.Dialog
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -17,14 +15,12 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.TypedValue
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
 import androidx.annotation.FontRes
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.DialogFragment
 import com.blankj.utilcode.util.Utils
 import com.github.nukc.stateview.StateView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -144,7 +140,7 @@ fun StateView.doDelayLoadingAndRun(
 ) {
     this.showLoading()
     this.postDelayed({
-        val activity = getActivity() ?: return@postDelayed
+        val activity = fetchActivity() ?: return@postDelayed
         if (activity.isDestroyed || activity.isFinishing) {
             return@postDelayed
         }
@@ -164,22 +160,4 @@ inline fun doOnBarClick(
         }
     }
 }
-
-/**
- * 修复 Dialog 有输入框时，焦点问题导致关闭弹窗时，键盘不消失
- */
-fun DialogFragment.createFixFocusDialog(): Dialog = object : Dialog(requireActivity(), theme) {
-    override fun dismiss() {
-        dismissSoftInput()
-        super.dismiss()
-    }
-}
-
-fun DialogFragment.dismissSoftInput() {
-    dialog?.currentFocus?.apply {
-        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager ?: return
-        imm.hideSoftInputFromWindow(windowToken, 0)
-    }
-}
-
 

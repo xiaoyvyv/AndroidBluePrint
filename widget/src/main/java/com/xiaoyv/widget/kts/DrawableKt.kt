@@ -1,4 +1,4 @@
-package com.xiaoyv.widget.utils
+package com.xiaoyv.widget.kts
 
 import android.content.res.Resources
 import android.graphics.*

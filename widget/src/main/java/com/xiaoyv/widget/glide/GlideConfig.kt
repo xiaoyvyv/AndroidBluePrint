@@ -13,17 +13,15 @@ data class GlideConfig(
     /**
      * 头像加载中、或失败|默认
      */
-    @DrawableRes var defaultAvatarHolder: Int = R.drawable.ui_pic_avatar_loading,
-    @DrawableRes var defaultAvatarError: Int = R.drawable.ui_pic_avatar_default,
+    @DrawableRes
+    var defaultAvatarHolder: Int = R.drawable.ui_pic_avatar_loading,
+    @DrawableRes
+    var defaultAvatarError: Int = R.drawable.ui_pic_avatar_default,
 
-    @DrawableRes var defaultHolder1_1: Int = 0,
-    @DrawableRes var defaultHolder4_3: Int = 0,
-    @DrawableRes var defaultHolder16_9: Int = 0,
-
-) {
-    companion object {
-        @JvmStatic
-        val DEFAULT_CONFIG: GlideConfig
-            get() = GlideConfig()
-    }
-}
+    @DrawableRes
+    var defaultHolder1x1: Int = 0,
+    @DrawableRes
+    var defaultHolder4x3: Int = 0,
+    @DrawableRes
+    var defaultHolder16x9: Int = 0
+)

@@ -10,7 +10,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.xiaoyv.widget.R
-import com.xiaoyv.widget.utils.getDpx
+import com.xiaoyv.widget.kts.getDpx
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 

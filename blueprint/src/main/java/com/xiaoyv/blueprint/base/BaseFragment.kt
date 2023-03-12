@@ -18,8 +18,8 @@ import com.github.nukc.stateview.StateView
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xiaoyv.blueprint.databinding.BpFragmentRootBinding
 import com.xiaoyv.widget.dialog.UiLoadingDialog
+import com.xiaoyv.widget.kts.removeFromParent
 import com.xiaoyv.widget.stateview.StateViewImpl
-import com.xiaoyv.widget.utils.removeFromParent
 import java.lang.ref.WeakReference
 
 /**

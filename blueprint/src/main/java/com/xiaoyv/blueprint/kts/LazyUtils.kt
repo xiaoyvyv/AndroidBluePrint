@@ -1,4 +1,4 @@
-package com.xiaoyv.blueprint.utils
+package com.xiaoyv.blueprint.kts
 
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment

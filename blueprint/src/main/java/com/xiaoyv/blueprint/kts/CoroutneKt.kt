@@ -1,4 +1,4 @@
-package com.xiaoyv.blueprint.utils
+package com.xiaoyv.blueprint.kts
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.xiaoyv.blueprint.entity.LoadingState
-import com.xiaoyv.widget.utils.ProcessLifecycleScope
+import com.xiaoyv.widget.kts.ProcessLifecycleScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart

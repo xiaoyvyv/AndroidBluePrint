@@ -1,4 +1,4 @@
-package com.xiaoyv.widget.utils
+package com.xiaoyv.widget.kts
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

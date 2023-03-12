@@ -12,10 +12,10 @@ import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ColorUtils
 import com.xiaoyv.widget.R
 import com.xiaoyv.widget.databinding.UiDialogLoadingBinding
-import com.xiaoyv.widget.utils.DrawableUtils
-import com.xiaoyv.widget.utils.canShowInActivity
-import com.xiaoyv.widget.utils.canShowInFragment
-import com.xiaoyv.widget.utils.dpi
+import com.xiaoyv.widget.kts.DrawableUtils
+import com.xiaoyv.widget.kts.canShowInActivity
+import com.xiaoyv.widget.kts.canShowInFragment
+import com.xiaoyv.widget.kts.dpi
 
 /**
  * UiLoadingDialog
