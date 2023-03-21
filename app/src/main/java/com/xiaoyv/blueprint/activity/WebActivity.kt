@@ -5,7 +5,6 @@ import androidx.activity.addCallback
 import androidx.core.os.bundleOf
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ThreadUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.xiaoyv.blueprint.app.databinding.ActivityWebBinding
 import com.xiaoyv.blueprint.base.binding.BaseBindingActivity
@@ -18,10 +17,7 @@ import com.xiaoyv.webview.listener.OnWindowListener
  * @since 2022/5/10
  */
 class WebActivity : BaseBindingActivity<ActivityWebBinding>() {
-    //        private var webUrl: String = "https://web.xiaoyv.com.cn"
-//    private var webUrl: String = "https://atrust.yangtzeu.edu.cn:4443"
     private var webUrl: String = "https://bilibili.com"
-
 
     override fun createContentBinding(layoutInflater: LayoutInflater): ActivityWebBinding {
 
@@ -53,15 +49,12 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>() {
                 )
             }
         }
-
     }
 
     override fun initData() {
+        val userAgent = binding.web.settings.userAgentString.replace("; wv", "")
+        binding.web.settings.userAgentString = userAgent
         binding.web.loadUrl(webUrl)
-
-        ThreadUtils.runOnUiThreadDelayed({
-            binding.web.loadUrl("https://beian.miit.gov.cn/")
-        }, 3000)
     }
 
     override fun onDestroy() {

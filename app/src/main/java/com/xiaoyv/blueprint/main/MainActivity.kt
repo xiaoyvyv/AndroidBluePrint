@@ -152,7 +152,7 @@ class MainActivity :
 //                            )
 
                             try {
-                             //   CalendarReminder.createCalendarEvent(this, 111, calendarEvent)
+                                //   CalendarReminder.createCalendarEvent(this, 111, calendarEvent)
                             } catch (e: Throwable) {
                                 LogUtils.e(e)
                                 ToastUtils.showShort(e.toString())
@@ -217,16 +217,10 @@ class MainActivity :
 
         }
         binding.tvTest1.setOnFastLimitClickListener {
-
-//            val alertDialog = android.app.AlertDialog.Builder(this)
             val alertDialog = AlertDialog.Builder(this)
                 .setMessage("网页请求，是否允许？")
                 .setPositiveButton("允许") { _, _ ->
-//            val url = "https://www.bilibili.com"
-//            val url = "https://atrust.yangtzeu.edu.cn:4443"
-//            val url = "https://portal.qiniu.com/kodo/overview"
-                    val url = "http://ykt.yangtzeu.edu.cn"
-
+                    val url = "https://chat.openai.com/auth/login"
                     ActivityUtils.startActivity(
                         bundleOf("webUrl" to url), WebActivity::class.java
                     )
@@ -234,7 +228,6 @@ class MainActivity :
                 .setNegativeButton("取消", null)
                 .create()
             alertDialog.show()
-//            alertDialog.fitWindowWidth()
         }
 
         // PHPSESSID=unl536vasbbnmmok39t2e7871ktccskf
@@ -304,10 +297,12 @@ class MainActivity :
                         0 -> {
                             ScreenUtils.setLandscape(this@MainActivity)
                         }
+
                         1 -> {
 
                             ToastUtils.showLong("adaptHeight")
                         }
+
                         2 -> {
                             dialog.dismiss()
 
@@ -323,9 +318,11 @@ class MainActivity :
                             }.create()
                                 .show(this@MainActivity)
                         }
+
                         3 -> {
 
                         }
+
                         else -> {
                             ScreenUtils.setPortrait(this@MainActivity)
                         }

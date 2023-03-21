@@ -395,10 +395,10 @@ public class UiWebView extends WebView {
 
         /**
          * 返回值解释
-         *
+         * <p>
          * 若该方法返回 true ，则说明由应用的代码处理该 url，WebView 不处理，也就是程序员自己做处理
          * 若该方法返回 false，则说明由 WebView 处理该 url，即用 WebView 加载该 url
-         *
+         * <p>
          * 返回 false 历史记录不会保存重定向的网页（可以避免重复加载的问题）
          */
         @Override
@@ -506,13 +506,9 @@ public class UiWebView extends WebView {
 
             String requestUrl = request.getUrl().toString();
             int errorCode = 0;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                errorCode = error.getErrorCode();
-            }
+            errorCode = error.getErrorCode();
             String description = "";
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                description = String.valueOf(error.getDescription());
-            }
+            description = String.valueOf(error.getDescription());
 
             LogUtils.e(TAG, "onReceivedError: " + requestUrl + "\nURL: " + Arrays.toString(urlHistory.toArray()));
 

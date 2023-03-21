@@ -5,102 +5,15 @@ package com.xiaoyv.widget.kts
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
-import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
-import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
 import androidx.annotation.FloatRange
-import androidx.annotation.FontRes
-import androidx.core.content.res.ResourcesCompat
-import com.blankj.utilcode.util.Utils
 import com.github.nukc.stateview.StateView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.xiaoyv.widget.span.CustomTypefaceSpan
 import com.xiaoyv.widget.toolbar.UiToolbar
-
-
-/**
- * UiUtils
- *
- * @author why
- * @since 2021/12/15
- */
-object UiUtils {
-
-    @JvmStatic
-    fun getAttrColor(@AttrRes attrRes: Int): Int {
-        val typedValue = TypedValue()
-        Utils.getApp().theme.resolveAttribute(attrRes, typedValue, true)
-        return typedValue.data
-    }
-
-    @JvmStatic
-    fun getClickSpan(
-        text: String,
-        @ColorInt color: Int,
-        onClickAgreement: ClickableSpan,
-    ): SpannableStringBuilder {
-        return SpannableStringBuilder(text).also {
-            it.setSpan(
-                ForegroundColorSpan(color), 0, text.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            it.setSpan(
-                onClickAgreement, 0, text.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
-    }
-
-
-    @JvmStatic
-    fun getTextSpan(
-        text: String,
-        @ColorInt color: Int,
-        bold: Boolean = false,
-        textSize: Float = 14f,
-        @FontRes textFont: Int = 0,
-        startIndex: Int = 0,
-        endIndex: Int = text.length,
-    ): SpannableStringBuilder {
-        return SpannableStringBuilder(text).also {
-            val fontSize = AutoSizeKt.sp2px(Utils.getApp(), textSize)
-
-            it.setSpan(
-                ForegroundColorSpan(color), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            it.setSpan(
-                StyleSpan(if (bold) Typeface.BOLD else Typeface.NORMAL),
-                startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            it.setSpan(
-                AbsoluteSizeSpan(fontSize, false),
-                startIndex,
-                endIndex,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            if (textFont != 0) {
-                val font = ResourcesCompat.getFont(Utils.getApp(), textFont)
-                it.setSpan(
-                    CustomTypefaceSpan(font ?: return@also),
-                    startIndex,
-                    endIndex,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            }
-        }
-    }
-}
-
 
 /**
  * 设置透明背景 BottomSheetDialogFragment

@@ -1,47 +1,9 @@
 <project version="4">
-  <component name="DesignSurface">
-    <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/app/src/main/res/layout/activity_main.xml" value="0.2972222222222222" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/app/src/main/res/layout/fragment_main.xml" value="0.3223958333333333" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/blueprint/src/main/res/layout/activity_root.xml" value="0.3223958333333333" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/blueprint/src/main/res/layout/bp_activity_root.xml" value="0.3223958333333333" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/blueprint/src/main/res/layout/bp_fragment_root.xml" value="0.31574074074074077" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/blueprint/src/main/res/layout/fragment_root.xml" value="0.30572916666666666" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/blueprint/src/main/res/layout/ui_view_loading.xml" value="0.3223958333333333" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/drawable/ui_icon_close.xml" value="0.33605720122574056" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/drawable/ui_shape_btn.xml" value="0.33605720122574056" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_content.xml" value="0.3223958333333333" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_loading.xml" value="0.3223958333333333" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_state_empty.xml" value="0.3223958333333333" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_state_error.xml" value="0.3223958333333333" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_state_loading.xml" value="0.3223958333333333" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/AndroidBlueprint/widget/src/main/res/layout/ui_view_state_retry.xml" value="0.3223958333333333" />
-        <entry key="..\:/Users/Administrator/.gradle/caches/transforms-3/b1aa95ab26f6e1763e1b9ea3e82669e5/transformed/material-1.5.0/res/layout/design_bottom_sheet_dialog.xml" value="0.1" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/app/src/main/res/drawable/shape_action.xml" value="0.1245" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/app/src/main/res/layout/activit_web.xml" value="0.23958333333333334" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/app/src/main/res/layout/activity_main.xml" value="0.2358974358974359" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/app/src/main/res/layout/dialog_input.xml" value="0.23958333333333334" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/blueprint/src/main/res/layout/bp_fragment_root.xml" value="0.23958333333333334" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/drawable/ui_shape_state_text.xml" value="0.1305" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_dialog_normal.xml" value="0.2358974358974359" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_dialog_options_item.xml" value="0.23958333333333334" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_content.xml" value="0.23958333333333334" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_loading.xml" value="0.23958333333333334" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_state_empty.xml" value="0.23958333333333334" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_state_loading.xml" value="0.23958333333333334" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_state_retry.xml" value="0.23958333333333334" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_status_error.xml" value="0.264" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_status_loading.xml" value="0.23958333333333334" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_status_tip.xml" value="0.19907407407407407" />
-        <entry key="..\:/Users/Administrator/AndroidStudioProjects/AndroidBluePrint/widget/src/main/res/layout/ui_view_toolbar.xml" value="0.23958333333333334" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.15833333333333333" />
-        <entry key="app/src/main/res/layout/activity_mvvm.xml" value="0.1984375" />
-        <entry key="app/src/main/res/layout/activity_nav.xml" value="0.1984375" />
-        <entry key="app/src/main/res/layout/fragment_nav.xml" value="0.19739583333333333" />
-      </map>
-    </option>
+  <component name="ASMIdeaPluginConfiguration">
+    <asm skipDebug="true" skipFrames="true" skipCode="false" expandFrames="false" />
+    <groovy codeStyle="LEGACY" />
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

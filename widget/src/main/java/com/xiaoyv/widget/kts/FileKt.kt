@@ -8,11 +8,13 @@ import com.blankj.utilcode.util.FileUtils
  * @author why
  * @since 2023/3/12
  */
-fun String.mkdirs(): String {
+fun String.mkdirs(deleteAllInDir: Boolean = false): String {
     if (FileUtils.isFile(this)) {
         FileUtils.delete(this)
     }
     FileUtils.createOrExistsDir(this)
-    FileUtils.deleteAllInDir(this)
+    if (deleteAllInDir) {
+        FileUtils.deleteAllInDir(this)
+    }
     return this
 }
