@@ -46,6 +46,9 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     protected lateinit var loadingDialog: UiDialog
     protected lateinit var loadingStateView: IStateController
 
+    override val stateController: IStateController
+        get() = loadingStateView
+
     /**
      * 是否重复执行动画
      */

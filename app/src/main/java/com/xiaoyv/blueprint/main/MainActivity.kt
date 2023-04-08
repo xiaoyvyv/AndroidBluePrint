@@ -40,8 +40,6 @@ class MainActivity :
 
     @SuppressLint("NewApi")
     override fun initView() {
-        stateController.fitTitleAndStatusBar = true
-
         binding.download.setOnFastLimitClickListener {
             ActivityUtils.startActivity(DownloadActivity::class.java)
         }

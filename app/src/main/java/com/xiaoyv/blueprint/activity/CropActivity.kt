@@ -1,24 +1,8 @@
 package com.xiaoyv.blueprint.activity
 
-import android.util.Log
 import android.view.View
-import androidx.lifecycle.lifecycleScope
-import com.blankj.utilcode.util.GsonUtils
-import com.blankj.utilcode.util.PathUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.xiaoyv.blueprint.app.databinding.ActivityCropBinding
 import com.xiaoyv.blueprint.base.BaseActivity
-import com.xiaoyv.widget.callback.setOnFastLimitClickListener
-import com.xiaoyv.widget.crop.CropVideoView
-import com.xiaoyv.widget.crop.extractFrames
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * CropActivity

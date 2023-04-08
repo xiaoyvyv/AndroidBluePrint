@@ -131,7 +131,7 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateCon
         return activity.isFinishing || activity.isDestroyed
     }
 
-    abstract override fun onCreateStateView(): StateView
+    abstract fun onCreateStateView(): StateView
 
     /**
      * 调整图片布局，默认垂直偏移 30%
@@ -252,6 +252,7 @@ abstract class StateViewImpl(private val activity: FragmentActivity) : IStateCon
                 NetworkUtils.isConnected() -> {
                     StringUtils.getString(R.string.ui_common_timeout)
                 }
+
                 else -> {
                     StringUtils.getString(R.string.ui_common_error_network)
                 }

@@ -17,8 +17,11 @@ import com.blankj.utilcode.util.ToastUtils
 import com.github.nukc.stateview.StateView
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xiaoyv.blueprint.databinding.BpFragmentRootBinding
+import com.xiaoyv.widget.dialog.UiDialog
 import com.xiaoyv.widget.dialog.UiLoadingDialog
 import com.xiaoyv.widget.kts.removeFromParent
+import com.xiaoyv.widget.stateview.EmptyStateController
+import com.xiaoyv.widget.stateview.IStateController
 import com.xiaoyv.widget.stateview.StateViewImpl
 import java.lang.ref.WeakReference
 
@@ -32,10 +35,14 @@ abstract class BaseFragment : Fragment(), IBaseView {
     private lateinit var rootBinding: BpFragmentRootBinding
     protected lateinit var hostActivity: FragmentActivity
 
-    private var loading: UiLoadingDialog? = null
+    /**
+     * Loading 相关控制
+     */
+    protected lateinit var loadingDialog: UiDialog
+    protected lateinit var loadingStateView: IStateController
 
-    private var reference: WeakReference<StateView>? = null
-    private var stateViewImpl: StateViewImpl? = null
+    override val stateController: IStateController
+        get() = loadingStateView
 
     var rootView: View? = null
 
@@ -81,27 +88,17 @@ abstract class BaseFragment : Fragment(), IBaseView {
     }
 
     private fun initBaseView() {
-        loading = UiLoadingDialog()
-        loading?.isCancelable = false
-
-        // 状态布局
-        stateViewImpl = object : StateViewImpl(hostActivity) {
-            override fun onCreateStateView(): StateView {
-                var stateView = reference?.get()
-                if (stateView != null) {
-                    return stateView
-                }
-                stateView =
-                    createStateView(
-                        hostActivity,
-                        rootBinding.content,
-                        this@BaseFragment::onClickStateView
-                    )
-                reference = WeakReference(stateView)
-                return stateView
-            }
-        }
+        // Loading
+        loadingDialog = createLoadingDialog()
+        loadingStateView = onCreateStateController()
     }
+
+    private fun createLoadingDialog() = UiLoadingDialog()
+
+    /**
+     * 创建 IStateController
+     */
+    override fun onCreateStateController() = EmptyStateController()
 
     protected abstract fun createContentView(inflater: LayoutInflater, parent: FrameLayout): View?
     protected open fun initArgumentsData(arguments: Bundle) {}
@@ -160,15 +157,11 @@ abstract class BaseFragment : Fragment(), IBaseView {
     }
 
     override fun showLoading(msg: String?) {
-        loading?.show(this, msg)
+        loadingDialog.show(requireActivity(), msg)
     }
 
     override fun hideLoading() {
-        loading?.dismiss()
-    }
-
-    override fun onCreateStateController(): StateViewImpl {
-        return stateViewImpl ?: throw NullPointerException("stateViewImpl is null !!!")
+        loadingDialog.dismiss()
     }
 
     /**
@@ -193,8 +186,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
 
     @CallSuper
     override fun onDestroy() {
-        loading?.dismiss()
-        loading = null
+        loadingDialog.dismiss()
         super.onDestroy()
     }
 }

@@ -12,6 +12,8 @@ import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.base.BaseFragment
 import com.xiaoyv.blueprint.base.createBinding
 import com.xiaoyv.blueprint.base.createViewModel
+import com.xiaoyv.blueprint.entity.LoadingState
+import com.xiaoyv.widget.stateview.StateViewLiveData
 
 /**
  * BaseViewModelFragment
@@ -37,8 +39,35 @@ abstract class BaseViewModelFragment<VB : ViewBinding, VM : BaseViewModel> : Bas
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViewExt()
         initObserver()
         viewModel.onViewCreated()
+    }
+
+    private fun initViewExt() {
+        viewModel.loadingViewState.observe(viewLifecycleOwner) {
+            when (it.type) {
+                StateViewLiveData.StateType.STATE_LOADING -> {
+                    loadingStateView.showLoadingView()
+                }
+
+                StateViewLiveData.StateType.STATE_TIPS -> {
+                    loadingStateView.showTipView(it.tipMsg, it.tipImage)
+                }
+
+                StateViewLiveData.StateType.STATE_HIDE -> {
+                    loadingStateView.showNormalView()
+                }
+            }
+        }
+
+        viewModel.loadingDialogState.observe(viewLifecycleOwner) {
+            if (it == LoadingState.Starting) {
+                loadingDialog.show(requireActivity(), viewModel.loadingDialogTips)
+            } else {
+                loadingDialog.dismiss()
+            }
+        }
     }
 
     abstract override fun initView()

@@ -13,6 +13,8 @@ import com.xiaoyv.widget.stateview.IStateController
  * @since 2020/11/28
  */
 interface IBaseView {
+    val stateController: IStateController
+
     /**
      * 提示信息
      */
