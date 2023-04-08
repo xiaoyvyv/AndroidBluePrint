@@ -93,12 +93,12 @@ abstract class BaseFragment : Fragment(), IBaseView {
         loadingStateView = onCreateStateController()
     }
 
-    private fun createLoadingDialog() = UiLoadingDialog()
+    protected open fun createLoadingDialog(): UiDialog = UiLoadingDialog()
 
     /**
      * 创建 IStateController
      */
-    override fun onCreateStateController() = EmptyStateController()
+    override fun onCreateStateController(): IStateController = EmptyStateController()
 
     protected abstract fun createContentView(inflater: LayoutInflater, parent: FrameLayout): View?
     protected open fun initArgumentsData(arguments: Bundle) {}

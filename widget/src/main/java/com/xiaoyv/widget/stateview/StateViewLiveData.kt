@@ -14,8 +14,8 @@ import com.blankj.utilcode.util.StringUtils
  * @since 2023/3/11
  */
 open class StateViewLiveData : MutableLiveData<StateViewLiveData.MutableState>() {
-    private val defaultHideState = MutableState(type = StateType.STATE_HIDE)
-    private val defaultLoadingState = MutableState(type = StateType.STATE_LOADING)
+    protected val defaultHideState = MutableState(type = StateType.STATE_HIDE)
+    protected val defaultLoadingState = MutableState(type = StateType.STATE_LOADING)
 
     fun showContent() {
         value = defaultHideState
@@ -25,11 +25,13 @@ open class StateViewLiveData : MutableLiveData<StateViewLiveData.MutableState>()
         value = defaultLoadingState
     }
 
-    fun showTips(tipMsgResId: Int, tipImage: Int) {
+    @JvmOverloads
+    fun showTips(tipMsgResId: Int, tipImage: Int = 0) {
         showTips(StringUtils.getString(tipMsgResId), tipImage)
     }
 
-    fun showTips(tipMsg: String, tipImage: Int) {
+    @JvmOverloads
+    fun showTips(tipMsg: String, tipImage: Int = 0) {
         value = MutableState(StateType.STATE_TIPS, tipMsg, tipImage)
     }
 
