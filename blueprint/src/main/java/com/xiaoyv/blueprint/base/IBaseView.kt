@@ -3,7 +3,7 @@ package com.xiaoyv.blueprint.base
 import android.view.View
 import androidx.annotation.IntDef
 import com.github.nukc.stateview.StateView
-import com.xiaoyv.widget.stateview.StateViewImpl
+import com.xiaoyv.widget.stateview.IStateController
 
 
 /**
@@ -13,27 +13,23 @@ import com.xiaoyv.widget.stateview.StateViewImpl
  * @since 2020/11/28
  */
 interface IBaseView {
-    val stateController: StateViewImpl
-        get() = p2vGetStateController()
-
     /**
      * 提示信息
      */
-    fun p2vShowToast(msg: String? = null)
-    fun p2vShowSnack(msg: String? = null, @SnackBarType snackBarType: Int = SNACK_BAT_TYPE_NORMAL)
+    fun showToast(msg: String? = null)
+    fun showSnack(msg: String? = null, @SnackBarType snackBarType: Int = SNACK_BAT_TYPE_NORMAL)
 
     /**
      * 加载框
      */
-    fun p2vShowLoading(msg: String? = null)
-    fun p2vHideLoading()
+    fun showLoading(msg: String? = null)
+    fun hideLoading()
 
     /**
      * 状态布局按钮点击
      */
-    fun p2vClickStatusView(stateView: StateView, view: View)
-
-    fun p2vGetStateController(): StateViewImpl
+    fun onClickStateView(stateView: StateView, view: View)
+    fun onCreateStateController(): IStateController?
 
     @IntDef(
         SNACK_BAT_TYPE_NORMAL,

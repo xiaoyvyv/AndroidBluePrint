@@ -2,15 +2,14 @@ package com.xiaoyv.widget.stateview
 
 import android.view.View
 import androidx.annotation.DrawableRes
-import com.github.nukc.stateview.StateView
 
 /**
- * StateView
+ * IStateController
  *
  * @author why
  * @since 2021/10/15
  */
-interface IStateView {
+interface IStateController {
     fun showNormalView()
 
     fun showLoadingView(): View?
@@ -27,6 +26,4 @@ interface IStateView {
         btText: String? = null,
         @DrawableRes imgResId: Int? = null
     ): View?
-
-    fun onCreateStateView(): StateView
 }

@@ -83,7 +83,7 @@ abstract class BaseMvpActivity<V : IBaseView, PRESENTER : ImplBasePresenter<V>> 
         lifecycle.addObserver(presenter)
     }
 
-    override fun p2vClickStatusView(stateView: StateView, view: View) {
+    override fun onClickStateView(stateView: StateView, view: View) {
         onPresenterCreated()
     }
 

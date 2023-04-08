@@ -21,11 +21,14 @@ import com.blankj.utilcode.util.ToastUtils
 import com.github.nukc.stateview.StateView
 import com.gyf.immersionbar.ImmersionBar
 import com.jeremyliao.liveeventbus.LiveEventBus
+import com.xiaoyv.blueprint.kts.activity
 import com.xiaoyv.blueprint.localize.LocalizeManager.attachBaseContextWithLanguage
 import com.xiaoyv.widget.adapt.autoConvertDensity
+import com.xiaoyv.widget.dialog.UiDialog
 import com.xiaoyv.widget.dialog.UiLoadingDialog
-import com.xiaoyv.widget.stateview.StateViewImpl
-import java.lang.ref.WeakReference
+import com.xiaoyv.widget.kts.useNotNull
+import com.xiaoyv.widget.stateview.EmptyStateController
+import com.xiaoyv.widget.stateview.IStateController
 
 
 /**
@@ -37,10 +40,11 @@ import java.lang.ref.WeakReference
 abstract class BaseActivity : AppCompatActivity(), IBaseView {
     private lateinit var rootContent: FrameLayout
 
-    private var loadingDialog: UiLoadingDialog? = null
-
-    private var reference: WeakReference<StateView>? = null
-    private var stateViewImpl: StateViewImpl? = null
+    /**
+     * Loading 相关控制
+     */
+    protected lateinit var loadingDialog: UiDialog
+    protected lateinit var loadingStateView: IStateController
 
     /**
      * 是否重复执行动画
@@ -62,20 +66,18 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
         initBarConfig()
 
         // 窗口配置
-        window?.also {
-            initWindowConfig(it)
+        useNotNull(window) {
+            initWindowConfig(this)
         }
 
         // 传递参数
-        intent?.also {
-            it.extras?.apply {
-                initIntentData(it, this, false)
-            }
+        useNotNull(intent) {
+            initIntentData(this, extras ?: Bundle.EMPTY, false)
         }
 
         // 设置视图
-        createContentView()?.also {
-            setContentView(it)
+        useNotNull(createContentView()) {
+            setContentView(this)
         }
 
         // 解决全屏 SoftInputModel 失效问题
@@ -93,6 +95,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     protected open fun initFun() {
         initData()
         initEvent()
+        initObserver()
         initViewObserver()
         initListener()
     }
@@ -101,7 +104,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         intent?.also {
-            initIntentData(it, it.extras ?: return, true)
+            initIntentData(it, it.extras ?: Bundle.EMPTY, true)
         }
     }
 
@@ -136,27 +139,9 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     protected open fun initBaseView() {
         rootContent = findViewById(android.R.id.content)
 
-        loadingDialog = UiLoadingDialog()
-        loadingDialog?.isCancelable = false
-
-
-        // 状态布局
-        stateViewImpl = object : StateViewImpl(requireActivity) {
-            override fun onCreateStateView(): StateView {
-                var stateView = reference?.get()
-                if (stateView != null) {
-                    return stateView
-                }
-
-                stateView = createStateView(
-                    requireActivity,
-                    rootContent,
-                    this@BaseActivity::p2vClickStatusView
-                )
-                reference = WeakReference(stateView)
-                return stateView
-            }
-        }
+        // Loading
+        loadingDialog = createLoadingDialog()
+        loadingStateView = onCreateStateController()
     }
 
     /**
@@ -179,7 +164,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     protected abstract fun initData()
     protected open fun initEvent() {}
     protected open fun initListener() {}
-
+    protected open fun initObserver() {}
     protected open fun LifecycleOwner.initViewObserver() {}
 
     /**
@@ -188,6 +173,20 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
      * 返回 true，下次还会继续执行该方法播放动画
      */
     protected open fun initAnimation() = false
+
+    /**
+     * 创建 LoadingDialog
+     */
+    protected open fun createLoadingDialog(): UiDialog {
+        return UiLoadingDialog()
+    }
+
+    /**
+     * 创建 IStateController
+     */
+    override fun onCreateStateController(): IStateController {
+        return EmptyStateController()
+    }
 
     /**
      * 添加 RxEvent TAG 接收
@@ -211,38 +210,30 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
 
     }
 
-    override fun p2vShowSnack(msg: String?, snackBarType: Int) {
+    override fun showSnack(msg: String?, snackBarType: Int) {
 
     }
 
-    override fun p2vShowToast(msg: String?) {
+    override fun showToast(msg: String?) {
         ToastUtils.showShort(msg.orEmpty())
     }
 
-    override fun p2vShowLoading(msg: String?) {
-        if (isFinishing || isDestroyed) {
-            return
-        }
+    override fun showLoading(msg: String?) {
+        if (isFinishing || isDestroyed) return
 
-        loadingDialog?.message = msg
-        loadingDialog?.show(this, msg)
+        loadingDialog.message = msg
+        loadingDialog.show(activity, msg)
     }
 
-    override fun p2vHideLoading() {
-        if (isFinishing || isDestroyed) {
-            return
-        }
-        loadingDialog?.dismiss()
-    }
-
-    override fun p2vGetStateController(): StateViewImpl {
-        return stateViewImpl ?: throw NullPointerException("stateViewImpl is null !!!")
+    override fun hideLoading() {
+        if (isFinishing || isDestroyed) return
+        loadingDialog.dismiss()
     }
 
     /**
      * 重试或刷新点击
      */
-    override fun p2vClickStatusView(stateView: StateView, view: View) {
+    override fun onClickStateView(stateView: StateView, view: View) {
 
     }
 
@@ -269,8 +260,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
 
     @CallSuper
     override fun onDestroy() {
-        loadingDialog?.dismiss()
-        loadingDialog = null
+        loadingDialog.dismiss()
         super.onDestroy()
     }
 }

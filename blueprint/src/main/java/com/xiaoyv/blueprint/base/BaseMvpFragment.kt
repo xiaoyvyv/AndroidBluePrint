@@ -53,7 +53,7 @@ abstract class BaseMvpFragment<V : IBaseView, T : ImplBasePresenter<V>> : BaseFr
 
     abstract override fun initData()
 
-    override fun p2vClickStatusView(stateView: StateView, view: View) {
+    override fun onClickStateView(stateView: StateView, view: View) {
         initFinish()
     }
 

@@ -9,6 +9,8 @@ import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.base.BaseActivity
 import com.xiaoyv.blueprint.base.createBinding
 import com.xiaoyv.blueprint.base.createViewModel
+import com.xiaoyv.blueprint.entity.LoadingState
+import com.xiaoyv.widget.stateview.StateViewLiveData
 
 /**
  * BaseModelActivity
@@ -23,9 +25,35 @@ abstract class BaseViewModelActivity<VB : ViewBinding, VM : BaseViewModel> : Bas
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initObserver()
+        initViewExt()
         viewModel.onAttach(this)
         viewModel.onViewCreated()
+    }
+
+    private fun initViewExt() {
+        viewModel.loadingViewState.observe(this) {
+            when (it.type) {
+                StateViewLiveData.StateType.STATE_LOADING -> {
+                    loadingStateView.showLoadingView()
+                }
+
+                StateViewLiveData.StateType.STATE_TIPS -> {
+                    loadingStateView.showTipView(it.tipMsg, it.tipImage)
+                }
+
+                StateViewLiveData.StateType.STATE_HIDE -> {
+                    loadingStateView.showNormalView()
+                }
+            }
+        }
+
+        viewModel.loadingDialogState.observe(this) {
+            if (it == LoadingState.Starting) {
+                loadingDialog.show(this, viewModel.loadingDialogTips)
+            } else {
+                loadingDialog.dismiss()
+            }
+        }
     }
 
     @CallSuper
@@ -37,8 +65,6 @@ abstract class BaseViewModelActivity<VB : ViewBinding, VM : BaseViewModel> : Bas
     abstract override fun initView()
 
     abstract override fun initData()
-
-    protected open fun initObserver() {}
 
     @CallSuper
     override fun onDestroy() {

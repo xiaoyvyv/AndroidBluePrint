@@ -8,9 +8,8 @@ import androidx.viewbinding.ViewBinding
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.xiaoyv.widget.kts.findBindingCls
 
-abstract class BaseQuickBindingAdapter<T, VB : ViewBinding>(
-    data: MutableList<T>? = arrayListOf()
-) : BaseQuickAdapter<T, BaseQuickBindingHolder<VB>>(0, data) {
+abstract class BaseQuickBindingAdapter<T, VB : ViewBinding>(data: MutableList<T>? = arrayListOf()) :
+    BaseQuickAdapter<T, BaseQuickBindingHolder<VB>>(0, data) {
 
     override fun convert(holder: BaseQuickBindingHolder<VB>, item: T) {
         holder.converted(item)

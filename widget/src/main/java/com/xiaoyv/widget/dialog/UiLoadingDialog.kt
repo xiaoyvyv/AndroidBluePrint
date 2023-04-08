@@ -23,10 +23,10 @@ import com.xiaoyv.widget.kts.dpi
  * @author why
  * @since 2021/12/13
  */
-class UiLoadingDialog : DialogFragment() {
+class UiLoadingDialog : DialogFragment(), UiDialog {
     private var fragmentTag = javaClass.simpleName
 
-    var message: String? = null
+    override var message: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,11 +54,10 @@ class UiLoadingDialog : DialogFragment() {
         }
     }
 
-
-    fun show(fragmentActivity: FragmentActivity, msg: String? = null) {
-        if (canShowInActivity(fragmentActivity)) {
+    override fun show(activity: FragmentActivity, msg: String?) {
+        if (canShowInActivity(activity)) {
             this.message = msg
-            showNow(fragmentActivity.supportFragmentManager, fragmentTag)
+            showNow(activity.supportFragmentManager, fragmentTag)
         }
     }
 
@@ -88,6 +87,4 @@ class UiLoadingDialog : DialogFragment() {
 
         refreshView(view)
     }
-
-
 }

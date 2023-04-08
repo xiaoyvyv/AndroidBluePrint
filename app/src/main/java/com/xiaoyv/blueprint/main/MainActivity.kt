@@ -353,7 +353,7 @@ class MainActivity :
 
     }
 
-    override fun p2vClickStatusView(stateView: StateView, view: View) {
+    override fun onClickStateView(stateView: StateView, view: View) {
 
     }
 

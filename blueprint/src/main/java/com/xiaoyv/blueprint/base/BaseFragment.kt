@@ -95,7 +95,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
                     createStateView(
                         hostActivity,
                         rootBinding.content,
-                        this@BaseFragment::p2vClickStatusView
+                        this@BaseFragment::onClickStateView
                     )
                 reference = WeakReference(stateView)
                 return stateView
@@ -151,30 +151,30 @@ abstract class BaseFragment : Fragment(), IBaseView {
 
     }
 
-    override fun p2vShowSnack(msg: String?, snackBarType: Int) {
+    override fun showSnack(msg: String?, snackBarType: Int) {
 
     }
 
-    override fun p2vShowToast(msg: String?) {
+    override fun showToast(msg: String?) {
         ToastUtils.showShort(msg.orEmpty())
     }
 
-    override fun p2vShowLoading(msg: String?) {
+    override fun showLoading(msg: String?) {
         loading?.show(this, msg)
     }
 
-    override fun p2vHideLoading() {
+    override fun hideLoading() {
         loading?.dismiss()
     }
 
-    override fun p2vGetStateController(): StateViewImpl {
+    override fun onCreateStateController(): StateViewImpl {
         return stateViewImpl ?: throw NullPointerException("stateViewImpl is null !!!")
     }
 
     /**
      * 重试或刷新点击
      */
-    override fun p2vClickStatusView(stateView: StateView, view: View) {
+    override fun onClickStateView(stateView: StateView, view: View) {
 
     }
 

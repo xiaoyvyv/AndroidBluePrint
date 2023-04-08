@@ -31,7 +31,7 @@ import com.xiaoyv.widget.toolbar.UiToolbar
  * @author why
  * @since 2021/10/15
  */
-abstract class StateViewImpl(private val activity: FragmentActivity) : IStateView {
+abstract class StateViewImpl(private val activity: FragmentActivity) : IStateController {
 
     /**
      * 获取状态布局
