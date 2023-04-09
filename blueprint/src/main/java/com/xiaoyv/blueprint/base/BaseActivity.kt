@@ -135,7 +135,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
         // 窗口参数
         window.setSoftInputMode(
             WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-                    or WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
+                    or WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         )
     }
 
