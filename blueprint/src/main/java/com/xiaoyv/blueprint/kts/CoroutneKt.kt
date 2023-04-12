@@ -1,5 +1,6 @@
 package com.xiaoyv.blueprint.kts
 
+import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +14,6 @@ import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -89,16 +89,21 @@ fun CoroutineScope.launchCatch(
     block: suspend CoroutineScope.() -> Unit
 ): Job {
     val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        runCatching { state?.value = LoadingState.Ending }
+        state?.sendValue(LoadingState.Ending)
         error.invoke(throwable)
     }
     return launch(context + exceptionHandler, start) {
-        withContext(Dispatchers.Main.immediate) {
-            runCatching { state?.value = LoadingState.Starting }
-        }
+        state?.sendValue(LoadingState.Starting)
         block.invoke(this)
-        runCatching { state?.value = LoadingState.Ending }
+        state?.sendValue(LoadingState.Ending)
     }
 }
 
+fun <T> MutableLiveData<T>.sendValue(sendValue: T) {
+    if (Looper.myLooper() == Looper.getMainLooper()) {
+        value = sendValue
+    } else {
+        postValue(sendValue)
+    }
+}
 
