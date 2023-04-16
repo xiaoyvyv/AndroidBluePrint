@@ -13,7 +13,6 @@ import com.xiaoyv.blueprint.base.IBaseView
 import com.xiaoyv.blueprint.exception.RxExceptionHandler
 import com.xiaoyv.blueprint.exception.RxGlobalExceptionHandler
 import com.xiaoyv.blueprint.json.GsonParse
-import com.xiaoyv.floater.widget.adapt.AdaptScreenConfig
 
 
 /**
@@ -61,7 +60,7 @@ object BluePrint {
      * 屏幕分辨率适配
      */
     private fun initAutoSize(application: Application, adaptScreen: Boolean) {
-        AdaptScreenConfig.instance.init(application, adaptScreen)
+        com.xiaoyv.widget.adapt.AdaptScreenConfig.instance.init(application, adaptScreen)
     }
 
 

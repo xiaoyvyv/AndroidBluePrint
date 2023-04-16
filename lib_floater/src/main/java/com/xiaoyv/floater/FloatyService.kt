@@ -1,56 +1,63 @@
-package com.xiaoyv.floater;
+package com.xiaoyv.floater
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
-import android.view.WindowManager;
-
-import androidx.annotation.Nullable;
-
-import java.util.concurrent.CopyOnWriteArraySet;
+import android.app.Service
+import android.content.Intent
+import android.os.IBinder
+import android.view.WindowManager
+import androidx.core.content.ContextCompat
+import java.util.concurrent.CopyOnWriteArraySet
 
 /**
  * Created by Stardust on 2017/5/1.
  */
-public class FloatyService extends Service {
+class FloatyService : Service() {
+    private var windowManager: WindowManager? = null
 
-    private static CopyOnWriteArraySet<FloatyWindow> windows = new CopyOnWriteArraySet<>();
+    override fun onCreate() {
+        super.onCreate()
 
-    public static void addWindow(FloatyWindow window) {
-        if (windows.add(window) && instance != null) {
-            window.onCreate(instance, instance.mWindowManager);
+        windowManager = ContextCompat.getSystemService(this, WindowManager::class.java)
+
+        for (delegate in windows) {
+            delegate.onCreate(this, windowManager)
+        }
+        instance = this
+    }
+
+    override fun onBind(intent: Intent): IBinder? {
+        return null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        instance = null
+
+        for (delegate in windows) {
+            delegate.onServiceDestroy(this)
         }
     }
 
-    public static void removeWindow(FloatyWindow window) {
-        windows.remove(window);
-    }
+    companion object {
+        private val windows = CopyOnWriteArraySet<FloatyWindow>()
+        private var instance: FloatyService? = null
 
-    private static FloatyService instance;
-    private WindowManager mWindowManager;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        for (FloatyWindow delegate : windows) {
-            delegate.onCreate(this, mWindowManager);
+        @JvmStatic
+        fun isShowing(window: FloatyWindow): Boolean {
+            return windows.contains(window)
         }
-        instance = this;
-    }
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+        @JvmStatic
+        fun addWindow(window: FloatyWindow) {
+            instance?.let {
+                if (windows.add(window)) {
+                    window.onCreate(instance, it.windowManager)
+                }
+            }
+        }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        instance = null;
-        for (FloatyWindow delegate : windows) {
-            delegate.onServiceDestroy(this);
+        @JvmStatic
+        fun removeWindow(window: FloatyWindow) {
+            windows.remove(window)
         }
     }
 }

@@ -40,7 +40,7 @@ android {
 
     // 限定资源前缀
     resourcePrefix "ui_"
-    namespace 'com.xiaoyv.floater.widget'
+    namespace 'com.xiaoyv.widget'
 }
 
 configurations.configureEach {
@@ -51,20 +51,20 @@ configurations.configureEach {
 dependencies {
     // implementation(project(":leveldb"))
 
-    api 'androidx.core:core-ktx:1.9.0'
+    api 'androidx.core:core-ktx:1.10.0'
     api 'androidx.appcompat:appcompat:1.6.1'
     api 'androidx.annotation:annotation:1.6.0'
     api 'com.google.android.material:material:1.8.0'
-    api "androidx.recyclerview:recyclerview:1.2.1"
+    api "androidx.recyclerview:recyclerview:1.3.0"
     api "androidx.constraintlayout:constraintlayout:2.1.4"
     api "androidx.multidex:multidex:2.0.1"
     api "com.google.android:flexbox:2.0.1"
     api "org.jetbrains.anko:anko-commons:0.10.0"
 
     // Lifecycle
-    api 'androidx.lifecycle:lifecycle-process:2.6.0'
-    api "androidx.lifecycle:lifecycle-common-java8:2.6.0"
-    api "androidx.lifecycle:lifecycle-runtime-ktx:2.6.0"
+    api 'androidx.lifecycle:lifecycle-process:2.6.1'
+    api "androidx.lifecycle:lifecycle-common-java8:2.6.1"
+    api "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
 
     // Coroutines
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
@@ -95,16 +95,16 @@ dependencies {
     api "io.github.scwang90:refresh-footer-classics:2.0.5"
 
     // Glide 图片加载框架
-    api 'com.github.bumptech.glide:glide:4.15.0'
-    api('com.github.bumptech.glide:okhttp3-integration:4.15.0') {
+    api 'com.github.bumptech.glide:glide:4.15.1'
+    api('com.github.bumptech.glide:okhttp3-integration:4.15.1') {
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     }
     // OkHttp
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11'
 
     // noinspection KaptUsageInsteadOfKsp
-    kapt 'com.github.bumptech.glide:compiler:4.15.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.0'
+    kapt 'com.github.bumptech.glide:compiler:4.15.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

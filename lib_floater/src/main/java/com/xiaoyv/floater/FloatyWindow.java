@@ -24,7 +24,6 @@ public abstract class FloatyWindow {
         onCreateWindow(service, manager);
     }
 
-
     protected void onCreateWindow(FloatyService service, WindowManager manager) {
         setWindowLayoutParams(onCreateWindowLayoutParams());
         setWindowView(onCreateView(service));

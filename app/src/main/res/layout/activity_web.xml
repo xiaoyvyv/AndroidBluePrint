@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/ui_size_44" />
 
-    <com.xiaoyv.floater.widget.webview.UiWebProgressBar
+    <com.xiaoyv.widget.webview.UiWebProgressBar
         android:id="@+id/pb_progress"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ui_size_2"

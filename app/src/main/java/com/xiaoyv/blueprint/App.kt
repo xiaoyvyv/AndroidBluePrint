@@ -2,9 +2,8 @@ package com.xiaoyv.blueprint
 
 import android.app.Application
 import android.util.Log
-import com.xiaoyv.webview.X5WebView
-import com.xiaoyv.floater.widget.adapt.AdaptScreenConfig
 import com.xiaoyv.floater.widget.adapt.autoConvertDensity
+import com.xiaoyv.webview.X5WebView
 
 /**
  * App
@@ -17,7 +16,7 @@ class App : Application() {
         super.onCreate()
         BluePrint.init(this, true)
 //        X5InstallHelper.init(this)
-        AdaptScreenConfig.instance.init(this, true)
+        com.xiaoyv.widget.adapt.AdaptScreenConfig.instance.init(this, true)
 
         X5WebView.getResourcesProxy = {
             it.autoConvertDensity()
