@@ -1,11 +1,13 @@
 package com.xiaoyv.floater.gesture;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
 
 import com.xiaoyv.floater.WindowBridge;
 
@@ -15,15 +17,13 @@ import com.xiaoyv.floater.WindowBridge;
 
 public class ResizeGesture extends GestureDetector.SimpleOnGestureListener {
 
+    @SuppressLint("ClickableViewAccessibility")
     public static ResizeGesture enableResize(View resizer, @Nullable View resizableView, WindowBridge windowBridge) {
         ResizeGesture resizeGesture = new ResizeGesture(windowBridge, resizer, resizableView);
         final GestureDetector detector = new GestureDetector(resizer.getContext(), resizeGesture);
-        resizer.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                detector.onTouchEvent(event);
-                return true;
-            }
+        resizer.setOnTouchListener((v, event) -> {
+            detector.onTouchEvent(event);
+            return true;
         });
         return resizeGesture;
     }
@@ -32,14 +32,14 @@ public class ResizeGesture extends GestureDetector.SimpleOnGestureListener {
         return enableResize(resizer, null, windowBridge);
     }
 
-    private WindowBridge mWindowBridge;
+    private final WindowBridge mWindowBridge;
     private float initialTouchX;
     private float initialTouchY;
     private int mInitialWidth, mInitialHeight;
-    private View mResizerView;
+    private final View mResizerView;
     private int mMinHeight = 200, mMinWidth = 200;
     private final int mStatusBarHeight;
-    private View mResizableView;
+    private final View mResizableView;
 
 
     public ResizeGesture(WindowBridge windowBridge, View resizerView, @Nullable View resizableView) {

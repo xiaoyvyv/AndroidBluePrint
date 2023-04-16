@@ -1,7 +1,8 @@
 package com.xiaoyv.floater;
 
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by Stardust on 2017/4/19.
