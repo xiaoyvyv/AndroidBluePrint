@@ -2,12 +2,9 @@ package com.xiaoyv.blueprint
 
 import android.app.Application
 import android.util.Log
-import com.blankj.utilcode.util.LogUtils
 import com.xiaoyv.webview.X5WebView
-import com.xiaoyv.webview.helper.X5InstallHelper
-import com.xiaoyv.widget.adapt.AdaptScreenConfig
-import com.xiaoyv.widget.adapt.autoConvertDensity
-import kotlin.random.Random
+import com.xiaoyv.floater.widget.adapt.AdaptScreenConfig
+import com.xiaoyv.floater.widget.adapt.autoConvertDensity
 
 /**
  * App

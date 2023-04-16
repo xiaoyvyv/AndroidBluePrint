@@ -39,9 +39,9 @@ android {
 }
 
 dependencies {
-    implementation project(':blueprint')
-    implementation project(':calendar')
-    implementation project(':webview')
+    implementation project(':lib_blueprint')
+    implementation project(':lib_calendar')
+    implementation project(':lib_webview')
 
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'

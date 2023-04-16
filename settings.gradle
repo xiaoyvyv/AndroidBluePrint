@@ -16,8 +16,9 @@ dependencyResolutionManagement {
 }
 rootProject.name = "AndroidBlueprint"
 include ':app'
-include ':blueprint'
-include ':widget'
-include ':calendar'
-include ':leveldb'
-include ':webview'
+include ':lib_blueprint'
+include ':lib_widget'
+include ':lib_calendar'
+include ':lib_leveldb'
+include ':lib_webview'
+include ':lib_floater'

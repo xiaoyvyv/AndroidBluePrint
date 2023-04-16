@@ -43,7 +43,7 @@ publishing {
         pomVersion = "${pomVersion}-SNAPSHOT"
     }
     if (pomArtifactId == null || pomArtifactId.isEmpty()) {
-        pomArtifactId = model.name
+        pomArtifactId = model.name.replace("lib_", "")
     }
 
     publications {

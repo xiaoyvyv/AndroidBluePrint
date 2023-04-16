@@ -12,11 +12,12 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/blueprint" />
-            <option value="$PROJECT_DIR$/calendar" />
-            <option value="$PROJECT_DIR$/leveldb" />
-            <option value="$PROJECT_DIR$/webview" />
-            <option value="$PROJECT_DIR$/widget" />
+            <option value="$PROJECT_DIR$/lib_blueprint" />
+            <option value="$PROJECT_DIR$/lib_calendar" />
+            <option value="$PROJECT_DIR$/lib_floater" />
+            <option value="$PROJECT_DIR$/lib_leveldb" />
+            <option value="$PROJECT_DIR$/lib_webview" />
+            <option value="$PROJECT_DIR$/lib_widget" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -6,7 +6,7 @@ import com.xiaoyv.blueprint.app.R
 import com.xiaoyv.blueprint.app.databinding.FragmentNavBinding
 import com.xiaoyv.blueprint.base.mvvm.nav.BaseNavFragment
 import com.xiaoyv.blueprint.base.navigate
-import com.xiaoyv.widget.callback.setOnFastLimitClickListener
+import com.xiaoyv.floater.widget.callback.setOnFastLimitClickListener
 
 /**
  * TestNavFragment

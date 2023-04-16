@@ -20,10 +20,10 @@ import com.xiaoyv.calendar.CalendarAccount
 import com.xiaoyv.calendar.CalendarEvent
 import com.xiaoyv.calendar.CalendarReminder
 import com.xiaoyv.calendar.ics.IcsCreator
-import com.xiaoyv.widget.callback.setOnFastLimitClickListener
-import com.xiaoyv.widget.dialog.UiNormalDialog
-import com.xiaoyv.widget.dialog.UiOptionsDialog
-import com.xiaoyv.widget.kts.isSoftInputModeAlwaysVisible
+import com.xiaoyv.floater.widget.callback.setOnFastLimitClickListener
+import com.xiaoyv.floater.widget.dialog.UiNormalDialog
+import com.xiaoyv.floater.widget.dialog.UiOptionsDialog
+import com.xiaoyv.floater.widget.kts.isSoftInputModeAlwaysVisible
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okio.IOException
