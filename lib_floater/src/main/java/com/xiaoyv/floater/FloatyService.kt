@@ -9,13 +9,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import java.util.concurrent.CopyOnWriteArraySet
 
-private const val NOTIFICATION_ID = 1
-private const val CHANEL_ID: String = "com.xiaoyv.floater.FloatyService"
+private const val NOTIFICATION_ID = 22
+private const val CHANEL_ID: String = BuildConfig.LIBRARY_PACKAGE_NAME + ".FloatyService"
 
 /**
  * Created by Stardust on 2017/5/1.
@@ -39,12 +40,8 @@ class FloatyService : Service() {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        startForeground(intent)
-        return super.onStartCommand(intent, flags, startId)
-    }
-
-    private fun startForeground(intent: Intent) {
         startForeground(NOTIFICATION_ID, buildNotification(intent))
+        return START_NOT_STICKY
     }
 
     private fun buildNotification(intent: Intent): Notification {
@@ -106,8 +103,6 @@ class FloatyService : Service() {
         private val windows = CopyOnWriteArraySet<FloatyWindow>()
         private var instance: FloatyService? = null
 
-        var clickIntentClass: Class<*>? = null
-
         @JvmStatic
         fun start(
             context: Context,
@@ -115,7 +110,7 @@ class FloatyService : Service() {
             foregroundNotificationChannelName: String = "前台服务通知",
             foregroundNotificationTitle: String = "服务保持运行中",
             foregroundNotificationText: String = "点击进入主界面",
-            foregroundNotificationIcon: Int = 0,
+            foregroundNotificationIcon: Int = android.R.drawable.ic_notification_overlay,
         ) {
             ContextCompat.startForegroundService(
                 context,

@@ -1,7 +1,6 @@
 package com.xiaoyv.blueprint
 
 import android.app.Application
-import android.util.Log
 import com.xiaoyv.webview.X5WebView
 import com.xiaoyv.widget.adapt.autoConvertDensity
 
@@ -23,14 +22,4 @@ class App : Application() {
         }
     }
 
-    override fun getPackageName(): String {
-        val exception = Exception()
-        val string = exception.stackTraceToString()
-        Log.e("ttttt", string)
-
-        if (string.contains("org.chromium")) {
-            return "com.android.browser"
-        }
-        return super.getPackageName()
-    }
 }

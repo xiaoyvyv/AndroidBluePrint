@@ -20,6 +20,7 @@ import com.xiaoyv.calendar.CalendarAccount
 import com.xiaoyv.calendar.CalendarEvent
 import com.xiaoyv.calendar.CalendarReminder
 import com.xiaoyv.calendar.ics.IcsCreator
+import com.xiaoyv.floater.FloatyService
 import com.xiaoyv.widget.callback.setOnFastLimitClickListener
 import com.xiaoyv.widget.dialog.UiNormalDialog
 import com.xiaoyv.widget.dialog.UiOptionsDialog
@@ -27,6 +28,7 @@ import com.xiaoyv.widget.kts.isSoftInputModeAlwaysVisible
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okio.IOException
+import org.jetbrains.anko.toast
 
 class MainActivity :
     BaseMvpBindingActivity<ActivityMainBinding, MainContract.View, MainPresenter>(),
@@ -330,6 +332,11 @@ class MainActivity :
             }.create()
             optionsDialog.show(this)
 
+        }
+
+        binding.checkFloating.setOnClickListener {
+            FloatyService.start(this, MainActivity::class.java.name)
+            toast("前台服务")
         }
     }
 
