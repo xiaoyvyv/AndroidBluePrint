@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.xiaoyv.floater.WindowBridge;
@@ -49,6 +50,7 @@ public class ResizeGesture extends GestureDetector.SimpleOnGestureListener {
         mStatusBarHeight = getStatusBarHeight(resizerView.getContext());
     }
 
+    @SuppressLint({"InternalInsetResource", "DiscouragedApi"})
     private int getStatusBarHeight(Context context) {
         int result = 0;
         int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -76,7 +78,7 @@ public class ResizeGesture extends GestureDetector.SimpleOnGestureListener {
     }
 
     @Override
-    public boolean onScroll(MotionEvent e1, final MotionEvent e2, float distanceX, float distanceY) {
+    public boolean onScroll(@NonNull MotionEvent e1, final MotionEvent e2, float distanceX, float distanceY) {
         int newWidth = mInitialWidth + (int) ((e2.getRawX() - initialTouchX));
         int newHeight = mInitialHeight + (int) ((e2.getRawY() - initialTouchY));
         newWidth = Math.max(mMinWidth, newWidth);
