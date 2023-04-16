@@ -17,13 +17,13 @@ import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.StringUtils
 import com.github.nukc.stateview.StateView
-import com.xiaoyv.floater.widget.R
-import com.xiaoyv.floater.widget.databinding.UiViewStatusErrorBinding
-import com.xiaoyv.floater.widget.databinding.UiViewStatusTipBinding
-import com.xiaoyv.floater.widget.kts.getAttrDrawable
-import com.xiaoyv.floater.widget.kts.getAttrResourceId
-import com.xiaoyv.floater.widget.kts.setTextAppearanceCompat
-import com.xiaoyv.floater.widget.toolbar.UiToolbar
+import com.xiaoyv.widget.R
+import com.xiaoyv.widget.databinding.UiViewStatusErrorBinding
+import com.xiaoyv.widget.databinding.UiViewStatusTipBinding
+import com.xiaoyv.widget.kts.getAttrDrawable
+import com.xiaoyv.widget.kts.getAttrResourceId
+import com.xiaoyv.widget.kts.setTextAppearanceCompat
+import com.xiaoyv.widget.toolbar.UiToolbar
 
 /**
  * StateViewImpl 全局状态布局

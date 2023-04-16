@@ -7,7 +7,7 @@ import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.base.BaseMvpActivity
 import com.xiaoyv.blueprint.base.IBaseView
 import com.xiaoyv.blueprint.base.ImplBasePresenter
-import com.xiaoyv.floater.widget.kts.injectViewBinding
+import com.xiaoyv.widget.kts.injectViewBinding
 
 /**
  * BaseMvpBindingActivity

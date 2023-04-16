@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.blankj.utilcode.util.StringUtils
 import com.xiaoyv.blueprint.R
 import com.xiaoyv.blueprint.entity.LoadingState
-import com.xiaoyv.floater.widget.stateview.StateViewLiveData
+import com.xiaoyv.widget.stateview.StateViewLiveData
 import java.lang.ref.WeakReference
 
 

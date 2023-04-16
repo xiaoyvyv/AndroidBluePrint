@@ -17,7 +17,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.BarUtils
-import com.xiaoyv.floater.widget.scrollview.NestedOverScrollDecorAdapter
+import com.xiaoyv.widget.scrollview.NestedOverScrollDecorAdapter
 import me.everything.android.ui.overscroll.IOverScrollDecor
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator

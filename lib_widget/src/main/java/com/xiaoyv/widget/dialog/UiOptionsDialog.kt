@@ -14,11 +14,11 @@ import com.blankj.utilcode.util.ColorUtils
 import com.chad.library.adapter.base.BaseBinderAdapter
 import com.chad.library.adapter.base.binder.BaseItemBinder
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.xiaoyv.floater.widget.R
-import com.xiaoyv.floater.widget.callback.setOnFastLimitClickListener
-import com.xiaoyv.floater.widget.databinding.UiDialogNormalBinding
-import com.xiaoyv.floater.widget.databinding.UiDialogOptionsItemBinding
-import com.xiaoyv.floater.widget.kts.dpi
+import com.xiaoyv.widget.R
+import com.xiaoyv.widget.callback.setOnFastLimitClickListener
+import com.xiaoyv.widget.databinding.UiDialogNormalBinding
+import com.xiaoyv.widget.databinding.UiDialogOptionsItemBinding
+import com.xiaoyv.widget.kts.dpi
 
 /**
  * UiOptionsDialog

@@ -6,7 +6,7 @@ import com.blankj.utilcode.util.FileIOUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.Utils
 import com.xiaoyv.blueprint.kts.launchCatch
-import com.xiaoyv.floater.widget.kts.ProcessLifecycleScope
+import com.xiaoyv.widget.kts.ProcessLifecycleScope
 import java.io.File
 import java.util.Locale
 

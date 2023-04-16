@@ -3,7 +3,7 @@ package com.xiaoyv.widget.binder
 import android.view.View
 import androidx.viewbinding.ViewBinding
 import com.chad.library.adapter.base.binder.QuickViewBindingItemBinder
-import com.xiaoyv.floater.widget.callback.setOnFastLimitClickListener
+import com.xiaoyv.widget.callback.setOnFastLimitClickListener
 
 /**
  * BaseItemBinder

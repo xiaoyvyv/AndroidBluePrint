@@ -26,10 +26,10 @@ import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshFooter
 import com.scwang.smart.refresh.layout.api.RefreshHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import com.xiaoyv.floater.widget.databinding.UiViewListBinderBinding
-import com.xiaoyv.floater.widget.databinding.UiViewListNoMoreBinding
-import com.xiaoyv.floater.widget.kts.fetchActivity
-import com.xiaoyv.floater.widget.stateview.StateViewImpl
+import com.xiaoyv.widget.databinding.UiViewListBinderBinding
+import com.xiaoyv.widget.databinding.UiViewListNoMoreBinding
+import com.xiaoyv.widget.kts.fetchActivity
+import com.xiaoyv.widget.stateview.StateViewImpl
 import java.lang.ref.WeakReference
 
 /**

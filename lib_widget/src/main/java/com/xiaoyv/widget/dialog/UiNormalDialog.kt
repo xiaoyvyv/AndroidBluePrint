@@ -20,12 +20,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ColorUtils
 import com.blankj.utilcode.util.StringUtils
-import com.xiaoyv.floater.widget.R
-import com.xiaoyv.floater.widget.databinding.UiDialogNormalBinding
-import com.xiaoyv.floater.widget.kts.canShowInActivity
-import com.xiaoyv.floater.widget.kts.canShowInFragment
-import com.xiaoyv.floater.widget.kts.createFixFocusDialog
-import com.xiaoyv.floater.widget.kts.dpi
+import com.xiaoyv.widget.R
+import com.xiaoyv.widget.databinding.UiDialogNormalBinding
+import com.xiaoyv.widget.kts.canShowInActivity
+import com.xiaoyv.widget.kts.canShowInFragment
+import com.xiaoyv.widget.kts.createFixFocusDialog
+import com.xiaoyv.widget.kts.dpi
 
 /**
  * UiNormalDialog 全局对话框

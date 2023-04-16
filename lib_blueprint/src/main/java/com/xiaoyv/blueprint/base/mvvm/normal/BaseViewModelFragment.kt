@@ -13,7 +13,7 @@ import com.xiaoyv.blueprint.base.BaseFragment
 import com.xiaoyv.blueprint.base.createBinding
 import com.xiaoyv.blueprint.base.createViewModel
 import com.xiaoyv.blueprint.entity.LoadingState
-import com.xiaoyv.floater.widget.stateview.StateViewLiveData
+import com.xiaoyv.widget.stateview.StateViewLiveData
 
 /**
  * BaseViewModelFragment

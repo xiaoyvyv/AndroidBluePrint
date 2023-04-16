@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.xiaoyv.floater.widget.toolbar.UiToolbar
+    <com.xiaoyv.widget.toolbar.UiToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

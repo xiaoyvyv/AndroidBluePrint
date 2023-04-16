@@ -20,7 +20,7 @@ import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
-import com.xiaoyv.floater.widget.listener.SimpleAnimatorListener
+import com.xiaoyv.widget.listener.SimpleAnimatorListener
 import kotlin.reflect.KFunction2
 
 /**

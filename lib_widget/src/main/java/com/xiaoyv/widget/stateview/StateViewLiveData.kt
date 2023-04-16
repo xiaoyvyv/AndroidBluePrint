@@ -6,7 +6,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IntDef
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.StringUtils
-import com.xiaoyv.floater.widget.kts.sendValue
+import com.xiaoyv.widget.kts.sendValue
 
 /**
  * StateViewLiveData

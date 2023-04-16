@@ -6,7 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.Utils
-import com.xiaoyv.floater.widget.kts.useNotNull
+import com.xiaoyv.widget.kts.useNotNull
 
 
 /**

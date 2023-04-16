@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.xiaoyv.floater.widget.kts.onStartTransparentDialog
+import com.xiaoyv.widget.kts.onStartTransparentDialog
 
 /**
  * BaseSheetFragment

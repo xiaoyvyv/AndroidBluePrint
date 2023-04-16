@@ -24,12 +24,12 @@ import com.blankj.utilcode.util.StringUtils
 import com.chad.library.adapter.base.BaseBinderAdapter
 import com.chad.library.adapter.base.binder.BaseItemBinder
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.xiaoyv.floater.widget.R
-import com.xiaoyv.floater.widget.databinding.UiDialogSelectBinding
-import com.xiaoyv.floater.widget.databinding.UiDialogSelectItemBinding
-import com.xiaoyv.floater.widget.kts.canShowInActivity
-import com.xiaoyv.floater.widget.kts.canShowInFragment
-import com.xiaoyv.floater.widget.kts.dpi
+import com.xiaoyv.widget.R
+import com.xiaoyv.widget.databinding.UiDialogSelectBinding
+import com.xiaoyv.widget.databinding.UiDialogSelectItemBinding
+import com.xiaoyv.widget.kts.canShowInActivity
+import com.xiaoyv.widget.kts.canShowInFragment
+import com.xiaoyv.widget.kts.dpi
 
 /**
  * UiSelectDialog

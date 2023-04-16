@@ -9,7 +9,7 @@ import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updatePadding
 import com.blankj.utilcode.util.BarUtils
-import com.xiaoyv.floater.widget.databinding.UiViewToolbarLargeBinding
+import com.xiaoyv.widget.databinding.UiViewToolbarLargeBinding
 
 /**
  * UiLargeToolbar

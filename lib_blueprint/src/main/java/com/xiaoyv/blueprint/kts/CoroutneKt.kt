@@ -8,10 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.xiaoyv.blueprint.entity.LoadingState
 import com.xiaoyv.blueprint.entity.stateOfEnding
 import com.xiaoyv.blueprint.entity.stateOfStarting
-import com.xiaoyv.floater.widget.kts.ProcessLifecycleScope
-import com.xiaoyv.floater.widget.kts.errorMsg
-import com.xiaoyv.floater.widget.kts.sendValue
-import com.xiaoyv.floater.widget.stateview.StateViewLiveData
+import com.xiaoyv.widget.kts.ProcessLifecycleScope
+import com.xiaoyv.widget.kts.errorMsg
+import com.xiaoyv.widget.kts.sendValue
+import com.xiaoyv.widget.stateview.StateViewLiveData
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart

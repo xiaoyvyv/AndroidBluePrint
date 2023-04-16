@@ -2,7 +2,7 @@ package com.xiaoyv.widget.listener
 
 import android.media.MediaPlayer
 import android.widget.MediaController
-import com.xiaoyv.floater.widget.kts.orEmpty
+import com.xiaoyv.widget.kts.orEmpty
 
 /**
  * SimpleTextureMediaPlayerControl

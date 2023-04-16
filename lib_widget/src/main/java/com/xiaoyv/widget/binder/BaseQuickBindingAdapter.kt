@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.xiaoyv.floater.widget.kts.findBindingCls
+import com.xiaoyv.widget.kts.findBindingCls
 
 abstract class BaseQuickBindingAdapter<T, VB : ViewBinding>(data: MutableList<T>? = arrayListOf()) :
     BaseQuickAdapter<T, BaseQuickBindingHolder<VB>>(0, data) {

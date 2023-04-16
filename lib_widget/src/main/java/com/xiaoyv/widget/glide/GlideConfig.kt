@@ -1,7 +1,7 @@
 package com.xiaoyv.widget.glide
 
 import androidx.annotation.DrawableRes
-import com.xiaoyv.floater.widget.R
+import com.xiaoyv.widget.R
 
 /**
  * GlideConfig

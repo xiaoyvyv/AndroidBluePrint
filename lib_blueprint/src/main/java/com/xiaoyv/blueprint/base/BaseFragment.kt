@@ -17,11 +17,11 @@ import com.blankj.utilcode.util.ToastUtils
 import com.github.nukc.stateview.StateView
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xiaoyv.blueprint.databinding.BpFragmentRootBinding
-import com.xiaoyv.floater.widget.dialog.UiDialog
-import com.xiaoyv.floater.widget.dialog.UiLoadingDialog
-import com.xiaoyv.floater.widget.kts.removeFromParent
-import com.xiaoyv.floater.widget.stateview.EmptyStateController
-import com.xiaoyv.floater.widget.stateview.IStateController
+import com.xiaoyv.widget.dialog.UiDialog
+import com.xiaoyv.widget.dialog.UiLoadingDialog
+import com.xiaoyv.widget.kts.removeFromParent
+import com.xiaoyv.widget.stateview.EmptyStateController
+import com.xiaoyv.widget.stateview.IStateController
 
 /**
  * BaseFragment

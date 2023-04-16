@@ -2,8 +2,8 @@ package com.xiaoyv.blueprint
 
 import android.app.Application
 import android.util.Log
-import com.xiaoyv.floater.widget.adapt.autoConvertDensity
 import com.xiaoyv.webview.X5WebView
+import com.xiaoyv.widget.adapt.autoConvertDensity
 
 /**
  * App

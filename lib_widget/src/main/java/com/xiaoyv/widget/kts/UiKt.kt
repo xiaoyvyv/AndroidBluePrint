@@ -13,7 +13,7 @@ import com.github.nukc.stateview.StateView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.xiaoyv.floater.widget.toolbar.UiToolbar
+import com.xiaoyv.widget.toolbar.UiToolbar
 
 /**
  * 设置透明背景 BottomSheetDialogFragment

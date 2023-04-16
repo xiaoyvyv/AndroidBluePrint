@@ -23,12 +23,12 @@ import com.gyf.immersionbar.ImmersionBar
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xiaoyv.blueprint.kts.activity
 import com.xiaoyv.blueprint.localize.LocalizeManager.attachBaseContextWithLanguage
-import com.xiaoyv.floater.widget.adapt.autoConvertDensity
-import com.xiaoyv.floater.widget.dialog.UiDialog
-import com.xiaoyv.floater.widget.dialog.UiLoadingDialog
-import com.xiaoyv.floater.widget.kts.useNotNull
-import com.xiaoyv.floater.widget.stateview.EmptyStateController
-import com.xiaoyv.floater.widget.stateview.IStateController
+import com.xiaoyv.widget.adapt.autoConvertDensity
+import com.xiaoyv.widget.dialog.UiDialog
+import com.xiaoyv.widget.dialog.UiLoadingDialog
+import com.xiaoyv.widget.kts.useNotNull
+import com.xiaoyv.widget.stateview.EmptyStateController
+import com.xiaoyv.widget.stateview.IStateController
 
 
 /**

@@ -3,7 +3,7 @@ package com.xiaoyv.blueprint.base
 import android.view.View
 import androidx.annotation.IntDef
 import com.github.nukc.stateview.StateView
-import com.xiaoyv.floater.widget.stateview.IStateController
+import com.xiaoyv.widget.stateview.IStateController
 
 
 /**
