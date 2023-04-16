@@ -10,7 +10,7 @@ import android.view.WindowManager;
 import com.xiaoyv.floater.gesture.DragGesture;
 import com.xiaoyv.floater.gesture.ResizeGesture;
 import com.xiaoyv.floater.util.WindowTypeCompat;
-import com.xiaoyv.widget.ViewSwitcher;
+import com.xiaoyv.floater.widget.ViewSwitcher;
 
 /**
  * Created by Stardust on 2017/4/18.
