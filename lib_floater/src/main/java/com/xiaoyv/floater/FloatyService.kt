@@ -89,10 +89,6 @@ class FloatyService : Service() {
         }
     }
 
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         instance = null
