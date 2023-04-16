@@ -48,6 +48,8 @@ class FloatyService : Service() {
     }
 
     private fun buildNotification(intent: Intent): Notification {
+        val foregroundNotificationClickClass =
+            intent.getStringExtra("foregroundNotificationClickClass").orEmpty()
         val foregroundNotificationChannelName =
             intent.getStringExtra("foregroundNotificationChannelName").orEmpty()
         val foregroundNotificationTitle =
@@ -59,7 +61,7 @@ class FloatyService : Service() {
 
         createNotificationChannel(foregroundNotificationChannelName)
 
-        val targetIntent = if (clickIntentClass != null) Intent(this, clickIntentClass) else null
+        val targetIntent = Intent(this, Class.forName(foregroundNotificationClickClass))
         val contentIntent = PendingIntent.getActivity(
             this, 0,
             targetIntent, PendingIntent.FLAG_IMMUTABLE
@@ -109,6 +111,7 @@ class FloatyService : Service() {
         @JvmStatic
         fun start(
             context: Context,
+            foregroundNotificationClickClass: String,
             foregroundNotificationChannelName: String = "前台服务通知",
             foregroundNotificationTitle: String = "服务保持运行中",
             foregroundNotificationText: String = "点击进入主界面",
@@ -118,6 +121,7 @@ class FloatyService : Service() {
                 context,
                 Intent(context, FloatyService::class.java).apply {
                     putExtra("foregroundNotificationChannelName", foregroundNotificationChannelName)
+                    putExtra("foregroundNotificationClickClass", foregroundNotificationClickClass)
                     putExtra("foregroundNotificationTitle", foregroundNotificationTitle)
                     putExtra("foregroundNotificationText", foregroundNotificationText)
                     putExtra("foregroundNotificationIcon", foregroundNotificationIcon)
