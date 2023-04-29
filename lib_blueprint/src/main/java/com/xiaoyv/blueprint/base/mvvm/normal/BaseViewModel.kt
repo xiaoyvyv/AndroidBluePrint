@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate", "HasPlatformType")
 
 package com.xiaoyv.blueprint.base.mvvm.normal
 
@@ -6,8 +6,9 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.blankj.utilcode.util.StringUtils
-import com.xiaoyv.blueprint.R
+import com.xiaoyv.blueprint.base.GlobalStringResLoading
 import com.xiaoyv.blueprint.entity.LoadingState
+import com.xiaoyv.widget.kts.sendValue
 import com.xiaoyv.widget.stateview.StateViewLiveData
 import java.lang.ref.WeakReference
 
@@ -28,8 +29,8 @@ open class BaseViewModel : ViewModel() {
     /**
      * 加载状态 对话框形式
      */
-    var loadingDialogTips = StringUtils.getString(R.string.brvah_loading)
-    val loadingDialogState = MutableLiveData<LoadingState>()
+    internal var loadingDialogTips = StringUtils.getString(GlobalStringResLoading)
+    internal val loadingDialogLiveData = MutableLiveData<LoadingState>()
 
     /**
      * 加载状态 View 形式
@@ -47,9 +48,34 @@ open class BaseViewModel : ViewModel() {
         reference = null
     }
 
+    /**
+     * 更新 Loading tip
+     */
+    fun resetLoadingTip(loadingTip: String? = null) {
+        loadingDialogTips =
+            loadingTip.orEmpty().ifBlank { StringUtils.getString(GlobalStringResLoading) }
+    }
+
+    /**
+     * 获取加载中对话框信息的绑定
+     */
+    @JvmOverloads
+    fun loadingDialogState(loadingTip: String? = null): MutableLiveData<LoadingState> {
+        resetLoadingTip(loadingTip)
+        return loadingDialogLiveData
+    }
+
+    /**
+     * 发送 Loading 事件
+     */
+    fun sendLoadingDialogState(state: LoadingState) {
+        loadingDialogLiveData.sendValue(state)
+    }
+
     open fun onViewCreated() {}
 
     open fun onViewDestroy() {}
 
     open fun onDestroy() {}
+
 }

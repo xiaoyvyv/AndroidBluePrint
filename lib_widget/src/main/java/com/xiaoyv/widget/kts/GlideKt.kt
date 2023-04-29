@@ -22,7 +22,7 @@ var requireGlideGlobalConfig = GlideConfig()
  */
 inline fun <TranscodeType> RequestBuilder<TranscodeType>.listener(
     crossinline onLoadFailed: (Any?) -> Unit = { },
-    crossinline onResourceReady: () -> Unit = { },
+    crossinline onResourceReady: (TranscodeType) -> Unit = { },
 ): RequestBuilder<TranscodeType> {
     val loadListener = object : RequestListener<TranscodeType> {
         override fun onLoadFailed(
@@ -42,7 +42,7 @@ inline fun <TranscodeType> RequestBuilder<TranscodeType>.listener(
             dataSource: DataSource?,
             isFirstResource: Boolean
         ): Boolean {
-            onResourceReady.invoke()
+            onResourceReady.invoke(resource)
             return false
         }
     }

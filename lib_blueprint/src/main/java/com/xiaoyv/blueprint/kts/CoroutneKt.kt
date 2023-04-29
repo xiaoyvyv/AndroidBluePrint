@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.xiaoyv.blueprint.entity.LoadingState
-import com.xiaoyv.blueprint.entity.stateOfEnding
-import com.xiaoyv.blueprint.entity.stateOfStarting
+import com.xiaoyv.blueprint.entity.loadingStateOfEnding
+import com.xiaoyv.blueprint.entity.loadingStateOfStarting
 import com.xiaoyv.widget.kts.ProcessLifecycleScope
 import com.xiaoyv.widget.kts.errorMsg
 import com.xiaoyv.widget.kts.sendValue
@@ -113,15 +113,15 @@ fun CoroutineScope.launchCatch(
     block: suspend CoroutineScope.() -> Unit
 ): Job {
     val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        state?.sendValue(stateOfEnding(throwable))
+        state?.sendValue(loadingStateOfEnding(throwable))
         stateView?.showTips(throwable.errorMsg)
         error.invoke(throwable)
     }
     return launch(context + exceptionHandler, start) {
-        state?.sendValue(stateOfStarting())
+        state?.sendValue(loadingStateOfStarting())
         stateView?.showLoading()
         block.invoke(this)
-        state?.sendValue(stateOfEnding())
+        state?.sendValue(loadingStateOfEnding())
 
         if (stateView?.showContentWhenJobDone == true) {
             stateView.showContent()

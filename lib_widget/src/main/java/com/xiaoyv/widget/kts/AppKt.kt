@@ -8,3 +8,9 @@ fun workDirOf(sub: String): String {
     FileUtils.createOrExistsDir(target)
     return target
 }
+
+fun cacheDirOf(sub: String): String {
+    val target = PathUtils.getCachePathExternalFirst() + "/$sub"
+    FileUtils.createOrExistsDir(target)
+    return target
+}

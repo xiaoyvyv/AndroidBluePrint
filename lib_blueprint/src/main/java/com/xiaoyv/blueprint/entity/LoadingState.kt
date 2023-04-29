@@ -22,5 +22,5 @@ data class LoadingState(val type: Int, val error: Throwable? = null) {
     }
 }
 
-fun stateOfStarting() = LoadingState(LoadingState.STATE_STARTING)
-fun stateOfEnding(error: Throwable? = null) = LoadingState(LoadingState.STATE_ENDING, error)
+fun loadingStateOfStarting() = LoadingState(LoadingState.STATE_STARTING)
+fun loadingStateOfEnding(error: Throwable? = null) = LoadingState(LoadingState.STATE_ENDING, error)

@@ -27,6 +27,8 @@ import com.xiaoyv.blueprint.base.mvvm.nav.OnAnimationListener
 import java.lang.reflect.ParameterizedType
 import kotlin.reflect.KClass
 
+var GlobalStringResLoading = R.string.brvah_loading
+
 /**
  * Activity ViewBinding 泛型反射初始化
  */

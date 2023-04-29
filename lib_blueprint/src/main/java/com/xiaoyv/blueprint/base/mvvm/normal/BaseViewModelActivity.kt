@@ -21,7 +21,7 @@ import com.xiaoyv.widget.stateview.StateViewLiveData
 abstract class BaseViewModelActivity<VB : ViewBinding, VM : BaseViewModel> : BaseActivity() {
     protected lateinit var binding: VB
 
-    protected val viewModel: VM by createViewModel()
+    val viewModel: VM by createViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,7 @@ abstract class BaseViewModelActivity<VB : ViewBinding, VM : BaseViewModel> : Bas
             }
         }
 
-        viewModel.loadingDialogState.observe(this) {
+        viewModel.loadingDialogLiveData.observe(this) {
             if (it.type == LoadingState.STATE_STARTING) {
                 loadingDialog.show(this, viewModel.loadingDialogTips)
             } else {
