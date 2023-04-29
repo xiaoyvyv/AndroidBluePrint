@@ -28,6 +28,8 @@ class UiLoadingDialog : DialogFragment(), UiDialog {
 
     override var message: String? = null
 
+    override var cancelable: Boolean = true
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -77,7 +79,11 @@ class UiLoadingDialog : DialogFragment(), UiDialog {
     override fun onStart() {
         super.onStart()
 
-        val window = dialog?.window ?: return
+        val dialog = dialog ?: return
+        val window = dialog.window ?: return
+
+        isCancelable = cancelable
+        dialog.setCanceledOnTouchOutside(cancelable)
 
         window.setBackgroundDrawableResource(R.color.ui_transparent)
         window.attributes = window.attributes.apply {

@@ -50,6 +50,7 @@ configurations.all {
 dependencies {
     api project(':lib_widget')
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.8.0"
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     compileOnly 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     compileOnly 'androidx.navigation:navigation-ui-ktx:2.5.3'

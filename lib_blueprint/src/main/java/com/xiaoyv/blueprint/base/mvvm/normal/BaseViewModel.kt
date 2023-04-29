@@ -29,6 +29,7 @@ open class BaseViewModel : ViewModel() {
     /**
      * 加载状态 对话框形式
      */
+    internal var loadingDialogCancelable = true
     internal var loadingDialogTips = StringUtils.getString(GlobalStringResLoading)
     internal val loadingDialogLiveData = MutableLiveData<LoadingState>()
 
@@ -60,7 +61,11 @@ open class BaseViewModel : ViewModel() {
      * 获取加载中对话框信息的绑定
      */
     @JvmOverloads
-    fun loadingDialogState(loadingTip: String? = null): MutableLiveData<LoadingState> {
+    fun loadingDialogState(
+        loadingTip: String? = null,
+        cancelable: Boolean = true
+    ): MutableLiveData<LoadingState> {
+        loadingDialogCancelable = cancelable
         resetLoadingTip(loadingTip)
         return loadingDialogLiveData
     }

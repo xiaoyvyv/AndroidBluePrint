@@ -11,6 +11,8 @@ import androidx.fragment.app.FragmentActivity
 interface UiDialog {
     var message: String?
 
+    var cancelable: Boolean
+
     fun dismiss()
 
     fun show(activity: FragmentActivity, msg: String? = null)

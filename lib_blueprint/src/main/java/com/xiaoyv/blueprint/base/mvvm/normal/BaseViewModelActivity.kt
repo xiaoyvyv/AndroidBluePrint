@@ -5,6 +5,7 @@ package com.xiaoyv.blueprint.base.mvvm.normal
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.base.BaseActivity
 import com.xiaoyv.blueprint.base.createBinding
@@ -49,6 +50,7 @@ abstract class BaseViewModelActivity<VB : ViewBinding, VM : BaseViewModel> : Bas
 
         viewModel.loadingDialogLiveData.observe(this) {
             if (it.type == LoadingState.STATE_STARTING) {
+                loadingDialog.cancelable = viewModel.loadingDialogCancelable
                 loadingDialog.show(this, viewModel.loadingDialogTips)
             } else {
                 loadingDialog.dismiss()
@@ -65,6 +67,19 @@ abstract class BaseViewModelActivity<VB : ViewBinding, VM : BaseViewModel> : Bas
     abstract override fun initView()
 
     abstract override fun initData()
+
+    fun SwipeRefreshLayout.initRefresh() {
+        viewModel.loadingViewState.observe(this@BaseViewModelActivity) {
+            if (it.type != StateViewLiveData.StateType.STATE_LOADING) {
+                isRefreshing = false
+            }
+        }
+        viewModel.loadingDialogLiveData.observe(this@BaseViewModelActivity) {
+            if (it.type == LoadingState.STATE_ENDING) {
+                isRefreshing = false
+            }
+        }
+    }
 
     @CallSuper
     override fun onDestroy() {

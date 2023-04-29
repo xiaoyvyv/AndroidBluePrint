@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.CallSuper
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.base.BaseFragment
 import com.xiaoyv.blueprint.base.createBinding
@@ -61,8 +62,9 @@ abstract class BaseViewModelFragment<VB : ViewBinding, VM : BaseViewModel> : Bas
             }
         }
 
-        viewModel.loadingDialogState.observe(viewLifecycleOwner) {
+        viewModel.loadingDialogLiveData.observe(viewLifecycleOwner) {
             if (it.type == LoadingState.STATE_STARTING) {
+                loadingDialog.cancelable = viewModel.loadingDialogCancelable
                 loadingDialog.show(requireActivity(), viewModel.loadingDialogTips)
             } else {
                 loadingDialog.dismiss()
@@ -75,6 +77,20 @@ abstract class BaseViewModelFragment<VB : ViewBinding, VM : BaseViewModel> : Bas
     abstract override fun initData()
 
     protected open fun initObserver() {}
+
+    fun SwipeRefreshLayout.initRefresh() {
+        viewModel.loadingViewState.observe(this@BaseViewModelFragment.viewLifecycleOwner) {
+            if (it.type != StateViewLiveData.StateType.STATE_LOADING) {
+                isRefreshing = false
+            }
+        }
+
+        viewModel.loadingDialogLiveData.observe(this@BaseViewModelFragment.viewLifecycleOwner) {
+            if (it.type == LoadingState.STATE_ENDING) {
+                isRefreshing = false
+            }
+        }
+    }
 
     override fun onDetach() {
         super.onDetach()
