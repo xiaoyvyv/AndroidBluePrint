@@ -50,7 +50,7 @@ abstract class BaseViewModelActivity<VB : ViewBinding, VM : BaseViewModel> : Bas
 
         viewModel.loadingDialogLiveData.observe(this) {
             if (it.type == LoadingState.STATE_STARTING) {
-                loadingDialog.cancelable = viewModel.loadingDialogCancelable
+                loadingDialog.canCancelable = viewModel.loadingDialogCancelable
                 loadingDialog.show(this, viewModel.loadingDialogTips)
             } else {
                 loadingDialog.dismiss()

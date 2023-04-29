@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentActivity
 interface UiDialog {
     var message: String?
 
-    var cancelable: Boolean
+    var canCancelable: Boolean
 
     fun dismiss()
 
