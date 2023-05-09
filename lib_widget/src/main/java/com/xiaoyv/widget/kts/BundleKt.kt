@@ -34,7 +34,7 @@ inline fun <reified T : Parcelable> Bundle.getParcelObj(key: String): T? {
 
 inline fun <reified T : Parcelable> Bundle.getParcelObjArray(
     key: String,
-    default: Array<T>,
+    default: Array<T> = emptyArray(),
 ): Array<T> {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         getParcelableArray(key, T::class.java) ?: default
