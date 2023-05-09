@@ -40,8 +40,5 @@ fun DialogFragment.dismissSoftInput() {
  * 判断 DialogFragment 是否可以显示
  */
 fun DialogFragment.canShowInFragment(fragment: Fragment): Boolean {
-    if (isAdded || isRemoving || isVisible || fragment.childFragmentManager.isDestroyed) {
-        return false
-    }
-    return true
+    return !(isAdded || isRemoving || isVisible || fragment.childFragmentManager.isDestroyed)
 }
