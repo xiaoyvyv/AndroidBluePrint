@@ -36,17 +36,13 @@ inline fun <reified T : Parcelable> Bundle.getParcelObjArray(
     key: String,
     default: Array<T>,
 ): Array<T> {
-    return getParcelObjArray(key) ?: default
-}
-
-inline fun <reified T : Parcelable> Bundle.getParcelObjArray(key: String): Array<T> {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         getParcelableArray(key, T::class.java) ?: emptyArray()
     } else {
         (getParcelableArray(key) as? Array<*>)
             ?.filterIsInstance(T::class.java)
             ?.toTypedArray()
-            ?: emptyArray()
+            ?: default
     }
 }
 
