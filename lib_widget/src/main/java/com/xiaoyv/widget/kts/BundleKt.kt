@@ -37,7 +37,7 @@ inline fun <reified T : Parcelable> Bundle.getParcelObjArray(
     default: Array<T>,
 ): Array<T> {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        getParcelableArray(key, T::class.java) ?: emptyArray()
+        getParcelableArray(key, T::class.java) ?: default
     } else {
         (getParcelableArray(key) as? Array<*>)
             ?.filterIsInstance(T::class.java)
@@ -51,7 +51,7 @@ inline fun <reified T : Parcelable> Bundle.getParcelObjList(
     default: List<T> = emptyList(),
 ): List<T> {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        getParcelableArrayList(key, T::class.java) ?: arrayListOf()
+        getParcelableArrayList(key, T::class.java) ?: default
     } else {
         (getParcelableArrayList<T>(key) as? List<*>)
             ?.filterIsInstance(T::class.java)
