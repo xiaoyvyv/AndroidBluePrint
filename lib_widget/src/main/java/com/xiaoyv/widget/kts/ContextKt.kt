@@ -3,9 +3,11 @@ package com.xiaoyv.widget.kts
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ActivityUtils
+import java.util.concurrent.Executor
 
 fun Context.isDestroyed(): Boolean {
     if (this is Activity) {
@@ -35,8 +37,12 @@ val Context?.fetchFragmentActivity: FragmentActivity?
  * 判断 DialogFragment 是否可以显示
  */
 fun DialogFragment.canShowInActivity(fragmentActivity: FragmentActivity): Boolean {
-    if (isAdded || isRemoving || isVisible || fragmentActivity.supportFragmentManager.isDestroyed) {
-        return false
-    }
-    return true
+    return !(isAdded || isRemoving || isVisible || fragmentActivity.supportFragmentManager.isDestroyed)
 }
+
+val Context.mainExecutorCompat: Executor
+    get() = ContextCompat.getMainExecutor(this)
+
+fun <T> Context.getSystemServiceCompat(serviceClass: Class<T>): T =
+    ContextCompat.getSystemService(this, serviceClass)!!
+

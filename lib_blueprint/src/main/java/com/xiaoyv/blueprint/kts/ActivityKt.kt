@@ -27,7 +27,7 @@ inline fun <reified T : Activity> KClass<T>.openString(
     open(paramString1 = param1, paramString2 = param2)
 }
 
-inline fun <reified T : Activity> KClass<T>.open(bundle: Bundle = Bundle.EMPTY) {
+inline fun <reified T : Activity> KClass<T>.open(bundle: Bundle = bundleOf()) {
     ActivityUtils.startActivity(bundle, java)
 }
 

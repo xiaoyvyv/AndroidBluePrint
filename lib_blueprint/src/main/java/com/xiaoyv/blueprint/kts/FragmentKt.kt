@@ -1,6 +1,7 @@
 package com.xiaoyv.blueprint.kts
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.xiaoyv.blueprint.constant.NavKey
 
@@ -11,7 +12,7 @@ import com.xiaoyv.blueprint.constant.NavKey
  */
 inline fun <reified T : Fragment> fragment(
     index: Int = 0,
-    bundle: Bundle = Bundle.EMPTY
+    bundle: Bundle = bundleOf()
 ): T {
     return T::class.java.newInstance().apply {
         arguments = bundle.also {

@@ -25,7 +25,7 @@ import com.xiaoyv.widget.stateview.StateViewLiveData
 abstract class BaseViewModelFragment<VB : ViewBinding, VM : BaseViewModel> : BaseFragment() {
     protected lateinit var binding: VB
 
-    protected val viewModel: VM by createViewModel()
+    val viewModel: VM by createViewModel()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
