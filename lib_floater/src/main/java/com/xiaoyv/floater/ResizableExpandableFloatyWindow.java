@@ -131,7 +131,7 @@ public class ResizableExpandableFloatyWindow extends FloatyWindow {
             expand();
         } else {
             setCollapsedViewX(floaty.getInitialX());
-            setCollapsedViewX(floaty.getInitialY());
+            setCollapsedViewY(floaty.getInitialY());
             getWindowBridge().updatePosition(getCollapsedViewX(), getCollapsedViewY());
         }
     }
