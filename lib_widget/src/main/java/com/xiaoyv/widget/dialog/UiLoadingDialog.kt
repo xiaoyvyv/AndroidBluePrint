@@ -2,6 +2,7 @@
 
 package com.xiaoyv.widget.dialog
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,9 @@ import com.xiaoyv.widget.kts.dpi
  * @since 2021/12/13
  */
 class UiLoadingDialog : DialogFragment(), UiDialog {
+    private val showListeners = arrayListOf<UiDialog.OnShowListener>()
+    private val dismissListeners = arrayListOf<UiDialog.OnDismissListener>()
+
     private var fragmentTag = javaClass.simpleName
 
     override var message: String? = null
@@ -33,7 +37,7 @@ class UiLoadingDialog : DialogFragment(), UiDialog {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return UiDialogLoadingBinding.inflate(LayoutInflater.from(context)).root
     }
@@ -54,6 +58,14 @@ class UiLoadingDialog : DialogFragment(), UiDialog {
         message?.let {
             binding.tvMsg.text = it
         }
+    }
+
+    override fun addOnShowListener(showListener: UiDialog.OnShowListener) {
+        showListeners.add(showListener)
+    }
+
+    override fun addOnDismissListener(dismissListener: UiDialog.OnDismissListener) {
+        dismissListeners.add(dismissListener)
     }
 
     override fun show(activity: FragmentActivity, msg: String?) {
@@ -92,5 +104,12 @@ class UiLoadingDialog : DialogFragment(), UiDialog {
         }
 
         refreshView(view)
+
+        showListeners.forEach { it.onShow(this) }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        dismissListeners.forEach { it.onDismiss(this) }
     }
 }
