@@ -42,18 +42,18 @@ android {
     namespace 'com.xiaoyv.blueprint'
 }
 
-configurations.all {
+configurations.configureEach {
     // 移除 support
     exclude group: "com.android.support"
 }
 
 dependencies {
     api project(':lib_widget')
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.8.10"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.8.21"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
-    compileOnly 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-    compileOnly 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    compileOnly 'androidx.navigation:navigation-fragment-ktx:2.7.0'
+    compileOnly 'androidx.navigation:navigation-ui-ktx:2.7.0'
 
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
     api "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
@@ -70,7 +70,7 @@ dependencies {
     api 'com.squareup.retrofit2:retrofit:2.9.0'
 
     // OkHttp
-    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11'
+    api 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
