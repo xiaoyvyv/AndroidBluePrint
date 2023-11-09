@@ -5,7 +5,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-apply(from = "../jitpack.gradle")
 apply(from = "../maven.gradle")
 
 android {

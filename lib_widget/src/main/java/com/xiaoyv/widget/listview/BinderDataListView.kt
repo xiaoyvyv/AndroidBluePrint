@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.DrawableRes
 import androidx.annotation.IntRange
-import androidx.annotation.NonNull
 import androidx.core.view.updatePadding
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
@@ -223,7 +222,7 @@ class BinderDataListView @JvmOverloads constructor(
         adapter.addData(position, data)
     }
 
-    fun addData(@NonNull data: Any) {
+    fun addData(data: Any) {
         adapter.addData(data)
     }
 
@@ -231,11 +230,11 @@ class BinderDataListView @JvmOverloads constructor(
         adapter.addData(position, newData)
     }
 
-    fun addData(@NonNull newData: Collection<Any>) {
+    fun addData(newData: Collection<Any>) {
         adapter.addData(newData)
     }
 
-    fun addDataOnly(@NonNull data: Any) {
+    fun addDataOnly(data: Any) {
         adapter.data.add(data)
     }
 

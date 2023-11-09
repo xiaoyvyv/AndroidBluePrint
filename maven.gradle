@@ -1,25 +1,9 @@
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-// 定义任务生成 sources.jar
-/*
-tasks.register('androidSourcesJar', Jar) {
-    // 指定分类名称 sources
-    getArchiveClassifier().set('sources')
-
-    // 如果有Kotlin那么就需要打入dir : getSrcDirs
-    if (project.hasProperty("kotlin")) {
-        println '====> project kotlin'
-        from android.sourceSets.main.java.getSrcDirs()
-    } else if (project.hasProperty("android")) {
-        println '====> project java'
-        from android.sourceSets.main.java.sourceFiles
-    } else {
-        println '====> project java & kotlin'
-        from sourceSets.main.allSource
-    }
-}
-*/
+ext["signing.keyId"] = '85230CD4'
+ext["signing.password"] = ''
+ext["signing.secretKeyRingFile"] = '../key/secring.gpg'
 
 android {
     publishing {
@@ -29,103 +13,102 @@ android {
     }
 }
 
-ext["signing.keyId"] = '85230CD4'
-ext["signing.password"] = ''
-ext["signing.secretKeyRingFile"] = '../key/secring.gpg'
+afterEvaluate {
+    publishing {
+        def pomSnapshot = project.properties.get('pom.snapshot')
+        def pomGroupId = project.properties.get('pom.groupId')
+        def pomVersion = project.properties.get('pom.version')
+        def pomArtifactId = project.properties.get('pom.artifactId')
 
-publishing {
-    def pomSnapshot = project.properties.get('pom.snapshot')
-    def pomGroupId = project.properties.get('pom.groupId')
-    def pomVersion = project.properties.get('pom.version')
-    def pomArtifactId = project.properties.get('pom.artifactId')
+        if (pomSnapshot == null || pomSnapshot.isEmpty()) {
+            throw new GradleException("'pom.snapshot' not found in 'gradle.properties'")
+        }
+        if (pomGroupId == null || pomGroupId.isEmpty()) {
+            throw new GradleException("'pom.groupId' not found in 'gradle.properties'")
+        }
+        if (pomVersion == null || pomVersion.isEmpty()) {
+            throw new GradleException("'pom.version' not found in 'gradle.properties'")
+        }
 
-    if (pomSnapshot == null || pomSnapshot.isEmpty()) {
-        throw new GradleException("'pom.snapshot' not found in 'gradle.properties'")
-    }
-    if (pomGroupId == null || pomGroupId.isEmpty()) {
-        throw new GradleException("'pom.groupId' not found in 'gradle.properties'")
-    }
-    if (pomVersion == null || pomVersion.isEmpty()) {
-        throw new GradleException("'pom.version' not found in 'gradle.properties'")
-    }
-
-    if (Boolean.valueOf(pomSnapshot)) {
-        pomVersion = "${pomVersion}-SNAPSHOT"
-    }
-    if (pomArtifactId == null || pomArtifactId.isEmpty()) {
-        pomArtifactId = model.name.replace("lib_", "")
-    }
+        if (Boolean.valueOf(pomSnapshot)) {
+            pomVersion = "${pomVersion}-SNAPSHOT"
+        }
+        if (pomArtifactId == null || pomArtifactId.isEmpty()) {
+            pomArtifactId = model.name.replace("lib_", "")
+        }
 
 
-    publications {
-        release(MavenPublication) {
+        publications {
+            release(MavenPublication) {
+                from components.release
 
-            // 配置 pom
-            groupId = pomGroupId
-            artifactId = pomArtifactId
-            version = pomVersion
+                // 配置 pom
+                groupId = pomGroupId
+                artifactId = pomArtifactId
+                version = pomVersion
 
-            // Self-explanatory metadata for the most part
-            pom {
-                name = pomArtifactId
+                // Self-explanatory metadata for the most part
+                pom {
+                    name = pomArtifactId
 
-                description = 'Android BluePrint FrameWork'
+                    description = 'Android BluePrint FrameWork'
 
-                // If your project has a dedicated site, use its URL here
-                url = 'https://github.com/xiaoyvyv'
+                    // If your project has a dedicated site, use its URL here
+                    url = 'https://github.com/xiaoyvyv'
 
-                licenses {
-                    license {
-                        //协议类型，一般默认Apache License2.0的话不用改：
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    licenses {
+                        license {
+                            //协议类型，一般默认Apache License2.0的话不用改：
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
                     }
-                }
-                developers {
-                    developer {
-                        id = 'xiaovyvy'
-                        name = 'whystart'
-                        email = '1223414335@qq.com'
+                    developers {
+                        developer {
+                            id = 'xiaovyvy'
+                            name = 'whystart'
+                            email = '1223414335@qq.com'
+                        }
                     }
-                }
-                // Version control info, if you're using GitHub, follow the format as seen here
-                scm {
-                    //修改成你的Git地址：
-                    connection = 'scm:git:github.com/xiaoyvyv/AndroidBluePrint.git'
-                    developerConnection = 'scm:git:ssh://github.com/xiaoyvyv/AndroidBluePrint.git'
-                    //分支地址：
-                    url = 'https://github.com/xiaoyvyv/AndroidBluePrint/tree/master'
+                    // Version control info, if you're using GitHub, follow the format as seen here
+                    scm {
+                        //修改成你的Git地址：
+                        connection = 'scm:git:github.com/xiaoyvyv/AndroidBluePrint.git'
+                        developerConnection = 'scm:git:ssh://github.com/xiaoyvyv/AndroidBluePrint.git'
+                        //分支地址：
+                        url = 'https://github.com/xiaoyvyv/AndroidBluePrint/tree/master'
+                    }
                 }
             }
         }
-    }
-    repositories {
-        maven {
-            name = "AliyunCentral"
+        repositories {
+            maven {
+                name = "AliyunCentral"
 
-            credentials {
-                username = '6063d39b68e8851acef6a97a'
-                password = '1Vl]B4PKU2ee'
-            }
-            boolean snap = version.endsWith('SNAPSHOT')
-            def releases = 'https://packages.aliyun.com/maven/repository/2090598-release-Z0kMEw/'
-            def snapshots = 'https://packages.aliyun.com/maven/repository/2090598-snapshot-r8znEW/'
-            url = snap ? snapshots : releases
-        }
-
-        // The repository to publish to, Sonatype/MavenCentral
-        maven {
-            name = "MavenCentral"
-
-            credentials {
-                username = 'whystart'
-                password = 'Wanghuaiyv@2020'
+                credentials {
+                    username = '6063d39b68e8851acef6a97a'
+                    password = '1Vl]B4PKU2ee'
+                }
+                boolean snap = version.endsWith('SNAPSHOT')
+                def releases = 'https://packages.aliyun.com/maven/repository/2090598-release-Z0kMEw/'
+                def snapshots = 'https://packages.aliyun.com/maven/repository/2090598-snapshot-r8znEW/'
+                url = snap ? snapshots : releases
             }
 
-            boolean snap = version.endsWith('SNAPSHOT')
-            def releases = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
-            def snapshots = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
-            url = snap ? snapshots : releases
+            // The repository to publish to, Sonatype/MavenCentral
+            maven {
+                name = "MavenCentral"
+
+                credentials {
+                    username = 'whystart'
+                    password = 'Wanghuaiyv@2020'
+                }
+
+                boolean snap = version.endsWith('SNAPSHOT')
+                def releases = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+                def snapshots = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+                url = snap ? snapshots : releases
+            }
         }
     }
 }
