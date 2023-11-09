@@ -8,7 +8,7 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.cyberdavinci.gptkeyboard" />
+                  <option name="appId" value="com.livehousex.lively" />
                 </ConnectionSetting>
               </option>
               <option name="failureTypes">

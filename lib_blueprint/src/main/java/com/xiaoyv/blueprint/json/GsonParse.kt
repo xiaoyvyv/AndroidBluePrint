@@ -1,5 +1,3 @@
-@file:Suppress("UNCHECKED_CAST")
-
 package com.xiaoyv.blueprint.json
 
 import com.google.gson.Gson

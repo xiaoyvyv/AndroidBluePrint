@@ -81,6 +81,20 @@ abstract class BaseViewModelActivity<VB : ViewBinding, VM : BaseViewModel> : Bas
         }
     }
 
+    inline fun initLoadingFinishState(crossinline onLoadingStateFinish: () -> Unit = { }) {
+        viewModel.loadingViewState.observe(this@BaseViewModelActivity) {
+            if (it.type != StateViewLiveData.StateType.STATE_LOADING) {
+                onLoadingStateFinish()
+            }
+        }
+
+        viewModel.loadingDialogLiveData.observe(this@BaseViewModelActivity) {
+            if (it.type == LoadingState.STATE_ENDING) {
+                onLoadingStateFinish()
+            }
+        }
+    }
+
     @CallSuper
     override fun onDestroy() {
         super.onDestroy()

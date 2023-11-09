@@ -2,7 +2,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 // 定义任务生成 sources.jar
-task androidSourcesJar(group: 'publishing', type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
     // 指定分类名称 sources
     getArchiveClassifier().set('sources')
 

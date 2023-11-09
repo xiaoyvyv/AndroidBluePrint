@@ -31,7 +31,8 @@ open class BaseViewModel : ViewModel() {
      */
     internal var loadingDialogCancelable = true
     internal var loadingDialogTips = StringUtils.getString(GlobalStringResLoading)
-    internal val loadingDialogLiveData = MutableLiveData<LoadingState>()
+
+    val loadingDialogLiveData = MutableLiveData<LoadingState>()
 
     /**
      * 加载状态 View 形式
