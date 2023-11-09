@@ -2,6 +2,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 // 定义任务生成 sources.jar
+/*
 tasks.register('androidSourcesJar', Jar) {
     // 指定分类名称 sources
     getArchiveClassifier().set('sources')
@@ -16,6 +17,15 @@ tasks.register('androidSourcesJar', Jar) {
     } else {
         println '====> project java & kotlin'
         from sourceSets.main.allSource
+    }
+}
+*/
+
+android {
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
     }
 }
 
@@ -46,11 +56,9 @@ publishing {
         pomArtifactId = model.name.replace("lib_", "")
     }
 
+
     publications {
         release(MavenPublication) {
-            // 打包源码
-            artifact androidSourcesJar
-
 
             // 配置 pom
             groupId = pomGroupId
