@@ -65,9 +65,9 @@ abstract class BaseViewModelFragment<VB : ViewBinding, VM : BaseViewModel> : Bas
         viewModel.loadingDialogLiveData.observe(viewLifecycleOwner) {
             if (it.type == LoadingState.STATE_STARTING) {
                 loadingDialog.canCancelable = viewModel.loadingDialogCancelable
-                loadingDialog.show(requireActivity(), viewModel.loadingDialogTips)
+                loadingDialog.showLoading(requireActivity(), viewModel.loadingDialogTips)
             } else {
-                loadingDialog.dismiss()
+                loadingDialog.dismissLoading()
             }
         }
     }

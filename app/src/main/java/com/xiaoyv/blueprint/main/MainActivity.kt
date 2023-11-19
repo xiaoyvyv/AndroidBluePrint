@@ -1,7 +1,6 @@
 package com.xiaoyv.blueprint.main
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -12,7 +11,6 @@ import com.blankj.utilcode.util.*
 import com.github.nukc.stateview.StateView
 import com.xiaoyv.blueprint.NavActivity
 import com.xiaoyv.blueprint.activity.*
-import com.xiaoyv.blueprint.app.R
 import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
 import com.xiaoyv.blueprint.kts.LazyUtils.loadRootFragment
@@ -22,9 +20,6 @@ import com.xiaoyv.calendar.CalendarReminder
 import com.xiaoyv.calendar.ics.IcsCreator
 import com.xiaoyv.floater.FloatyService
 import com.xiaoyv.widget.callback.setOnFastLimitClickListener
-import com.xiaoyv.widget.dialog.UiNormalDialog
-import com.xiaoyv.widget.dialog.UiOptionsDialog
-import com.xiaoyv.widget.kts.isSoftInputModeAlwaysVisible
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okio.IOException
@@ -279,58 +274,7 @@ class MainActivity :
         }
 
         binding.tvTest.setOnFastLimitClickListener(2500) {
-//            stateController.showRetryView()
             ToastUtils.showShort("tttttttttttttt")
-
-            val optionsDialog = UiOptionsDialog.Builder().apply {
-                itemDataList = arrayListOf(
-                    "横屏",
-                    "Toast",
-                    "Setting",
-                    "375 - true",
-                    "竖屏"
-                )
-                itemLastColor = Color.RED
-                onOptionsClickListener = { dialog, data, position ->
-                    when (position) {
-                        0 -> {
-                            ScreenUtils.setLandscape(this@MainActivity)
-                        }
-
-                        1 -> {
-
-                            ToastUtils.showLong("adaptHeight")
-                        }
-
-                        2 -> {
-                            dialog.dismiss()
-
-                            UiNormalDialog.Builder().apply {
-                                customView = R.layout.dialog_input
-                                onDismissListener = {
-                                    LogUtils.e("onDismissListener")
-                                }
-                                onStartListener = { dialog, window ->
-                                    LogUtils.e("onStartListener")
-                                    window.isSoftInputModeAlwaysVisible = true
-                                }
-                            }.create()
-                                .show(this@MainActivity)
-                        }
-
-                        3 -> {
-
-                        }
-
-                        else -> {
-                            ScreenUtils.setPortrait(this@MainActivity)
-                        }
-                    }
-                    true
-                }
-            }.create()
-            optionsDialog.show(this)
-
         }
 
         binding.checkFloating.setOnClickListener {

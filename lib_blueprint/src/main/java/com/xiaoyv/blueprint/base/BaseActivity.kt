@@ -143,7 +143,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
         rootContent = findViewById(android.R.id.content)
 
         // Loading
-        loadingDialog = createLoadingDialog()
+        loadingDialog = onCreateLoadingDialog()
         loadingStateView = onCreateStateController()
     }
 
@@ -180,7 +180,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     /**
      * 创建 LoadingDialog
      */
-    protected open fun createLoadingDialog(): UiDialog {
+    protected open fun onCreateLoadingDialog(): UiDialog {
         return UiLoadingDialog()
     }
 
@@ -225,12 +225,12 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
         if (isFinishing || isDestroyed) return
 
         loadingDialog.message = msg
-        loadingDialog.show(activity, msg)
+        loadingDialog.showLoading(activity, msg)
     }
 
     override fun hideLoading() {
         if (isFinishing || isDestroyed) return
-        loadingDialog.dismiss()
+        loadingDialog.dismissLoading()
     }
 
     /**
@@ -263,7 +263,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
 
     @CallSuper
     override fun onDestroy() {
-        loadingDialog.dismiss()
+        loadingDialog.dismissLoading()
         super.onDestroy()
     }
 }

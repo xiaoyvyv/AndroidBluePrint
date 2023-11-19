@@ -1,6 +1,7 @@
 package com.xiaoyv.widget.binder
 
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
-class BaseQuickBindingHolder<VB : ViewBinding>(val binding: VB) : BaseViewHolder(binding.root)
+class BaseQuickBindingHolder<VB : ViewBinding>(val binding: VB) :
+    RecyclerView.ViewHolder(binding.root)

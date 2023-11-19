@@ -13,9 +13,9 @@ interface UiDialog {
 
     var canCancelable: Boolean
 
-    fun dismiss()
+    fun dismissLoading()
 
-    fun show(activity: FragmentActivity, msg: String? = null)
+    fun showLoading(activity: FragmentActivity, msg: String? = null)
 
     fun addOnShowListener(showListener: OnShowListener)
     fun addOnDismissListener(dismissListener: OnDismissListener)

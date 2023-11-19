@@ -8,7 +8,7 @@
         android:id="@+id/btn_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_40"
+        android:layout_marginTop="@dimen/ui_size_40"
         android:text="视频测试"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -68,7 +68,7 @@ class UiLoadingDialog : DialogFragment(), UiDialog {
         dismissListeners.add(dismissListener)
     }
 
-    override fun show(activity: FragmentActivity, msg: String?) {
+    override fun showLoading(activity: FragmentActivity, msg: String?) {
         if (canShowInActivity(activity)) {
             this.message = msg
             showNow(activity.supportFragmentManager, fragmentTag)
@@ -82,7 +82,7 @@ class UiLoadingDialog : DialogFragment(), UiDialog {
         }
     }
 
-    override fun dismiss() {
+    override fun dismissLoading() {
         if (isAdded) {
             super.dismissAllowingStateLoss()
         }

@@ -155,11 +155,11 @@ abstract class BaseFragment : Fragment(), IBaseView {
     }
 
     override fun showLoading(msg: String?) {
-        loadingDialog.show(requireActivity(), msg)
+        loadingDialog.showLoading(requireActivity(), msg)
     }
 
     override fun hideLoading() {
-        loadingDialog.dismiss()
+        loadingDialog.dismissLoading()
     }
 
     /**
@@ -184,7 +184,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
 
     @CallSuper
     override fun onDestroy() {
-        loadingDialog.dismiss()
+        loadingDialog.dismissLoading()
         super.onDestroy()
     }
 }

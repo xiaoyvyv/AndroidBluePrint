@@ -71,7 +71,7 @@ dependencies {
     // Utils
     api 'com.blankj:utilcodex:1.31.1'
     // AdapterHelper
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
+    api 'io.github.cymchad:BaseRecyclerViewAdapterHelper:4.0.1'
     // StateView
     api 'com.github.nukc:StateView:v3.0.0'
     // Bar

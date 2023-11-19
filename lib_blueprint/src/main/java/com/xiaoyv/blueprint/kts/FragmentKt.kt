@@ -20,3 +20,10 @@ inline fun <reified T : Fragment> fragment(
         }
     }
 }
+
+inline fun <reified T : Fragment> T.params(vararg pairs: Pair<String, Any?>): T {
+    val args = arguments ?: Bundle()
+    args.putAll(bundleOf(*pairs))
+    arguments = args
+    return this
+}
