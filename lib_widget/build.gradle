@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
 }
 
 apply from: '../maven.gradle'
@@ -101,8 +101,7 @@ dependencies {
     // OkHttp
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11'
 
-    // noinspection KaptUsageInsteadOfKsp
-    kapt 'com.github.bumptech.glide:compiler:4.15.1'
+    ksp 'com.github.bumptech.glide:ksp:4.15.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
 
     testImplementation 'junit:junit:4.13.2'
