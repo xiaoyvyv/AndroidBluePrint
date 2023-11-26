@@ -9,7 +9,14 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"
+        android:minSdkVersion="34" />
+
     <application>
-        <service android:name="com.xiaoyv.floater.FloatyService" />
+        <service
+            android:name="com.xiaoyv.floater.FloatyService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
     </application>
 </manifest>

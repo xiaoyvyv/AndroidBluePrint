@@ -13,9 +13,12 @@ import androidx.annotation.IdRes
 import androidx.annotation.MainThread
 import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.createViewModelLazy
-import androidx.lifecycle.*
+import androidx.lifecycle.HasDefaultViewModelProviderFactory
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelLazy
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.navigation.NavOptions
 import androidx.navigation.navOptions

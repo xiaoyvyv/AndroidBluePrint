@@ -19,3 +19,14 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# 项目
+-keep class * implements androidx.viewbinding.ViewBinding {*;}
+-keep class * extends androidx.lifecycle.ViewModel{*;}
+
+-keep class * extends com.xiaoyv.widget.binder.BaseQuickBindingAdapter
+-keep class * extends com.xiaoyv.widget.binder.BaseQuickBindingHolder
+-keep class * extends com.xiaoyv.widget.binder.BaseQuickDiffBindingAdapter
+
+-keep class com.xiaoyv.blueprint.base.**
+-keep class com.xiaoyv.widget.binder.**
