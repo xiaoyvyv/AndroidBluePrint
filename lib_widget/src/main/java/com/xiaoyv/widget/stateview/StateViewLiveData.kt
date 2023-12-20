@@ -23,6 +23,12 @@ open class StateViewLiveData : MutableLiveData<StateViewLiveData.MutableState>()
      */
     var showContentWhenJobDone = true
 
+    /**
+     * 是否正在加载中
+     */
+    val isLoading: Boolean
+        get() = value?.type != StateType.STATE_LOADING
+
     open fun showContent() {
         sendValue(defaultHideState)
     }

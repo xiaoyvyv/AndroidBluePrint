@@ -3,7 +3,7 @@ package com.xiaoyv.blueprint.base
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
+import android.view.ViewGroup
 import com.github.nukc.stateview.StateView
 import com.xiaoyv.blueprint.BluePrint
 
@@ -47,7 +47,7 @@ abstract class BaseMvpFragment<V : IBaseView, T : ImplBasePresenter<V>> : BaseFr
 
     protected abstract fun createPresenter(): T
 
-    abstract override fun createContentView(inflater: LayoutInflater, flRoot: FrameLayout): View?
+    abstract override fun createContentView(inflater: LayoutInflater, parent: ViewGroup?): View?
 
     abstract override fun initView()
 

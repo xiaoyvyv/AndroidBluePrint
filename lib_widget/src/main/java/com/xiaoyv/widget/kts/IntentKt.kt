@@ -16,7 +16,7 @@ fun <T> T.launchBy(launcher: ActivityResultLauncher<T>) {
     runCatching {
         launcher.launch(this)
     }.onFailure {
-        ToastUtils.showShort(it.errorMsg)
+        showToastCompat(it.errorMsg)
     }
 }
 

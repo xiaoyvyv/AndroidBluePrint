@@ -39,7 +39,7 @@ class CropActivity : BaseActivity() {
 //                    extractFrames(filePath, extract)
 //                }
 //                val spend = System.currentTimeMillis() - time
-//                ToastUtils.showShort("抽取帧：$spend ms")
+//                showToastCompat("抽取帧：$spend ms")
 //                binding.cropView.imageList = extractFrames
 //
 //                extractFrames.onEachIndexed { index, bitmap ->

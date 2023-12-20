@@ -1,9 +1,10 @@
-@file:Suppress("DEPRECATION", "MemberVisibilityCanBePrivate", "OVERRIDE_DEPRECATION")
+@file:Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
 
 package com.xiaoyv.blueprint.base
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
@@ -14,10 +15,8 @@ import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.blankj.utilcode.util.FragmentUtils
 import com.blankj.utilcode.util.KeyboardUtils
 import com.blankj.utilcode.util.ScreenUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.github.nukc.stateview.StateView
 import com.gyf.immersionbar.ImmersionBar
 import com.jeremyliao.liveeventbus.LiveEventBus
@@ -26,6 +25,7 @@ import com.xiaoyv.blueprint.localize.LocalizeManager.attachBaseContextWithLangua
 import com.xiaoyv.widget.adapt.autoConvertDensity
 import com.xiaoyv.widget.dialog.UiDialog
 import com.xiaoyv.widget.dialog.UiLoadingDialog
+import com.xiaoyv.widget.kts.showToastCompat
 import com.xiaoyv.widget.kts.useNotNull
 import com.xiaoyv.widget.stateview.EmptyStateController
 import com.xiaoyv.widget.stateview.IStateController
@@ -61,6 +61,17 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
 
     val requireActivity: BaseActivity
         get() = this@BaseActivity
+
+    /**
+     * 获取当前是否开启深色模式
+     */
+    val nightMode: Boolean
+        get() = when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_NO -> false
+            Configuration.UI_MODE_NIGHT_YES -> true
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> false
+            else -> false
+        }
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -124,7 +135,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     protected open fun initBarConfig() {
         ImmersionBar.with(this)
             .transparentStatusBar()
-            .statusBarDarkFont(true)
+            .statusBarDarkFont(!nightMode)
             .init()
     }
 
@@ -218,7 +229,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     }
 
     override fun showToast(msg: String?) {
-        ToastUtils.showShort(msg.orEmpty())
+        showToastCompat(msg.orEmpty())
     }
 
     override fun showLoading(msg: String?) {
@@ -248,17 +259,6 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     @CallSuper
     override fun getResources(): Resources {
         return super.getResources().autoConvertDensity()
-    }
-
-    @CallSuper
-    override fun onBackPressed() {
-        FragmentUtils.getFragments(supportFragmentManager).forEach {
-            // 判断事件是否被消费掉了
-            if (it is BaseFragment && it.onFragmentBackPressed()) {
-                return
-            }
-        }
-        super.onBackPressed()
     }
 
     @CallSuper

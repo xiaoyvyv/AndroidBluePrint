@@ -2,7 +2,7 @@ package com.xiaoyv.blueprint.base.binding
 
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
+import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.viewbinding.ViewBinding
 import com.xiaoyv.blueprint.base.BaseMvpFragment
@@ -22,7 +22,7 @@ abstract class BaseMvpBindingFragment<BINDING : ViewBinding, V : IBaseView, PRES
     lateinit var binding: BINDING
 
     @CallSuper
-    override fun createContentView(inflater: LayoutInflater, flRoot: FrameLayout): View {
+    override fun createContentView(inflater: LayoutInflater, parent: ViewGroup?): View {
         binding = createContentBinding(layoutInflater)
         return binding.root
     }

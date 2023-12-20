@@ -68,15 +68,34 @@ abstract class BaseViewModelActivity<VB : ViewBinding, VM : BaseViewModel> : Bas
 
     abstract override fun initData()
 
-    fun SwipeRefreshLayout.initRefresh() {
+    fun SwipeRefreshLayout.initRefresh(autoRefreshOnLoading: () -> Boolean = { false }) {
+        isEnabled = true
+
         viewModel.loadingViewState.observe(this@BaseViewModelActivity) {
             if (it.type != StateViewLiveData.StateType.STATE_LOADING) {
                 isRefreshing = false
+                isEnabled = true
+            } else {
+                if (autoRefreshOnLoading()) {
+                    isEnabled = true
+                    isRefreshing = true
+                } else if (isRefreshing.not()) {
+                    isEnabled = false
+                }
             }
         }
+
         viewModel.loadingDialogLiveData.observe(this@BaseViewModelActivity) {
             if (it.type == LoadingState.STATE_ENDING) {
                 isRefreshing = false
+                isEnabled = true
+            } else {
+                if (autoRefreshOnLoading()) {
+                    isEnabled = true
+                    isRefreshing = true
+                } else if (isRefreshing.not()) {
+                    isEnabled = false
+                }
             }
         }
     }

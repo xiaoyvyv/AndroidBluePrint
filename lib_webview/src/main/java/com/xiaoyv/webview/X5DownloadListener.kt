@@ -6,7 +6,6 @@ import android.os.Environment
 import androidx.appcompat.app.AlertDialog
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.blankj.utilcode.util.Utils
 import com.tencent.smtt.sdk.CookieManager
 import com.tencent.smtt.sdk.DownloadListener
@@ -54,10 +53,7 @@ open class X5DownloadListener(private val x5WebView: X5WebView) : DownloadListen
      * 开始下载
      */
     private fun startDownload(url: String, mimeType: String, fileName: String) {
-        ToastUtils.showShort("开始下载：$fileName")
-
         val uri = url.toSafeUri()
-
         val cookie = CookieManager.getInstance().getCookie(url).orEmpty().trim()
 
         val request = DownloadManager.Request(uri)

@@ -1,11 +1,11 @@
 package com.xiaoyv.blueprint.fragment
 
 import androidx.lifecycle.LifecycleOwner
-import com.blankj.utilcode.util.ToastUtils
 import com.xiaoyv.blueprint.app.R
 import com.xiaoyv.blueprint.app.databinding.FragmentNavBinding
 import com.xiaoyv.blueprint.base.mvvm.nav.BaseNavFragment
 import com.xiaoyv.blueprint.base.navigate
+import com.xiaoyv.widget.kts.showToastCompat
 import com.xiaoyv.widget.callback.setOnFastLimitClickListener
 
 /**
@@ -29,10 +29,10 @@ class TestNavFragment: BaseNavFragment<FragmentNavBinding, TestNavViewModel>() {
     }
 
     override fun onAnimationStart() {
-        ToastUtils.showShort("start")
+        showToastCompat("start")
     }
 
     override fun onAnimationEnd() {
-        ToastUtils.showShort("end")
+        showToastCompat("end")
     }
 }

@@ -6,14 +6,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.xiaoyv.blueprint.app.databinding.ActivityDownloadBinding
+import com.xiaoyv.widget.kts.showToastCompat
 import com.xiaoyv.webview.helper.TBS_DEFEAT_CORE_URL
 import com.xiaoyv.webview.helper.X5InstallHelper
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -35,13 +37,13 @@ class DownloadActivity : AppCompatActivity() {
                 if (downloadId == id) {
                     val query: DownloadManager.Query = DownloadManager.Query()
                     query.setFilterById(id)
-                    var cursor = downloadManager.query(query)
+                    val cursor = downloadManager.query(query)
                     if (!cursor.moveToFirst()) {
                         return
                     }
 
-                    var columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
-                    var status = cursor.getInt(columnIndex)
+                    val columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
+                    val status = cursor.getInt(columnIndex)
                     if (status == DownloadManager.STATUS_SUCCESSFUL) {
                         Toast.makeText(context, "Download succeeded", Toast.LENGTH_SHORT).show()
                     } else if (status == DownloadManager.STATUS_FAILED) {
@@ -54,6 +56,7 @@ class DownloadActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDownloadBinding.inflate(layoutInflater)
@@ -64,13 +67,13 @@ class DownloadActivity : AppCompatActivity() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
         intentFilter.addAction(DownloadManager.ACTION_NOTIFICATION_CLICKED)
-        registerReceiver(onDownloadComplete, intentFilter)
+        registerReceiver(onDownloadComplete, intentFilter, RECEIVER_NOT_EXPORTED)
 
         binding.downloadBtn.setOnClickListener {
 //            downloadImage()
 
             lifecycleScope.launch(CoroutineExceptionHandler { coroutineContext, throwable ->
-                ToastUtils.showLong("error: $throwable")
+                showToastCompat("error: $throwable")
             }) {
                 val download = X5InstallHelper.download { fl, speed, total ->
                     Log.e(

@@ -14,6 +14,7 @@ import com.xiaoyv.blueprint.activity.*
 import com.xiaoyv.blueprint.app.databinding.ActivityMainBinding
 import com.xiaoyv.blueprint.base.binding.BaseMvpBindingActivity
 import com.xiaoyv.blueprint.kts.LazyUtils.loadRootFragment
+import com.xiaoyv.widget.kts.showToastCompat
 import com.xiaoyv.calendar.CalendarAccount
 import com.xiaoyv.calendar.CalendarEvent
 import com.xiaoyv.calendar.CalendarReminder
@@ -66,14 +67,14 @@ class MainActivity :
         binding.checkCalendar.setOnClickListener {
             runWithCalendarPermission(block = {
                 val account = CalendarReminder.checkCalendarAccount(this, accountName)
-                ToastUtils.showShort("ID: $account")
+                showToastCompat("ID: $account")
             })
         }
         binding.addCalendar.setOnClickListener {
             runWithCalendarPermission {
                 val account =
                     CalendarReminder.createCalendarAccount(this, calendarAccount)
-                ToastUtils.showShort("ID: $account")
+                showToastCompat("ID: $account")
             }
         }
 
@@ -149,7 +150,7 @@ class MainActivity :
                                 //   CalendarReminder.createCalendarEvent(this, 111, calendarEvent)
                             } catch (e: Throwable) {
                                 LogUtils.e(e)
-                                ToastUtils.showShort(e.toString())
+                                showToastCompat(e.toString())
                             }
                         }
                     }
@@ -190,10 +191,10 @@ class MainActivity :
 //            }
 
 //            X5InstallHelper.downloadTbs(useCache = true) {
-//                ToastUtils.showShort("下载完成，准备安装！")
+//                showToastCompat("下载完成，准备安装！")
 //
 //                X5InstallHelper.installByLocal(it, 46141) { code ->
-//                    ToastUtils.showShort("安装结果：$code！")
+//                    showToastCompat("安装结果：$code！")
 //                    doAsync {
 //                        runBlocking {
 //                            delay(2000)
@@ -274,7 +275,7 @@ class MainActivity :
         }
 
         binding.tvTest.setOnFastLimitClickListener(2500) {
-            ToastUtils.showShort("tttttttttttttt")
+            showToastCompat("tttttttttttttt")
         }
 
         binding.checkFloating.setOnClickListener {

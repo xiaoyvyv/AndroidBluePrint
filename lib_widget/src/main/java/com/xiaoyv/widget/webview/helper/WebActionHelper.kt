@@ -9,6 +9,7 @@ import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.IntentUtils
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.xiaoyv.widget.kts.showToastCompat
 import com.xiaoyv.widget.webview.utils.toSafeUri
 import java.lang.ref.WeakReference
 import java.net.URLDecoder
@@ -33,7 +34,7 @@ object WebActionHelper {
         val currentUri = webView.url.toSafeUri()
         val currentUrl = currentUri.scheme + "://" + currentUri.host
         if (currentUri.host.orEmpty().isEmpty()) {
-            ToastUtils.showShort("暂不支持该链接")
+            showToastCompat("暂不支持该链接")
             return
         }
         // 目标 Intent
@@ -47,7 +48,7 @@ object WebActionHelper {
                     runCatching {
                         ActivityUtils.startActivity(intent)
                     }.onFailure {
-                        ToastUtils.showShort("打开失败，目标应用不存在")
+                        showToastCompat("打开失败，目标应用不存在")
                     }
                 }
                 .setNegativeButton("取消", null)

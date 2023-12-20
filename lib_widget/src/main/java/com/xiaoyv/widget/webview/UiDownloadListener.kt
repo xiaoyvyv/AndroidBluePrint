@@ -8,8 +8,8 @@ import android.webkit.DownloadListener
 import androidx.appcompat.app.AlertDialog
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.blankj.utilcode.util.Utils
+import com.xiaoyv.widget.kts.showToastCompat
 import com.xiaoyv.widget.webview.helper.WebActionHelper
 import com.xiaoyv.widget.webview.helper.WebActionHelper.fetchFileNameWithContentDisposition
 import com.xiaoyv.widget.webview.utils.toSafeUri
@@ -54,7 +54,7 @@ open class UiDownloadListener(private val x5WebView: UiWebView) : DownloadListen
      * 开始下载
      */
     private fun startDownload(url: String, mimeType: String, fileName: String) {
-        ToastUtils.showShort("开始下载：$fileName")
+        showToastCompat("开始下载：$fileName")
 
         val uri = url.toSafeUri()
 

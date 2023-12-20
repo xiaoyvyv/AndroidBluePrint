@@ -6,20 +6,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.github.nukc.stateview.StateView
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xiaoyv.blueprint.databinding.BpFragmentRootBinding
+import com.xiaoyv.widget.kts.showToastCompat
 import com.xiaoyv.widget.dialog.UiDialog
 import com.xiaoyv.widget.dialog.UiLoadingDialog
-import com.xiaoyv.widget.kts.removeFromParent
 import com.xiaoyv.widget.stateview.EmptyStateController
 import com.xiaoyv.widget.stateview.IStateController
 
@@ -41,6 +39,8 @@ abstract class BaseFragment : Fragment(), IBaseView {
 
     override val stateController: IStateController
         get() = loadingStateView
+
+    open val nestingState: Boolean = false
 
     var rootView: View? = null
 
@@ -64,18 +64,17 @@ abstract class BaseFragment : Fragment(), IBaseView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // 设置视图
-        if (rootView == null) {
+        // 设置嵌套视图
+        return if (nestingState) {
             rootBinding = BpFragmentRootBinding.inflate(inflater, container, false)
-
             val fragmentContentView = createContentView(inflater, rootBinding.flRoot)
             if (fragmentContentView != null) {
                 rootBinding.flRoot.addView(fragmentContentView)
             }
-            rootView = rootBinding.root
+            rootBinding.root
+        } else {
+            createContentView(inflater, container)
         }
-        rootView.removeFromParent()
-        return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,7 +97,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
      */
     override fun onCreateStateController(): IStateController = EmptyStateController()
 
-    protected abstract fun createContentView(inflater: LayoutInflater, parent: FrameLayout): View?
+    protected abstract fun createContentView(inflater: LayoutInflater, parent: ViewGroup?): View?
     protected open fun initArgumentsData(arguments: Bundle) {}
     protected abstract fun initView()
     protected abstract fun initData()
@@ -151,7 +150,7 @@ abstract class BaseFragment : Fragment(), IBaseView {
     }
 
     override fun showToast(msg: String?) {
-        ToastUtils.showShort(msg.orEmpty())
+        showToastCompat(msg.orEmpty())
     }
 
     override fun showLoading(msg: String?) {
@@ -167,13 +166,6 @@ abstract class BaseFragment : Fragment(), IBaseView {
      */
     override fun onClickStateView(stateView: StateView, view: View) {
 
-    }
-
-    /**
-     * 返回键
-     */
-    open fun onFragmentBackPressed(): Boolean {
-        return false
     }
 
     override fun onDestroyView() {

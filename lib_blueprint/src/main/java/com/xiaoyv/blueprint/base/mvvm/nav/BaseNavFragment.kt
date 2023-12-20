@@ -17,10 +17,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import com.blankj.utilcode.util.ToastUtils
 import com.xiaoyv.blueprint.base.bindListener
 import com.xiaoyv.blueprint.base.createBinding
 import com.xiaoyv.blueprint.base.createViewModel
+import com.xiaoyv.widget.kts.showToastCompat
 
 /**
  * BaseNavFragment
@@ -190,7 +190,7 @@ abstract class BaseNavFragment<VB : ViewBinding, VM : BaseNavViewModel> : Fragme
                             nextAnim = transitToAnimResourceId.invoke(
                                 null, context, transit, enter
                             ) as Int
-                            ToastUtils.showLong("anim：$nextAnim")
+                            showToastCompat("anim：$nextAnim")
                         }
                     }
                 }

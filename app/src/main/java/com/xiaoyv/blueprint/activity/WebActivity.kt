@@ -5,9 +5,9 @@ import androidx.activity.addCallback
 import androidx.core.os.bundleOf
 import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.xiaoyv.blueprint.app.databinding.ActivityWebBinding
 import com.xiaoyv.blueprint.base.binding.BaseBindingActivity
+import com.xiaoyv.widget.kts.showToastCompat
 import com.xiaoyv.webview.listener.OnWindowListener
 
 /**
@@ -30,7 +30,7 @@ class WebActivity : BaseBindingActivity<ActivityWebBinding>() {
         onBackPressedDispatcher.addCallback {
 
             if (binding.web.canGoBack()) {
-                ToastUtils.showShort("back")
+                showToastCompat("back")
                 binding.web.goBack()
                 return@addCallback
             }

@@ -6,7 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.FrameLayout
+import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewbinding.ViewBinding
@@ -33,7 +33,7 @@ abstract class BaseViewModelFragment<VB : ViewBinding, VM : BaseViewModel> : Bas
     }
 
     @CallSuper
-    override fun createContentView(inflater: LayoutInflater, parent: FrameLayout): View {
+    override fun createContentView(inflater: LayoutInflater, parent: ViewGroup?): View {
         binding = createBinding(layoutInflater, parent)
         return binding.root
     }
@@ -78,16 +78,24 @@ abstract class BaseViewModelFragment<VB : ViewBinding, VM : BaseViewModel> : Bas
 
     protected open fun initObserver() {}
 
-    fun SwipeRefreshLayout.initRefresh() {
+    fun SwipeRefreshLayout.initRefresh(showOnLoading: () -> Boolean = { false }) {
         viewModel.loadingViewState.observe(this@BaseViewModelFragment.viewLifecycleOwner) {
             if (it.type != StateViewLiveData.StateType.STATE_LOADING) {
                 isRefreshing = false
+            } else {
+                if (showOnLoading()) {
+                    isRefreshing = true
+                }
             }
         }
 
         viewModel.loadingDialogLiveData.observe(this@BaseViewModelFragment.viewLifecycleOwner) {
             if (it.type == LoadingState.STATE_ENDING) {
                 isRefreshing = false
+            } else {
+                if (showOnLoading()) {
+                    isRefreshing = true
+                }
             }
         }
     }
