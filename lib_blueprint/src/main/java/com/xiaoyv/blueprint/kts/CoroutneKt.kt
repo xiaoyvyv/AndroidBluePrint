@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import com.blankj.utilcode.util.ThreadUtils
 import com.xiaoyv.blueprint.entity.LoadingState
 import com.xiaoyv.blueprint.entity.loadingStateOfEnding
 import com.xiaoyv.blueprint.entity.loadingStateOfStarting
@@ -29,7 +30,7 @@ fun LifecycleOwner.launchIO(
     state: MutableLiveData<LoadingState>? = null,
     stateView: StateViewLiveData? = null,
     error: (Throwable) -> Unit = {},
-    block: suspend CoroutineScope.() -> Unit
+    block: suspend CoroutineScope.() -> Unit,
 ): Job {
     return lifecycleScope.launchCatch(Dispatchers.IO, start, state, stateView, error, block)
 }
@@ -42,7 +43,7 @@ fun LifecycleOwner.launchUI(
     state: MutableLiveData<LoadingState>? = null,
     stateView: StateViewLiveData? = null,
     error: (Throwable) -> Unit = {},
-    block: suspend CoroutineScope.() -> Unit
+    block: suspend CoroutineScope.() -> Unit,
 ): Job {
     return lifecycleScope.launchCatch(
         Dispatchers.Main.immediate,
@@ -62,7 +63,7 @@ fun ViewModel.launchIO(
     error: (Throwable) -> Unit = {},
     state: MutableLiveData<LoadingState>? = null,
     stateView: StateViewLiveData? = null,
-    block: suspend CoroutineScope.() -> Unit
+    block: suspend CoroutineScope.() -> Unit,
 ): Job {
     return viewModelScope.launchCatch(Dispatchers.IO, start, state, stateView, error, block)
 }
@@ -75,7 +76,7 @@ fun ViewModel.launchUI(
     state: MutableLiveData<LoadingState>? = null,
     stateView: StateViewLiveData? = null,
     error: (Throwable) -> Unit = {},
-    block: suspend CoroutineScope.() -> Unit
+    block: suspend CoroutineScope.() -> Unit,
 ): Job {
     return viewModelScope.launchCatch(
         Dispatchers.Main.immediate,
@@ -96,7 +97,7 @@ fun launchProcess(
     state: MutableLiveData<LoadingState>? = null,
     stateView: StateViewLiveData? = null,
     error: (Throwable) -> Unit = {},
-    block: suspend CoroutineScope.() -> Unit
+    block: suspend CoroutineScope.() -> Unit,
 ): Job {
     return ProcessLifecycleScope.launchCatch(context, start, state, stateView, error, block)
 }
@@ -110,12 +111,12 @@ fun CoroutineScope.launchCatch(
     state: MutableLiveData<LoadingState>? = null,
     stateView: StateViewLiveData? = null,
     error: (Throwable) -> Unit = {},
-    block: suspend CoroutineScope.() -> Unit
+    block: suspend CoroutineScope.() -> Unit,
 ): Job {
     val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         state?.sendValue(loadingStateOfEnding(throwable))
         stateView?.showTips(throwable.errorMsg)
-        error.invoke(throwable)
+        ThreadUtils.runOnUiThread { error.invoke(throwable) }
     }
     return launch(context + exceptionHandler, start) {
         state?.sendValue(loadingStateOfStarting())
