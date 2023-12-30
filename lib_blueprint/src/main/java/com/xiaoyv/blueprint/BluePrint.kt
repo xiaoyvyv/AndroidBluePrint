@@ -22,6 +22,7 @@ import com.xiaoyv.blueprint.json.GsonParse
  * @since 2021/10/8
  */
 object BluePrint {
+
     @JvmStatic
     @JvmOverloads
     fun init(

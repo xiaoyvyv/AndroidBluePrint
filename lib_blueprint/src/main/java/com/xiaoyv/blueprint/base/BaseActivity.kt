@@ -25,6 +25,7 @@ import com.xiaoyv.blueprint.localize.LocalizeManager.attachBaseContextWithLangua
 import com.xiaoyv.widget.adapt.autoConvertDensity
 import com.xiaoyv.widget.dialog.UiDialog
 import com.xiaoyv.widget.dialog.UiLoadingDialog
+import com.xiaoyv.widget.kts.isTablet
 import com.xiaoyv.widget.kts.showToastCompat
 import com.xiaoyv.widget.kts.useNotNull
 import com.xiaoyv.widget.stateview.EmptyStateController
@@ -140,8 +141,12 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     }
 
     protected open fun initWindowConfig(window: Window) {
-        // 竖屏
-        ScreenUtils.setPortrait(this)
+        // 设置屏幕方向
+        if (isTablet(this)) {
+            ScreenUtils.setLandscape(this)
+        } else {
+            ScreenUtils.setPortrait(this)
+        }
 
         // 窗口参数
         window.setSoftInputMode(
