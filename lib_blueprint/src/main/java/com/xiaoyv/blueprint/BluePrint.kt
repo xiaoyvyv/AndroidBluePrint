@@ -6,13 +6,11 @@ import android.app.Application
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.ProcessUtils
 import com.blankj.utilcode.util.Utils
 import com.xiaoyv.blueprint.base.IBaseView
 import com.xiaoyv.blueprint.exception.RxExceptionHandler
 import com.xiaoyv.blueprint.exception.RxGlobalExceptionHandler
-import com.xiaoyv.blueprint.json.GsonParse
 
 
 /**
@@ -41,11 +39,6 @@ object BluePrint {
                 addObserver(BluePrintObserver())
                 lifecycleObserver?.let { addObserver(it) }
             }
-
-            // 将 null 为空的情况下会优先读取默认值，没有再设置字符串类型转为 ""
-            // 将 null List 类型转为 []，为空的情况下会优先读取默认值，没有再设置为 List empty对象
-            // 将 null Map 类型转为 {}，为空的情况下会优先读取默认值，没有再设置为 Map empty对象
-            GsonUtils.setGsonDelegate(GsonParse.GSON)
         }
     }
 

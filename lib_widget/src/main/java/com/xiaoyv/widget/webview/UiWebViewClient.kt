@@ -14,8 +14,10 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AlertDialog
 import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.ThreadUtils
+import com.xiaoyv.widget.kts.dpi
+import com.xiaoyv.widget.kts.updateWindowParams
 import com.xiaoyv.widget.webview.UiWebView.Companion.SCHEME_STORAGE
 import com.xiaoyv.widget.webview.helper.WebActionHelper
 import java.io.FileInputStream
@@ -61,7 +63,7 @@ open class UiWebViewClient(private val x5WebView: UiWebView) : WebViewClient() {
 
     override fun shouldInterceptRequest(
         webView: WebView,
-        request: WebResourceRequest
+        request: WebResourceRequest,
     ): WebResourceResponse? {
         for (interceptor in x5WebView.x5Interceptors) {
             val resourceResponse = interceptor.shouldInterceptRequest(webView, request)
@@ -88,7 +90,7 @@ open class UiWebViewClient(private val x5WebView: UiWebView) : WebViewClient() {
     override fun onReceivedError(
         webView: WebView,
         request: WebResourceRequest,
-        error: WebResourceError?
+        error: WebResourceError?,
     ) {
         super.onReceivedError(webView, request, error)
 
@@ -102,7 +104,7 @@ open class UiWebViewClient(private val x5WebView: UiWebView) : WebViewClient() {
     override fun onReceivedHttpError(
         webView: WebView,
         request: WebResourceRequest,
-        response: WebResourceResponse?
+        response: WebResourceResponse?,
     ) {
         runOnUiThread {
             val errorCode = response?.statusCode ?: 0
@@ -111,10 +113,11 @@ open class UiWebViewClient(private val x5WebView: UiWebView) : WebViewClient() {
         }
     }
 
+    @SuppressLint("WebViewClientOnReceivedSslError")
     override fun onReceivedSslError(
         webView: WebView,
         errorHandler: SslErrorHandler,
-        error: SslError
+        error: SslError,
     ) {
         WebActionHelper.lastAskDialog?.get()?.dismiss()
         WebActionHelper.lastAskDialog?.clear()
@@ -129,6 +132,10 @@ open class UiWebViewClient(private val x5WebView: UiWebView) : WebViewClient() {
 
         alertDialog.apply { setCanceledOnTouchOutside(false) }
         alertDialog.show()
+
+        alertDialog.window?.updateWindowParams {
+            width = ScreenUtils.getScreenWidth() - 160.dpi
+        }
 
         WebActionHelper.lastAskDialog = WeakReference(alertDialog)
     }

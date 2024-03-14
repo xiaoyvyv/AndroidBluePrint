@@ -1,4 +1,4 @@
-@file:Suppress("DEPRECATION", "MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate")
 
 package com.xiaoyv.blueprint.base
 
@@ -9,23 +9,19 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import android.view.Window
-import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.KeyboardUtils
-import com.blankj.utilcode.util.ScreenUtils
 import com.github.nukc.stateview.StateView
-import com.gyf.immersionbar.ImmersionBar
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.xiaoyv.blueprint.kts.activity
 import com.xiaoyv.blueprint.localize.LocalizeManager.attachBaseContextWithLanguage
 import com.xiaoyv.widget.adapt.autoConvertDensity
 import com.xiaoyv.widget.dialog.UiDialog
 import com.xiaoyv.widget.dialog.UiLoadingDialog
-import com.xiaoyv.widget.kts.isTablet
 import com.xiaoyv.widget.kts.showToastCompat
 import com.xiaoyv.widget.kts.useNotNull
 import com.xiaoyv.widget.stateview.EmptyStateController
@@ -134,25 +130,11 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     protected open fun fix5497(): Boolean = false
 
     protected open fun initBarConfig() {
-        ImmersionBar.with(this)
-            .transparentStatusBar()
-            .statusBarDarkFont(!nightMode)
-            .init()
+        BaseConfig.config.globalConfig.initBarConfig(this, nightMode)
     }
 
     protected open fun initWindowConfig(window: Window) {
-        // 设置屏幕方向
-        if (isTablet(this)) {
-            ScreenUtils.setLandscape(this)
-        } else {
-            ScreenUtils.setPortrait(this)
-        }
-
-        // 窗口参数
-        window.setSoftInputMode(
-            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-                    or WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        )
+        BaseConfig.config.globalConfig.initWindowConfig(this, window)
     }
 
     protected open fun initBaseView() {

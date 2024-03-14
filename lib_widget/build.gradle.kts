@@ -54,21 +54,21 @@ dependencies {
 
     api("androidx.core:core-ktx:1.12.0")
     api("androidx.appcompat:appcompat:1.6.1")
-    api("androidx.annotation:annotation:1.7.0")
-    api("com.google.android.material:material:1.10.0")
+    api("androidx.annotation:annotation:1.7.1")
+    api("com.google.android.material:material:1.11.0")
     api("androidx.recyclerview:recyclerview:1.3.2")
     api("androidx.constraintlayout:constraintlayout:2.1.4")
     api("androidx.multidex:multidex:2.0.1")
     api("com.google.android.flexbox:flexbox:3.0.0")
 
     // Lifecycle
-    api("androidx.lifecycle:lifecycle-process:2.6.2")
-    api("androidx.lifecycle:lifecycle-common-java8:2.6.2")
-    api("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    api("androidx.lifecycle:lifecycle-process:2.7.0")
+    api("androidx.lifecycle:lifecycle-common-java8:2.7.0")
+    api("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
     // Coroutines
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
 
     // Utils
     api("com.blankj:utilcodex:1.31.1")

@@ -48,11 +48,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.20")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
-    compileOnly("androidx.navigation:navigation-fragment-ktx:2.7.5")
-    compileOnly("androidx.navigation:navigation-ui-ktx:2.7.5")
+    compileOnly("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    compileOnly("androidx.navigation:navigation-ui-ktx:2.7.7")
 
-    api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    api("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    api("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
     api("com.kunminx.arch:unpeek-livedata:7.8.0")
 
     api("io.github.jeremyliao:live-event-bus-x:1.8.0")
