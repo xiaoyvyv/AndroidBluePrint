@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.View
 import android.view.Window
 import android.widget.FrameLayout
@@ -101,6 +102,16 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
         initBaseView()
         initView()
         initFun()
+    }
+
+    override fun onCreateView(
+        parent: View?,
+        name: String,
+        context: Context,
+        attrs: AttributeSet,
+    ): View? {
+        resources.autoConvertDensity()
+        return super.onCreateView(parent, name, context, attrs)
     }
 
     protected open fun initFun() {

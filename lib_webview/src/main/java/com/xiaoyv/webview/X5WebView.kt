@@ -9,9 +9,16 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.Toolbar
-import com.blankj.utilcode.util.*
-import com.tencent.smtt.sdk.*
-import com.xiaoyv.webview.listener.*
+import com.blankj.utilcode.util.PathUtils
+import com.tencent.smtt.sdk.CookieManager
+import com.tencent.smtt.sdk.DownloadListener
+import com.tencent.smtt.sdk.WebSettings
+import com.tencent.smtt.sdk.WebView
+import com.xiaoyv.webview.listener.OnFileChooseListener
+import com.xiaoyv.webview.listener.OnProgressChangeListener
+import com.xiaoyv.webview.listener.OnReceivedTitleListener
+import com.xiaoyv.webview.listener.OnWebLoadListener
+import com.xiaoyv.webview.listener.OnWindowListener
 
 
 /**
@@ -21,7 +28,7 @@ import com.xiaoyv.webview.listener.*
  * @since 2023/1/7
  */
 class X5WebView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null
+    context: Context, attrs: AttributeSet? = null,
 ) : WebView(context, attrs) {
 
     /**
@@ -32,7 +39,6 @@ class X5WebView @JvmOverloads constructor(
     var onProgressChangeListener: OnProgressChangeListener? = null
     var onWebLoadListener: OnWebLoadListener? = null
     var onReceivedTitleListener: OnReceivedTitleListener? = null
-    var onTipDialogListener: OnTipDialogListener? = null
 
     /**
      * WebView 网络请求拦截器，遍历回调
@@ -113,7 +119,7 @@ class X5WebView @JvmOverloads constructor(
                 userAgent: String,
                 contentDisposition: String,
                 mimeType: String,
-                contentLength: Long
+                contentLength: Long,
             ) {
                 if (outConfigDownloadListener != null) {
                     outConfigDownloadListener?.onDownloadStart(

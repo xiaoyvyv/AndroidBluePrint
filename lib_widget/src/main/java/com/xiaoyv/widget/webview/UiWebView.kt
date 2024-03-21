@@ -13,8 +13,14 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.Toolbar
-import com.blankj.utilcode.util.*
-import com.xiaoyv.widget.webview.listener.*
+import com.blankj.utilcode.util.PathUtils
+import com.xiaoyv.widget.adapt.autoConvertDensity
+import com.xiaoyv.widget.webview.listener.OnFileChooseListener
+import com.xiaoyv.widget.webview.listener.OnProgressChangeListener
+import com.xiaoyv.widget.webview.listener.OnReceivedTitleListener
+import com.xiaoyv.widget.webview.listener.OnTipDialogListener
+import com.xiaoyv.widget.webview.listener.OnWebLoadListener
+import com.xiaoyv.widget.webview.listener.OnWindowListener
 
 
 /**
@@ -24,7 +30,7 @@ import com.xiaoyv.widget.webview.listener.*
  * @since 2023/1/7
  */
 class UiWebView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null
+    context: Context, attrs: AttributeSet? = null,
 ) : WebView(context, attrs) {
 
     /**
@@ -59,7 +65,7 @@ class UiWebView @JvmOverloads constructor(
     var invokeHtmlWhenLoadFinish: Boolean = false
 
     init {
-        getResourcesProxy.invoke(resources)
+        super.getResources().autoConvertDensity()
 
         webViewClient = UiWebViewClient(this)
         webChromeClient = UiWebChromeClient(this)
@@ -123,7 +129,7 @@ class UiWebView @JvmOverloads constructor(
                 userAgent: String,
                 contentDisposition: String,
                 mimeType: String,
-                contentLength: Long
+                contentLength: Long,
             ) {
                 if (outConfigDownloadListener != null) {
                     outConfigDownloadListener?.onDownloadStart(
@@ -183,8 +189,13 @@ class UiWebView @JvmOverloads constructor(
         loadDataWithBaseURL(baseUrl, html, "text/html", "utf-8", baseUrl)
     }
 
+    override fun setOverScrollMode(mode: Int) {
+        super.setOverScrollMode(mode)
+        super.getResources().autoConvertDensity()
+    }
+
     override fun getResources(): Resources {
-        return getResourcesProxy.invoke(super.getResources())
+        return super.getResources().autoConvertDensity()
     }
 
     override fun destroy() {
@@ -201,7 +212,5 @@ class UiWebView @JvmOverloads constructor(
         const val SCHEME_STORAGE = "http://localhost"
 
         internal var outConfigDownloadListener: DownloadListener? = null
-
-        var getResourcesProxy: (Resources) -> Resources = { it }
     }
 }

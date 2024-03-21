@@ -11,6 +11,8 @@ import com.blankj.utilcode.util.Utils
 import com.xiaoyv.blueprint.base.IBaseView
 import com.xiaoyv.blueprint.exception.RxExceptionHandler
 import com.xiaoyv.blueprint.exception.RxGlobalExceptionHandler
+import com.xiaoyv.widget.adapt.autoConvertDensity
+import com.xiaoyv.widget.webview.UiWebView
 
 
 /**
@@ -26,7 +28,7 @@ object BluePrint {
     fun init(
         application: Application,
         adaptScreen: Boolean = false,
-        lifecycleObserver: DefaultLifecycleObserver? = null
+        lifecycleObserver: DefaultLifecycleObserver? = null,
     ) {
         Utils.init(application)
         if (ProcessUtils.isMainProcess()) {
