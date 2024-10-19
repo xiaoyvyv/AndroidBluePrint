@@ -52,23 +52,23 @@ configurations.configureEach {
 dependencies {
     // api(project(":leveldb"))
 
-    api("androidx.core:core-ktx:1.12.0")
-    api("androidx.appcompat:appcompat:1.6.1")
-    api("androidx.annotation:annotation:1.7.1")
-    api("com.google.android.material:material:1.11.0")
+    api("androidx.core:core-ktx:1.13.1")
+    api("androidx.appcompat:appcompat:1.7.0")
+    api("androidx.annotation:annotation:1.9.0")
+    api("com.google.android.material:material:1.12.0")
     api("androidx.recyclerview:recyclerview:1.3.2")
     api("androidx.constraintlayout:constraintlayout:2.1.4")
     api("androidx.multidex:multidex:2.0.1")
     api("com.google.android.flexbox:flexbox:3.0.0")
 
     // Lifecycle
-    api("androidx.lifecycle:lifecycle-process:2.7.0")
-    api("androidx.lifecycle:lifecycle-common-java8:2.7.0")
-    api("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    api("androidx.lifecycle:lifecycle-process:2.8.6")
+    api("androidx.lifecycle:lifecycle-common-java8:2.8.6")
+    api("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
 
     // Coroutines
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
 
     // Utils
     api("com.blankj:utilcodex:1.31.1")
@@ -82,7 +82,7 @@ dependencies {
     // 各种选项卡
     api("com.github.hackware1993:MagicIndicator:1.7.0")
     // 表情面板闪屏解决方案
-    api("com.github.DSAppTeam:PanelSwitchHelper:1.5.6")
+    api("com.github.DSAppTeam:PanelSwitchHelper:v1.5.12")
     // 越界回弹
     api("io.github.everythingme:overscroll-decor-android:1.1.1")
     // 圆形图片
@@ -96,17 +96,17 @@ dependencies {
     api("io.github.scwang90:refresh-footer-classics:2.0.5")
 
     // Glide 图片加载框架
-    api("com.github.bumptech.glide:glide:4.15.1")
+    api("com.github.bumptech.glide:glide:4.16.0")
     api("com.github.bumptech.glide:okhttp3-integration:4.15.1") {
         exclude(group = "com.squareup.okhttp3", module = "okhttp")
     }
 
     // OkHttp
-    api("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
+    api("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.14")
 
-    ksp("com.github.bumptech.glide:ksp:4.15.1")
+    ksp("com.github.bumptech.glide:ksp:4.16.0")
 
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 }
