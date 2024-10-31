@@ -36,10 +36,10 @@ inline fun <TranscodeType> RequestBuilder<TranscodeType>.listener(
         }
 
         override fun onResourceReady(
-            resource: TranscodeType,
-            model: Any?,
+            resource: TranscodeType & Any,
+            model: Any,
             target: Target<TranscodeType>?,
-            dataSource: DataSource?,
+            dataSource: DataSource,
             isFirstResource: Boolean
         ): Boolean {
             onResourceReady.invoke(resource)

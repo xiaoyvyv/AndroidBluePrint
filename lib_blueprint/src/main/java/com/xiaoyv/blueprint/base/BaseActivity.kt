@@ -123,9 +123,9 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     }
 
     @CallSuper
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        intent?.also {
+        intent.also {
             initIntentData(it, it.extras ?: Bundle.EMPTY, true)
         }
     }
